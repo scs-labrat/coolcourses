@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Threat Hunting Scenarios and Hypotheses | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="active">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Building Threat Hunting Scenarios and Hypotheses</h1>
+<p>Okay, let's dive deep into Module 7: Building Threat Hunting Scenarios and Hypotheses. This is where the rubber meets the road, turning theoretical knowledge into actionable hunting strategies. We'll explore how to leverage threat intelligence, analyze internal data, and formulate testable hypotheses to uncover hidden threats.</p>
+<p><strong>Module 7: Building Threat Hunting Scenarios and Hypotheses</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Learn to develop and test threat hunting scenarios based on threat intelligence and internal data.</li>
+</ul>
+<p><strong>7.1 Understanding Threat Actors and Their TTPs</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong> Identify and analyze the tactics, techniques, and procedures (TTPs) used by various threat actors.</p>
+<ul>
+<li>
+<p><strong>What are TTPs?</strong>  TTPs describe <em>how</em> an adversary operates. They provide a detailed picture of their methods, tools, and behaviors. Think of it this way:</p>
+<ul>
+<li><strong>Tactics:</strong>  The high-level strategic goal (e.g., "Initial Access," "Privilege Escalation").  Mapped to the MITRE ATT&amp;CK framework.</li>
+<li><strong>Techniques:</strong>  The specific method used to achieve a tactic (e.g., "Spearphishing Attachment," "Exploitation for Privilege Escalation"). Also mapped to MITRE ATT&amp;CK.</li>
+<li><strong>Procedures:</strong> The <em>specific</em> steps taken to execute a technique.  This is where you get into the nitty-gritty details that are unique to a particular threat actor or campaign.</li>
+</ul>
+</li>
+<li>
+<p><strong>Why are TTPs important for Threat Hunting?</strong>  TTPs are <em>more durable</em> than Indicators of Compromise (IoCs) like IP addresses or file hashes.  Threat actors frequently change their infrastructure, but their underlying TTPs often remain consistent.  By focusing on TTPs, you can detect and respond to threats even when the specific IoCs are unknown or have been changed.</p>
+</li>
+<li>
+<p><strong>Leveraging the MITRE ATT&amp;CK Framework:</strong> The MITRE ATT&amp;CK framework is a knowledge base of adversary tactics and techniques based on real-world observations.  It provides a common language for describing adversary behavior and helps you understand how different techniques fit together in an attack chain.</p>
+<ul>
+<li>
+<p><strong>Accessing the MITRE ATT&amp;CK Framework:</strong></p>
+<ul>
+<li>Online:  Go to <a href="https://attack.mitre.org/">https://attack.mitre.org/</a></li>
+<li>Downloadable:  MITRE provides downloadable versions of the framework in various formats (e.g., JSON, Excel).</li>
+</ul>
+</li>
+<li>
+<p><strong>Using ATT&amp;CK for Threat Hunting:</strong></p>
+<ol>
+<li><strong>Identify Relevant Threat Actors:</strong>  Based on your organization's threat model, identify the threat actors most likely to target your organization.</li>
+<li><strong>Research Their TTPs:</strong>  Use the MITRE ATT&amp;CK framework to research the TTPs used by these threat actors.</li>
+<li><strong>Map TTPs to Your Environment:</strong>  Identify which TTPs are relevant to your environment and which data sources you can use to detect them.</li>
+<li><strong>Develop Threat Hunting Scenarios:</strong>  Create scenarios based on the TTPs that you want to detect.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Example:</strong>  Let's say you're concerned about APT29 (Cozy Bear), a Russian-linked threat actor known for targeting government and critical infrastructure.</p>
+<ol>
+<li><strong>Identify Relevant Threat Actor:</strong> APT29.</li>
+<li><strong>Research Their TTPs:</strong>  Using the MITRE ATT&amp;CK framework, we find that APT29 uses techniques like:<ul>
+<li>Spearphishing Attachment (T1566.001)</li>
+<li>Credential Dumping (T1003)</li>
+<li>Lateral Movement (T1021)</li>
+</ul>
+</li>
+<li><strong>Map TTPs to Your Environment:</strong>  We can use email logs to detect spearphishing attachments, endpoint logs to detect credential dumping, and network logs to detect lateral movement.</li>
+<li><strong>Develop Threat Hunting Scenarios:</strong>  We can create scenarios to look for suspicious email attachments, unusual process activity on endpoints, and unusual network connections.</li>
+</ol>
+</li>
+<li>
+<p><strong>Practical Exercise:</strong>  Choose a known threat actor (e.g., APT41, Lazarus Group, FIN7) and research their TTPs using the MITRE ATT&amp;CK framework.  Identify at least three TTPs and explain how you could detect them in your environment.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7.2 Developing Threat Hunting Hypotheses</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong> Formulate testable hypotheses based on threat intelligence and internal data.</p>
+<ul>
+<li>
+<p><strong>What is a Threat Hunting Hypothesis?</strong>  A threat hunting hypothesis is an educated guess about where malicious activity might be occurring in your environment.  It's a statement that you can test using data analysis.</p>
+</li>
+<li>
+<p><strong>Characteristics of a Good Hypothesis:</strong></p>
+<ul>
+<li><strong>Testable:</strong>  You should be able to test the hypothesis using available data.</li>
+<li><strong>Specific:</strong>  The hypothesis should be specific enough to guide your investigation.</li>
+<li><strong>Relevant:</strong>  The hypothesis should be relevant to your organization's threat model.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sources for Developing Hypotheses:</strong></p>
+<ul>
+<li><strong>Threat Intelligence:</strong>  Threat intelligence feeds, reports, and advisories can provide valuable information about emerging threats, attacker TTPs, and vulnerable systems.</li>
+<li><strong>Internal Data:</strong>  Your own security logs, network traffic data, and endpoint data can reveal suspicious activity and potential vulnerabilities.</li>
+<li><strong>Vulnerability Assessments:</strong>  Vulnerability assessments can identify weaknesses in your systems that attackers could exploit.</li>
+<li><strong>Incident Response Reports:</strong>  Past incident response reports can provide insights into how attackers have targeted your organization in the past.</li>
+</ul>
+</li>
+<li>
+<p><strong>Types of Hypotheses:</strong></p>
+<ul>
+<li><strong>Intelligence-Driven Hypotheses:</strong>  Based on threat intelligence reports or advisories.  Example:  "We believe that APT29 is targeting our organization using spearphishing attachments.  We will look for suspicious email attachments with specific file types or subject lines."</li>
+<li><strong>Anomaly-Driven Hypotheses:</strong>  Based on unusual patterns or anomalies in your data.  Example:  "We have noticed a spike in outbound network traffic to a specific country.  We will investigate the source and destination of this traffic to determine if it is malicious."</li>
+<li><strong>Vulnerability-Driven Hypotheses:</strong>  Based on known vulnerabilities in your systems.  Example:  "We have a vulnerable web server that is susceptible to SQL injection attacks.  We will look for evidence of SQL injection attempts in our web server logs."</li>
+<li><strong>Behavior-Driven Hypotheses:</strong> Based on known malicious behaviors. Example: "We will look for PowerShell scripts downloading and executing code from the internet"</li>
+</ul>
+</li>
+<li>
+<p><strong>Formulating a Hypothesis:</strong>  A good hypothesis typically follows this structure:</p>
+<ul>
+<li><strong>IF</strong> (condition):  Describe the condition you are looking for.</li>
+<li><strong>THEN</strong> (expected outcome):  Describe the expected outcome if the condition is true.</li>
+<li><strong>BECAUSE</strong> (rationale):  Explain why you expect this outcome based on threat intelligence or internal data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>IF</strong> we see a user account logging in from multiple geographically distant locations within a short period of time,</li>
+<li><strong>THEN</strong> it may indicate a compromised account,</li>
+<li><strong>BECAUSE</strong> attackers often use compromised accounts to gain access to internal systems.</li>
+</ul>
+</li>
+<li>
+<p><strong>Practical Exercise:</strong>  Based on the threat actor you researched in the previous exercise, develop at least three threat hunting hypotheses.  For each hypothesis, explain the condition, expected outcome, and rationale.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7.3 Testing Hypotheses</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong>  Use data analysis techniques to validate or reject threat hunting hypotheses.</p>
+<ul>
+<li>
+<p><strong>Data Sources:</strong>  The data sources you need to test your hypotheses will depend on the specific hypothesis and the TTPs you are investigating.  Common data sources include:</p>
+<ul>
+<li><strong>Security Logs:</strong>  Windows Event Logs, Linux Syslog, firewall logs, web server logs, etc.</li>
+<li><strong>Network Traffic Data:</strong>  PCAP files, NetFlow data, Zeek logs.</li>
+<li><strong>Endpoint Data:</strong>  Process activity, file system changes, registry modifications.</li>
+<li><strong>Threat Intelligence Feeds:</strong>  IoCs, TTPs, and other threat intelligence data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Analysis Techniques:</strong>  You will need to use a variety of data analysis techniques to test your hypotheses.  Some common techniques include:</p>
+<ul>
+<li><strong>Searching and Filtering:</strong>  Using search operators and filters to identify specific events or patterns in your data.</li>
+<li><strong>Aggregation and Grouping:</strong>  Grouping data by specific attributes to identify trends and anomalies.</li>
+<li><strong>Correlation:</strong>  Combining data from multiple sources to identify relationships between events.</li>
+<li><strong>Visualization:</strong>  Using charts and graphs to visualize data and identify patterns.</li>
+<li><strong>Statistical Analysis:</strong>  Using statistical methods to identify outliers and anomalies.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tools for Testing Hypotheses:</strong>  There are many tools available for testing threat hunting hypotheses.  Some popular tools include:</p>
+<ul>
+<li><strong>SIEM (Security Information and Event Management) Systems:</strong>  Splunk, QRadar, Sentinel.</li>
+<li><strong>Endpoint Detection and Response (EDR) Solutions:</strong>  CrowdStrike, SentinelOne, Carbon Black.</li>
+<li><strong>Network Traffic Analysis (NTA) Tools:</strong>  Wireshark, Zeek, Suricata.</li>
+<li><strong>Log Analysis Tools:</strong>  Graylog, ELK Stack (Elasticsearch, Logstash, Kibana).</li>
+<li><strong>Scripting Languages:</strong>  Python, PowerShell.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example (Testing the Compromised Account Hypothesis):</strong></p>
+<ol>
+<li><strong>Hypothesis:</strong>  IF we see a user account logging in from multiple geographically distant locations within a short period of time, THEN it may indicate a compromised account, BECAUSE attackers often use compromised accounts to gain access to internal systems.</li>
+<li><strong>Data Source:</strong>  Security logs (e.g., Windows Event Logs, authentication logs).</li>
+<li><strong>Tools:</strong>  SIEM (e.g., Splunk, Sentinel) or scripting language (e.g., Python).</li>
+<li>
+<p><strong>Analysis Steps (using Splunk):</strong></p>
+<p><code>splunk
+index=security sourcetype=WinEventLog EventCode=4624  // Windows Event ID for successful login
+| stats count by Account_Name, src_ip
+| search count &gt; 1
+| iplocation src_ip   //  Get geolocation information for the source IP addresses
+| stats values(City), values(Country) by Account_Name
+| search count &gt; 1  // Filter for accounts with logins from multiple locations</code></p>
+</li>
+<li>
+<p><strong>Interpretation:</strong>  If the query returns accounts that have logged in from multiple geographically distant locations, it supports the hypothesis that the account may be compromised.  Further investigation is needed to confirm the compromise.</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Example (Testing the PowerShell Download Hypothesis):</strong></p>
+<ol>
+<li><strong>Hypothesis:</strong> IF we see powershell executing a command that downloads code from an external source, THEN it may indicate a malicious PowerShell script, BECAUSE attackers often use PowerShell to download and execute malicious code.</li>
+<li><strong>Data Source:</strong> Endpoint Detection and Response (EDR) logs, Sysmon logs</li>
+<li><strong>Tools:</strong> EDR Solution, SIEM</li>
+<li><strong>Analysis Steps (using Sysmon and PowerShell - this would be done on the endpoint during the hunt):</strong></li>
+</ol>
+<p>First, ensure Sysmon is configured to log PowerShell events (Event ID 7, 8, 4103, 4104). A sample Sysmon configuration might look like this:</p>
+<p><code>xml
+&lt;Sysmon schemaversion="4.82"&gt;
+  &lt;EventFiltering&gt;
+    &lt;RuleGroup name="" groupRelation="or"&gt;
+      &lt;PowerShell EventID="1"&gt;
+        &lt;ScriptBlockText condition="contains"&gt;Invoke-WebRequest&lt;/ScriptBlockText&gt;
+      &lt;/PowerShell&gt;
+      &lt;PowerShell EventID="1"&gt;
+        &lt;ScriptBlockText condition="contains"&gt;WebClient.DownloadString&lt;/ScriptBlockText&gt;
+      &lt;/PowerShell&gt;
+    &lt;/RuleGroup&gt;
+  &lt;/EventFiltering&gt;
+&lt;/Sysmon&gt;</code></p>
+<p>Now, query the Event Logs for the relevant events:</p>
+<p><code>powershell
+Get-WinEvent -Logname "Microsoft-Windows-Sysmon/Operational" |
+Where-Object {$_.ID -in (1)} | # PowerShell Script Block
+ForEach-Object {
+    $eventData = $_.Properties | ForEach-Object {$_.Value}
+    if ($eventData -like "*Invoke-WebRequest*" -or $eventData -like "*WebClient.DownloadString*") {
+        Write-Host "Possible malicious script block found in event ID $($_.ID) from $($_.TimeCreated):"
+        Write-Host $eventData
+    }
+}</code></p>
+<p>This PowerShell script looks through the Sysmon logs for Event ID 1 (PowerShell script block).  It filters the logs for instances where the script contains <code>Invoke-WebRequest</code> or <code>WebClient.DownloadString</code>.</p>
+</li>
+<li>
+<p><strong>Interpreting Results:</strong>  Based on the results of your data analysis, you can either:</p>
+<ul>
+<li><strong>Validate the Hypothesis:</strong>  If you find evidence that supports the hypothesis, you can conclude that malicious activity is likely occurring.</li>
+<li><strong>Reject the Hypothesis:</strong>  If you do not find evidence that supports the hypothesis, you can reject it and move on to a different hypothesis.</li>
+<li><strong>Refine the Hypothesis:</strong>  If you find some evidence that supports the hypothesis, but it is not conclusive, you can refine the hypothesis and try again.</li>
+</ul>
+</li>
+<li>
+<p><strong>Practical Exercise:</strong>  Choose one of the hypotheses you developed in the previous exercise and use data analysis techniques to test it.  Document your data sources, tools, analysis steps, and results.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7.4 Documenting Threat Hunting Scenarios</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong>  Create clear and concise documentation for your threat hunting scenarios.</p>
+<ul>
+<li>
+<p><strong>Why Documentation is Important:</strong>  Documentation is essential for:</p>
+<ul>
+<li><strong>Knowledge Sharing:</strong>  Sharing your knowledge with other members of your security team.</li>
+<li><strong>Reproducibility:</strong>  Allowing you to repeat the threat hunt in the future.</li>
+<li><strong>Training:</strong>  Training new members of your security team.</li>
+<li><strong>Continuous Improvement:</strong>  Identifying areas for improvement in your threat hunting process.</li>
+</ul>
+</li>
+<li>
+<p><strong>Elements of a Threat Hunting Scenario Document:</strong></p>
+<ul>
+<li><strong>Title:</strong>  A clear and concise title that describes the scenario.</li>
+<li><strong>Description:</strong>  A brief description of the scenario and its purpose.</li>
+<li><strong>Threat Actor:</strong>  The threat actor that the scenario is designed to detect.</li>
+<li><strong>TTPs:</strong>  The TTPs that the scenario is designed to detect.</li>
+<li><strong>Hypothesis:</strong>  The threat hunting hypothesis that the scenario is based on.</li>
+<li><strong>Data Sources:</strong>  The data sources that are needed to test the hypothesis.</li>
+<li><strong>Tools:</strong>  The tools that are needed to test the hypothesis.</li>
+<li><strong>Analysis Steps:</strong>  The step-by-step instructions for testing the hypothesis.</li>
+<li><strong>Expected Results:</strong>  The expected results if the hypothesis is true.</li>
+<li><strong>False Positive Considerations:</strong>  Potential sources of false positives and how to mitigate them.</li>
+<li><strong>Remediation Steps:</strong>  The steps to take if the hypothesis is validated (i.e., malicious activity is detected).</li>
+<li><strong>References:</strong>  Links to relevant threat intelligence reports, advisories, and other resources.</li>
+<li><strong>Version History:</strong>  A record of changes made to the document over time.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+<p><strong>Title:</strong>  Detecting Spearphishing Attachments from APT29</p>
+<p><strong>Description:</strong>  This scenario is designed to detect spearphishing attachments from APT29, a Russian-linked threat actor.</p>
+<p><strong>Threat Actor:</strong>  APT29 (Cozy Bear)</p>
+<p><strong>TTPs:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   Spearphishing Attachment (T1566.001)
+</code></pre></div>
+
+<p><strong>Hypothesis:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   IF we see an email with a malicious attachment from an external sender,
+<span class="k">*</span>   THEN it may indicate a spearphishing attempt from APT29,
+<span class="k">*</span>   BECAUSE APT29 is known to use spearphishing attachments to gain initial access to victim networks.
+</code></pre></div>
+
+<p><strong>Data Sources:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   Email logs
+<span class="k">*</span>   Endpoint logs
+</code></pre></div>
+
+<p><strong>Tools:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">*</span><span class="w">   </span><span class="n">SIEM</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">Splunk</span><span class="p">,</span><span class="w"> </span><span class="n">Sentinel</span><span class="p">)</span>
+<span class="o">*</span><span class="w">   </span><span class="n">Sandboxing</span><span class="w"> </span><span class="k">tool</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span><span class="w"> </span><span class="n">VirusTotal</span><span class="p">,</span><span class="w"> </span><span class="n">Hybrid</span><span class="w"> </span><span class="n">Analysis</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Analysis Steps:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="n">Search</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="nb">log</span><span class="n">s</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">emails</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">attachments</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">senders</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Filter</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">attachments</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">suspicious</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="n">types</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="mf">.</span><span class="n">g</span><span class="mf">.</span><span class="p">,</span><span class="w"> </span><span class="mf">.</span><span class="n">exe</span><span class="p">,</span><span class="w"> </span><span class="mf">.</span><span class="n">scr</span><span class="p">,</span><span class="w"> </span><span class="mf">.</span><span class="n">docm</span><span class="p">)</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Analyze</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">attachments</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">sandboxing</span><span class="w"> </span><span class="kr">to</span><span class="n">ol</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">determine</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">malicious</span><span class="mf">.</span>
+<span class="mf">4.</span><span class="w">  </span><span class="kr">If</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">attachment</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">malicious</span><span class="p">,</span><span class="w"> </span><span class="n">investigate</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sender</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">recipient</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">determine</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">scope</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">attack</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Expected Results:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   Malicious attachments from external senders.
+<span class="k">*</span>   Suspicious email subject lines or body content.
+<span class="k">*</span>   Evidence of the attachment being executed on the recipient&#39;s endpoint.
+</code></pre></div>
+
+<p><strong>False Positive Considerations:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   Legitimate emails with attachments from external senders.
+<span class="k">*</span>   Attachments that are flagged as malicious but are actually false positives.
+</code></pre></div>
+
+<p><strong>Remediation Steps:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">*</span><span class="w">   </span><span class="nx">Quarantine</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">malicious</span><span class="w"> </span><span class="nx">email</span><span class="p">.</span>
+<span class="o">*</span><span class="w">   </span><span class="nx">Block</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">sender</span><span class="err">&#39;</span><span class="nx">s</span><span class="w"> </span><span class="nx">email</span><span class="w"> </span><span class="nx">address</span><span class="p">.</span>
+<span class="o">*</span><span class="w">   </span><span class="nx">Scan</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">recipient</span><span class="err">&#39;</span><span class="nx">s</span><span class="w"> </span><span class="nx">endpoint</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">malware</span><span class="p">.</span>
+<span class="o">*</span><span class="w">   </span><span class="nx">Alert</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">recipient</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">potential</span><span class="w"> </span><span class="nx">spearphishing</span><span class="w"> </span><span class="nx">attempt</span><span class="p">.</span>
+</code></pre></div>
+
+<p><strong>References:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   MITRE ATT&amp;CK: Spearphishing Attachment (T1566.001)
+<span class="k">*</span>   CrowdStrike: APT29 Threat Profile
+</code></pre></div>
+
+<p><strong>Version History:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">*</span>   Version 1.0 (2023-10-27): Initial draft
+</code></pre></div>
+
+</li>
+<li>
+<p><strong>Practical Exercise:</strong>  Document the threat hunting scenario that you developed and tested in the previous exercises.  Use the template above as a guide.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7.5 Creating Threat Hunting Playbooks</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong>  Document the steps to take when a threat is detected.</p>
+<ul>
+<li>
+<p><strong>What is a Threat Hunting Playbook?</strong>  A threat hunting playbook is a step-by-step guide that outlines the actions to take when a threat is detected during a threat hunt.  It provides a consistent and repeatable process for responding to threats.</p>
+</li>
+<li>
+<p><strong>Elements of a Threat Hunting Playbook:</strong></p>
+<ul>
+<li><strong>Scenario:</strong>  The threat hunting scenario that the playbook applies to.</li>
+<li><strong>Trigger:</strong>  The event that triggers the playbook (e.g., detection of a malicious attachment).</li>
+<li><strong>Initial Response:</strong>  The first steps to take when the trigger event occurs (e.g., quarantine the email, alert the security team).</li>
+<li><strong>Investigation:</strong>  The steps to take to investigate the incident and determine the scope of the attack (e.g., analyze the email header, scan the recipient's endpoint).</li>
+<li><strong>Containment:</strong>  The steps to take to contain the incident and prevent further damage (e.g., block the attacker's IP address, disable the compromised account).</li>
+<li><strong>Eradication:</strong>  The steps to take to remove the threat from the environment (e.g., remove malware from infected systems, reset passwords).</li>
+<li><strong>Recovery:</strong>  The steps to take to restore systems to their normal state (e.g., restore data from backups, re-enable disabled accounts).</li>
+<li><strong>Lessons Learned:</strong>  The lessons learned from the incident and how to improve the threat hunting process.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example (Playbook for Spearphishing Attachment):</strong></p>
+<p><strong>Scenario:</strong>  Detecting Spearphishing Attachments from APT29</p>
+<p><strong>Trigger:</strong>  Detection of a malicious attachment in an email.</p>
+<p><strong>Initial Response:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="n">Quarantine</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">malicious</span><span class="w"> </span><span class="n">email</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Alert</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">security</span><span class="w"> </span><span class="n">team</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="ow">Not</span><span class="kr">if</span><span class="n">y</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">recipient</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">potential</span><span class="w"> </span><span class="n">spearphishing</span><span class="w"> </span><span class="n">attempt</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Investigation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="n">Analyze</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">identify</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sender</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">IP</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">information</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Scan</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">recipient</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="kr">end</span><span class="n">point</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">malware</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Analyze</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">attachment</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">sandboxing</span><span class="w"> </span><span class="kr">to</span><span class="n">ol</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">determine</span><span class="w"> </span><span class="n">its</span><span class="w"> </span><span class="n">behavior</span><span class="mf">.</span>
+<span class="mf">4.</span><span class="w">  </span><span class="n">Review</span><span class="w"> </span><span class="n">security</span><span class="w"> </span><span class="nb">log</span><span class="n">s</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">suspicious</span><span class="w"> </span><span class="n">activity</span><span class="w"> </span><span class="n">associated</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sender</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">recipient</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Containment:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="n">Block</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sender</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">address</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Disable</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">compromised</span><span class="w"> </span><span class="n">accounts</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Isolate</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">infected</span><span class="w"> </span><span class="kr">sys</span><span class="n">tems</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Eradication:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="c1">Remove malware from infected systems.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Reset</span><span class="w"> </span><span class="n">passwords</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">compromised</span><span class="w"> </span><span class="n">accounts</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Patch</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">vulnerable</span><span class="w"> </span><span class="kr">sys</span><span class="n">tems</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Recovery:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="kd">Restore</span><span class="w"> </span><span class="kd">data</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">backups</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="n">necessary</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Re</span><span class="o">-</span><span class="n">enable</span><span class="w"> </span><span class="n">disabled</span><span class="w"> </span><span class="n">accounts</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Monitor</span><span class="w"> </span><span class="kr">sys</span><span class="n">tems</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">further</span><span class="w"> </span><span class="n">suspicious</span><span class="w"> </span><span class="n">activity</span><span class="mf">.</span>
+</code></pre></div>
+
+<p><strong>Lessons Learned:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="mf">1.</span><span class="w">  </span><span class="n">Review</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">effectiveness</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="n">security</span><span class="w"> </span><span class="kr">cont</span><span class="n">rols</span><span class="mf">.</span>
+<span class="mf">2.</span><span class="w">  </span><span class="n">Provide</span><span class="w"> </span><span class="n">additional</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="kr">on</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="n">identify</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">avoid</span><span class="w"> </span><span class="n">spearphishing</span><span class="w"> </span><span class="n">attacks</span><span class="mf">.</span>
+<span class="mf">3.</span><span class="w">  </span><span class="n">Improve</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">threat</span><span class="w"> </span><span class="n">hunting</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="kr">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">lessons</span><span class="w"> </span><span class="n">learned</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">incident</span><span class="mf">.</span>
+</code></pre></div>
+
+</li>
+<li>
+<p><strong>Practical Exercise:</strong>  Create a threat hunting playbook for the threat hunting scenario that you documented in the previous exercise.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>7.6 Real-World Threat Hunting Scenarios and Case Studies</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong>  Explore examples of common threat hunting scenarios and case studies of successful threat hunts.</p>
+<ul>
+<li>
+<p><strong>Common Threat Hunting Scenarios:</strong></p>
+<ul>
+<li><strong>Compromised Accounts:</strong>  Detecting compromised accounts based on unusual login activity, suspicious behavior, or data exfiltration.</li>
+<li><strong>Lateral Movement:</strong>  Detecting lateral movement by attackers within the network.</li>
+<li><strong>Data Exfiltration:</strong>  Detecting data exfiltration by attackers.</li>
+<li><strong>Malware Infections:</strong>  Detecting malware infections based on suspicious process activity, file system changes, or network traffic.</li>
+<li><strong>Insider Threats:</strong>  Detecting insider threats based on unusual user behavior or access to sensitive data.</li>
+<li><strong>Ransomware Activity:</strong>  Detecting early stages of ransomware attacks.</li>
+</ul>
+</li>
+<li>
+<p><strong>Case Studies:</strong></p>
+<ul>
+<li><strong>The Target Breach (2013):</strong>  Attackers gained access to Target's network through a third-party vendor and used a point-of-sale (POS) malware to steal credit card data from millions of customers.  A proactive threat hunt could have potentially detected the malware before it caused significant damage.</li>
+<li><strong>The Equifax Breach (2017):</strong>  Attackers exploited a known vulnerability in Equifax's Apache Struts web server to gain access to sensitive data on millions of consumers.  A proactive vulnerability assessment and threat hunt could have prevented the breach.</li>
+<li><strong>The SolarWinds Supply Chain Attack (2020):</strong>  Attackers compromised SolarWinds' Orion software and used it to distribute malware to thousands of organizations.  This attack highlights the importance of supply chain security and the need for proactive threat hunting to detect sophisticated attacks.</li>
+</ul>
+</li>
+<li>
+<p><strong>Learning from Case Studies:</strong>  By studying real-world case studies, you can learn about the TTPs used by attackers, the vulnerabilities they exploit, and the mistakes that organizations make that allow them to be compromised.  You can then use this knowledge to improve your own threat hunting process and prevent similar attacks from happening to your organization.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 7 Summary:</strong></p>
+<p>In this module, we covered the essential steps for building threat hunting scenarios and hypotheses. We learned how to leverage threat intelligence, analyze internal data, formulate testable hypotheses, and document our findings. By mastering these skills, you can proactively hunt for threats in your environment and improve your organization's security posture.</p>
+<p>This is a very detailed breakdown of Module 7. Remember to tailor these materials to your specific audience and environment. Good luck!</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here's a 10-slide presentation for Module 7, "Building Threat Hunting Scenarios and Hypotheses," based on the provided content. Each slide includes a title, bullet points summarizing the key content, and a narration script.</p>
+<hr />
+<p><strong>Slide 1: Module 7: Building Threat Hunting Scenarios and Hypotheses</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Transitioning from theoretical knowledge to actionable hunting strategies.</li>
+<li>Leveraging threat intelligence and internal data.</li>
+<li>Formulating testable hypotheses to uncover hidden threats.</li>
+<li>Objective: Learn to develop and test threat hunting scenarios based on threat intelligence and internal data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Welcome to Module 7: Building Threat Hunting Scenarios and Hypotheses. In this module, we'll move from the theoretical to the practical, learning how to transform the knowledge we've gained into effective hunting strategies. We'll explore how to leverage both external threat intelligence and the data within your own environment to formulate testable hypotheses that can uncover hidden threats. Our objective is to equip you with the skills to proactively develop and test these scenarios, ultimately strengthening your organization's security posture."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 2: Understanding Threat Actors and Their TTPs</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>TTPs: Tactics, Techniques, and Procedures – the <em>how</em> of an attack.</li>
+<li>Tactics: High-level strategic goals (e.g., Initial Access).</li>
+<li>Techniques: Specific methods used to achieve a tactic (e.g., Spearphishing).</li>
+<li>Procedures: The <em>specific</em> steps taken to execute a technique.</li>
+<li>TTPs are more durable than IoCs (Indicators of Compromise).</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "To effectively hunt for threats, we need to understand our adversaries. This slide introduces the concept of TTPs – Tactics, Techniques, and Procedures. TTPs describe <em>how</em> an attacker operates, providing a detailed picture of their methods. Tactics are the high-level strategic goals, like gaining initial access. Techniques are the specific methods used, such as spearphishing. And procedures are the nitty-gritty details of how those techniques are executed. Importantly, TTPs are more durable than IoCs like IP addresses, making them a more reliable target for threat hunting."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 3: Leveraging the MITRE ATT&amp;CK Framework</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>MITRE ATT&amp;CK: A knowledge base of adversary tactics and techniques.</li>
+<li>Provides a common language for describing adversary behavior.</li>
+<li>Access ATT&amp;CK online or via downloadable versions.</li>
+<li>Using ATT&amp;CK: Identify actors, research TTPs, map TTPs to your environment, develop scenarios.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "The MITRE ATT&amp;CK framework is an invaluable resource for understanding adversary behavior. It's a comprehensive knowledge base that catalogs tactics and techniques observed in real-world attacks. ATT&amp;CK provides a common language for describing these behaviors, enabling us to share information and collaborate effectively. You can access ATT&amp;CK online or download it in various formats. To use ATT&amp;CK for threat hunting, start by identifying relevant threat actors, research their TTPs, map those TTPs to your environment, and then develop threat hunting scenarios based on what you've learned."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 4: TTP Example: APT29 (Cozy Bear)</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Example: APT29, a Russian-linked threat actor.</li>
+<li>TTPs: Spearphishing Attachment, Credential Dumping, Lateral Movement.</li>
+<li>Map TTPs to environment: Email logs, endpoint logs, network logs.</li>
+<li>Develop scenarios: Suspicious attachments, unusual process activity, unusual connections.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Let's illustrate this with an example. Consider APT29, also known as Cozy Bear, a sophisticated Russian-linked threat actor. Using the MITRE ATT&amp;CK framework, we can identify some of their common TTPs, such as spearphishing attachments, credential dumping, and lateral movement. We can then map these TTPs to our environment – email logs for spearphishing, endpoint logs for credential dumping, and network logs for lateral movement. Finally, we can develop specific scenarios to look for suspicious attachments, unusual process activity, and unusual network connections."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 5: Developing Threat Hunting Hypotheses</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>A threat hunting hypothesis is an educated guess about malicious activity.</li>
+<li>Characteristics: Testable, specific, relevant.</li>
+<li>Sources: Threat intelligence, internal data, vulnerability assessments, incident reports.</li>
+<li>Hypothesis Structure: IF (condition), THEN (expected outcome), BECAUSE (rationale).</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Now, let's talk about developing threat hunting hypotheses. A hypothesis is essentially an educated guess about where malicious activity might be occurring in your environment. A good hypothesis is testable, specific, and relevant to your organization's threat model. You can draw inspiration from various sources, including threat intelligence feeds, your own internal data, vulnerability assessments, and even past incident reports. A well-formed hypothesis typically follows the 'IF-THEN-BECAUSE' structure, clearly outlining the condition you're looking for, the expected outcome, and the rationale behind your expectation."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 6: Types of Threat Hunting Hypotheses</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Intelligence-Driven: Based on threat intelligence reports (e.g., APT29 spearphishing).</li>
+<li>Anomaly-Driven: Based on unusual patterns in data (e.g., spike in outbound traffic).</li>
+<li>Vulnerability-Driven: Based on known vulnerabilities (e.g., SQL injection attempts).</li>
+<li>Behavior-Driven: Based on known malicious behaviors (e.g., PowerShell downloading code).</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "There are several types of hypotheses you can formulate, each driven by a different source of information. Intelligence-driven hypotheses are based on threat intelligence reports, like the APT29 example we discussed earlier. Anomaly-driven hypotheses focus on unusual patterns in your data, such as a sudden spike in outbound network traffic. Vulnerability-driven hypotheses are based on known vulnerabilities in your systems, like the potential for SQL injection attacks. Finally, behavior-driven hypotheses are based on known malicious behaviors, like PowerShell scripts downloading code from the internet."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 7: Testing Hypotheses: Data Sources and Techniques</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Data Sources: Security logs, network traffic, endpoint data, threat intelligence.</li>
+<li>Data Analysis Techniques: Searching, filtering, aggregation, correlation, visualization, statistical analysis.</li>
+<li>Tools: SIEMs, EDRs, NTA tools, log analysis tools, scripting languages.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Once you have a hypothesis, the next step is to test it. This requires accessing the right data sources, which can include security logs, network traffic data, endpoint data, and threat intelligence feeds. You'll also need to employ various data analysis techniques, such as searching and filtering, aggregation, correlation, visualization, and statistical analysis. To facilitate this process, there are a wide range of tools available, including SIEMs, EDRs, NTA tools, log analysis tools, and scripting languages like Python and PowerShell."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 8: Example: Testing the Compromised Account Hypothesis</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Hypothesis: Login from distant locations indicates a compromised account.</li>
+<li>Data Source: Security logs (Windows Event Logs).</li>
+<li>Tools: SIEM (Splunk, Sentinel).</li>
+<li>Example Splunk query to identify multiple logins from different locations.</li>
+<li>Interpretation: Accounts with logins from distant locations warrant further investigation.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Let's walk through an example of testing a hypothesis. Our hypothesis is that a user account logging in from multiple geographically distant locations within a short period of time may indicate a compromised account. To test this, we'll use security logs, specifically Windows Event Logs, and a SIEM like Splunk or Sentinel. The slide shows an example Splunk query that can identify accounts with logins from multiple locations. If the query returns such accounts, it supports our hypothesis and warrants further investigation to confirm the compromise."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 9: Documenting Threat Hunting Scenarios and Creating Playbooks</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Documentation is crucial for knowledge sharing, reproducibility, training, and improvement.</li>
+<li>Scenario Document Elements: Title, description, threat actor, TTPs, hypothesis, data sources, tools, analysis steps, expected results, false positives, remediation steps, references.</li>
+<li>Playbooks: Step-by-step guides for responding to detected threats.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Documenting your threat hunting scenarios is essential for several reasons: it facilitates knowledge sharing, ensures reproducibility, aids in training new team members, and allows for continuous improvement of your threat hunting process. A comprehensive scenario document should include elements such as the title, description, threat actor, TTPs, hypothesis, data sources, tools, analysis steps, expected results, false positive considerations, remediation steps, and relevant references. In addition to scenario documentation, it's crucial to create threat hunting playbooks – step-by-step guides that outline the actions to take when a threat is detected, ensuring a consistent and repeatable response."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 10: Real-World Threat Hunting Scenarios and Case Studies</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Common Scenarios: Compromised accounts, lateral movement, data exfiltration, malware, insider threats, ransomware.</li>
+<li>Case Studies: Target Breach, Equifax Breach, SolarWinds Attack.</li>
+<li>Learning from Case Studies: Understand TTPs, vulnerabilities, and mistakes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong><br />
+    "Finally, let's consider some real-world threat hunting scenarios and case studies. Common scenarios include detecting compromised accounts, lateral movement, data exfiltration, malware infections, insider threats, and ransomware activity. By studying past breaches, such as the Target Breach, the Equifax Breach, and the SolarWinds attack, we can learn valuable lessons about the TTPs used by attackers, the vulnerabilities they exploit, and the mistakes that organizations make that allow them to be compromised. This knowledge can then be applied to improve our own threat hunting process and prevent similar attacks from happening to our organization."</p>
+</li>
+</ul>
+<p>This presentation provides a comprehensive overview of Module 7, covering all the key concepts and providing practical examples. Remember to adapt the content to your specific audience and environment.</p>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:42.</p>
+    </footer>
+</body>
+</html>

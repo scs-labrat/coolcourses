@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Outline | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="active">Course Outline</a></li>
+            
+            <li class="nav-dropdown ">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Course Outline</h1>
+<p>Okay, let's build a comprehensive "Cyber Threat Hunting 101" course outline, designed to equip learners with the knowledge and skills to transition from reactive security to proactive threat hunting, culminating in a functional clone of the topic. My goal is to make this educational, practical, and fun!</p>
+<p><strong>Course Title:</strong> Cyber Threat Hunting 101: From Reactive Defense to Proactive Pursuit</p>
+<p><strong>Overall Course Objective:</strong> By the end of this course, learners will be able to create a functional clone of the topic.</p>
+<p><strong>Course Prerequisites:</strong></p>
+<ul>
+<li>Basic understanding of computer networking concepts (TCP/IP, HTTP, DNS).</li>
+<li>Familiarity with common security terminology (vulnerabilities, exploits, malware).</li>
+<li>Basic Linux command-line experience.</li>
+<li>Familiarity with a scripting language like Python (recommended).</li>
+</ul>
+<p><strong>Course Structure:</strong></p>
+<p>The course will consist of eight modules, each building upon the previous one, to provide a solid foundation in cyber threat hunting principles and practices.</p>
+<p><strong>Module 1: The Need for Proactive Security</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Understand the limitations of reactive security and the rationale for adopting a proactive threat hunting approach.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>The Swiss Cheese Model in cybersecurity: Understanding layered defenses and their inherent gaps.</li>
+<li>The concept of "Scope X" (unknown unknowns) and its impact on security posture.</li>
+<li>The "Security, Usability, and Cost" triangle: Balancing trade-offs in security implementations.</li>
+<li>Reactive vs. Proactive Security: Comparing and contrasting approaches.</li>
+<li>A brief overview of proactive cybersecurity methods: vulnerability assessments, penetration testing, red teaming, bug bounties, and threat hunting.</li>
+<li>Why threat hunting is crucial in a modern threat landscape.</li>
+<li>The importance of a holistic approach: people, processes, and technology.</li>
+<li>Case Study: A major breach that could have been prevented by threat hunting.</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Read articles on the Swiss Cheese Model in cybersecurity.</li>
+<li>Research examples of major breaches caused by unknown vulnerabilities.</li>
+<li>Review the basics of common defensive cybersecurity tools (firewalls, IDS/IPS).</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Gap Analysis:</strong> Students will be given a hypothetical security scenario (e.g., a small company network) and asked to identify potential gaps in their reactive defenses based on the Swiss Cheese Model. They will then propose proactive measures to address these gaps.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will write a brief section for their final report describing the limitations of reactive security and the need for threat hunting.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 2: Foundations of Cyber Threat Hunting</strong></p>
+<ul>
+<li><strong>Module Objective:</strong>  Grasp the core principles, methodologies, and key enablers of effective threat hunting.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Defining Cyber Threat Hunting: A clear definition and scope.</li>
+<li>Core Principles of Threat Hunting:<ul>
+<li>Understanding historical threats.</li>
+<li>Analyzing current threats.</li>
+<li>Predicting potential future threats.</li>
+</ul>
+</li>
+<li>The Threat Hunting Loop: Plan, Hunt, Analyze, Report, Improve.</li>
+<li>The Pyramid of Pain: Categorizing indicators and observables (IoCs) to maximize impact.</li>
+<li>Key Enablers for Successful Threat Hunting:<ul>
+<li>Total Visibility: Access to relevant data sources.</li>
+<li>Data Quality and Availability: Ensuring reliable and accessible data.</li>
+<li>Situational Awareness: Understanding the environment and context.</li>
+</ul>
+</li>
+<li>Threat Intelligence: Leveraging threat intelligence feeds.</li>
+<li>Introduction to Threat Modeling: Understanding attack vectors and potential targets.</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Read articles on the Threat Hunting Loop and the Pyramid of Pain.</li>
+<li>Explore open-source threat intelligence feeds (e.g., VirusTotal).</li>
+<li>Review the MITRE ATT&amp;CK framework.</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Pyramid of Pain Exercise:</strong> Students will be given a list of IoCs (IP addresses, domain names, file hashes, etc.) and asked to categorize them according to the Pyramid of Pain.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will write a section on the core principles of threat hunting and the importance of each element of the Pyramid of Pain.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 3: Essential Cyber Security Skills for Threat Hunters</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Identify and develop the crucial technical skills required for effective threat hunting.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Core Security Skill Set:<ul>
+<li>Network Security Fundamentals: Packet analysis, network protocols.</li>
+<li>Endpoint Security: Understanding endpoint behavior, process monitoring.</li>
+<li>Malware Analysis Basics: Identifying malicious code, reverse engineering basics.</li>
+<li>Log Analysis: Interpreting security logs from various sources.</li>
+</ul>
+</li>
+<li>Visualization and Analysis:<ul>
+<li>Data Visualization Techniques: Using graphs and charts to identify anomalies.</li>
+<li>Analytical Thinking: Developing hypotheses and testing them against data.</li>
+</ul>
+</li>
+<li>Scripting and Task Automation:<ul>
+<li>Python for Security: Automating tasks, parsing data, interacting with APIs.</li>
+<li>Shell Scripting: Automating command-line tasks.</li>
+</ul>
+</li>
+<li>Understanding of Operating Systems: Windows and Linux internals.</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Practice network packet analysis using Wireshark.</li>
+<li>Learn basic Python scripting.</li>
+<li>Explore common security logs (e.g., Windows Event Logs, Linux Syslog).</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Log Analysis Challenge:</strong> Students will be given a set of security logs (e.g., web server logs, firewall logs) and asked to identify suspicious activity.</li>
+<li><strong>Scripting Exercise:</strong> Students will write a Python script to automate the analysis of a specific type of security log.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will include a section on the essential skills for threat hunters, explaining why each skill is important.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 4: Threat Hunting Tools and Techniques (Part 1: Network)</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Learn to leverage network-based tools and techniques for detecting malicious activity.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Network Intrusion Detection Systems (NIDS):<ul>
+<li>Snort/Suricata: Rule writing, alert analysis.</li>
+</ul>
+</li>
+<li>Network Traffic Analysis (NTA):<ul>
+<li>Wireshark: Advanced filtering, protocol analysis.</li>
+<li>Zeek (Bro): Event logging, scripting for custom analysis.</li>
+</ul>
+</li>
+<li>NetFlow Analysis:<ul>
+<li>Understanding NetFlow data.</li>
+<li>Tools for NetFlow collection and analysis.</li>
+</ul>
+</li>
+<li>DNS Analysis:<ul>
+<li>Identifying malicious domain names.</li>
+<li>DNS tunneling detection.</li>
+</ul>
+</li>
+<li>Practical Exercises:<ul>
+<li>Analyzing network traffic for suspicious patterns.</li>
+<li>Writing Snort rules to detect specific threats.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Install and configure Snort or Suricata.</li>
+<li>Practice using Wireshark to analyze network traffic.</li>
+<li>Explore Zeek documentation.</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Network Forensics Challenge:</strong> Students will be given a PCAP file and asked to identify malicious activity using network analysis tools.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will document how to use network-based tools to detect threats.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 5: Threat Hunting Tools and Techniques (Part 2: Endpoint &amp; Logs)</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Learn to leverage endpoint-based tools and techniques for detecting malicious activity.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Endpoint Detection and Response (EDR) Solutions:<ul>
+<li>Overview of EDR capabilities.</li>
+<li>Using EDR tools for threat hunting.</li>
+</ul>
+</li>
+<li>Sysmon:<ul>
+<li>Configuring Sysmon for detailed logging.</li>
+<li>Analyzing Sysmon logs for suspicious activity.</li>
+</ul>
+</li>
+<li>Windows Event Logs:<ul>
+<li>Understanding Windows Event Log structure.</li>
+<li>Using PowerShell for Event Log analysis.</li>
+</ul>
+</li>
+<li>Linux Audit Logs:<ul>
+<li>Configuring auditd.</li>
+<li>Analyzing audit logs for suspicious activity.</li>
+</ul>
+</li>
+<li>SIEM (Security Information and Event Management) Systems:<ul>
+<li>Overview of SIEM architecture.</li>
+<li>Using SIEM for threat hunting.</li>
+</ul>
+</li>
+<li>Practical Exercises:<ul>
+<li>Analyzing Sysmon logs to detect malware execution.</li>
+<li>Using PowerShell to query Windows Event Logs.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Install and configure Sysmon on a Windows system.</li>
+<li>Explore Windows Event Log documentation.</li>
+<li>Learn basic PowerShell scripting.</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Endpoint Forensics Challenge:</strong> Students will be given a disk image and asked to identify malicious activity using endpoint analysis tools.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will document how to use endpoint-based tools to detect threats.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 6: Data Analysis Techniques for Threat Hunting</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Master essential data analysis techniques for identifying and understanding threats.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Basic Search and Filtering:<ul>
+<li>Using search operators and filters in various tools.</li>
+</ul>
+</li>
+<li>Grouping and Counting:<ul>
+<li>Identifying patterns and trends.</li>
+</ul>
+</li>
+<li>Link Analysis:<ul>
+<li>Visualizing relationships between entities.</li>
+</ul>
+</li>
+<li>Hunting and Query Languages (e.g., KQL in Azure Sentinel, SPL in Splunk):<ul>
+<li>Writing efficient queries for threat hunting.</li>
+</ul>
+</li>
+<li>Pattern Matching:<ul>
+<li>Using regular expressions to identify malicious patterns.</li>
+</ul>
+</li>
+<li>Timelines:<ul>
+<li>Creating timelines of events to understand attack sequences.</li>
+</ul>
+</li>
+<li>Statistical Metrics:<ul>
+<li>Calculating averages, standard deviations, and other metrics to identify anomalies.</li>
+</ul>
+</li>
+<li>Data Aggregation:<ul>
+<li>Combining data from multiple sources to gain a holistic view.</li>
+</ul>
+</li>
+<li>Frequency Analysis:<ul>
+<li>Identifying unusual frequencies of events.</li>
+</ul>
+</li>
+<li>Distribution Analysis:<ul>
+<li>Understanding the distribution of data to identify outliers.</li>
+</ul>
+</li>
+<li>Practical Exercises:<ul>
+<li>Analyzing data using various techniques to identify suspicious activity.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Learn the basics of regular expressions.</li>
+<li>Explore query languages like KQL or SPL.</li>
+<li>Practice using data analysis tools like Pandas (Python).</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Data Analysis Challenge:</strong> Students will be given a dataset and asked to identify malicious activity using data analysis techniques.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will document how to use data analysis techniques for threat hunting.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 7: Building Threat Hunting Scenarios and Hypothesis</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Learn to develop and test threat hunting scenarios based on threat intelligence and internal data.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Understanding Threat Actors and Their Tactics, Techniques, and Procedures (TTPs).</li>
+<li>Developing Threat Hunting Hypotheses:<ul>
+<li>Based on threat intelligence.</li>
+<li>Based on internal data.</li>
+</ul>
+</li>
+<li>Testing Hypotheses:<ul>
+<li>Using data analysis techniques to validate or reject hypotheses.</li>
+</ul>
+</li>
+<li>Documenting Threat Hunting Scenarios:<ul>
+<li>Creating clear and concise documentation.</li>
+</ul>
+</li>
+<li>Creating Threat Hunting Playbooks:<ul>
+<li>Documenting the steps to take when a threat is detected.</li>
+</ul>
+</li>
+<li>Real-World Threat Hunting Scenarios:<ul>
+<li>Examples of common threat hunting scenarios.</li>
+</ul>
+</li>
+<li>Case studies of successful threat hunts.</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>Review the MITRE ATT&amp;CK framework.</li>
+<li>Explore threat intelligence reports from various security vendors.</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Threat Hunting Scenario Development:</strong> Students will be given a threat intelligence report and asked to develop a threat hunting scenario.</li>
+<li><strong>Capstone Project Contribution:</strong> Students will document their threat hunting scenarios and playbooks.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module 8: Capstone Project: Building Your Own Cyber Threat Hunting 101</strong></p>
+<ul>
+<li><strong>Module Objective:</strong> Integrate all learned knowledge and skills to create a functional clone of the course topic.</li>
+<li><strong>Subtopics:</strong><ul>
+<li>Review of all previous modules.</li>
+<li>Planning the project:<ul>
+<li>Defining the scope of the project.</li>
+<li>Choosing the tools and techniques to use.</li>
+</ul>
+</li>
+<li>Implementing the project:<ul>
+<li>Writing code.</li>
+<li>Configuring tools.</li>
+<li>Analyzing data.</li>
+</ul>
+</li>
+<li>Testing the project:<ul>
+<li>Validating the results.</li>
+</ul>
+</li>
+<li>Documenting the project:<ul>
+<li>Creating a comprehensive report.</li>
+</ul>
+</li>
+<li>Peer Review:<ul>
+<li>Reviewing each other's projects.</li>
+</ul>
+</li>
+<li>Presentation:<ul>
+<li>Presenting the final project.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Suggested Resources/Prerequisites:</strong><ul>
+<li>All previous modules.</li>
+</ul>
+</li>
+<li><strong>Module Project/Exercise:</strong><ul>
+<li><strong>Capstone Project:</strong> Students will create a functional clone of the course topic. This could involve:<ul>
+<li>Building a threat hunting dashboard.</li>
+<li>Creating a threat hunting playbook.</li>
+<li>Developing a threat hunting tool.</li>
+<li>Writing a report on a specific threat.</li>
+</ul>
+</li>
+<li><strong>Capstone Project Deliverables:</strong><ul>
+<li>Code.</li>
+<li>Configuration files.</li>
+<li>Documentation.</li>
+<li>Presentation.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>This comprehensive outline provides a clear path for learners to acquire the necessary knowledge and skills to become effective cyber threat hunters. Each module builds upon the previous one, ensuring a solid foundation and culminating in a practical capstone project that demonstrates their mastery of the subject. I've tried to inject my love for teaching and open sharing into the structure, making it engaging and accessible. Let me know if you'd like me to elaborate on any specific module or aspect of the course!</p>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:41.</p>
+    </footer>
+</body>
+</html>

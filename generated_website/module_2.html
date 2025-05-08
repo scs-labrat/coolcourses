@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundations of Cyber Threat Hunting | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="active">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Foundations of Cyber Threat Hunting</h1>
+<p>Okay, let's dive deep into Module 2: Foundations of Cyber Threat Hunting.  I'll provide you with a comprehensive, step-by-step breakdown, including explanations, examples, and practical exercises, all formatted in Markdown. My goal is to make this module truly <em>understandable</em> and <em>actionable</em>.</p>
+<p><strong>Module 2: Foundations of Cyber Threat Hunting</strong></p>
+<p><strong>Module Objective:</strong> Grasp the core principles, methodologies, and key enablers of effective threat hunting.</p>
+<p><strong>Subtopics:</strong></p>
+<ul>
+<li>Defining Cyber Threat Hunting: A clear definition and scope.</li>
+<li>Core Principles of Threat Hunting:<ul>
+<li>Understanding historical threats.</li>
+<li>Analyzing current threats.</li>
+<li>Predicting potential future threats.</li>
+</ul>
+</li>
+<li>The Threat Hunting Loop: Plan, Hunt, Analyze, Report, Improve.</li>
+<li>The Pyramid of Pain: Categorizing indicators and observables (IoCs) to maximize impact.</li>
+<li>Key Enablers for Successful Threat Hunting:<ul>
+<li>Total Visibility: Access to relevant data sources.</li>
+<li>Data Quality and Availability: Ensuring reliable and accessible data.</li>
+<li>Situational Awareness: Understanding the environment and context.</li>
+</ul>
+</li>
+<li>Threat Intelligence: Leveraging threat intelligence feeds.</li>
+<li>Introduction to Threat Modeling: Understanding attack vectors and potential targets.</li>
+</ul>
+<hr />
+<p><strong>1. Defining Cyber Threat Hunting: A Clear Definition and Scope</strong></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong> Cyber threat hunting is a <em>proactive</em> security activity that involves actively searching for threats that have evaded existing security controls.  It's not just about responding to alerts; it's about <em>actively seeking out</em> malicious activity that might otherwise go unnoticed. It is an iterative process.</p>
+</li>
+<li>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+<li><strong>Proactive:</strong> Initiated by the hunter, not by an alert.</li>
+<li><strong>Hypothesis-Driven:</strong> Starts with a question or suspicion.</li>
+<li><strong>Iterative:</strong> Refines the hunt based on findings.</li>
+<li><strong>Human-Led:</strong> Relies on the skills and intuition of the hunter.</li>
+<li><strong>Data-Driven:</strong> Leverages data from various sources.</li>
+<li><strong>Scope:</strong> Threat hunting can encompass various areas, including:</li>
+<li><strong>Network:</strong> Analyzing network traffic for anomalies.</li>
+<li><strong>Endpoints:</strong> Examining endpoint behavior for suspicious activity.</li>
+<li><strong>Logs:</strong> Searching logs for indicators of compromise.</li>
+<li><strong>Cloud:</strong> Investigating cloud infrastructure for security threats.</li>
+<li><strong>Contrast with Incident Response:</strong> Incident response is <em>reactive</em>. It's triggered by an alert or incident. Threat hunting is <em>proactive</em> and seeks to identify threats <em>before</em> they cause damage or trigger alerts.</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Core Principles of Threat Hunting</strong></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong>  Effective threat hunting requires understanding the threat landscape, both past, present, and potential future threats.</p>
+<ul>
+<li><strong>Understanding Historical Threats:</strong><ul>
+<li><strong>Why:</strong>  Knowing past attacks helps identify patterns and anticipate future attacks.</li>
+<li><strong>How:</strong> Review historical security reports, incident reports, and threat intelligence.</li>
+<li><strong>Example:</strong> If you know that a particular ransomware group targeted your industry last year, you can proactively hunt for their specific tactics and tools in your network.</li>
+</ul>
+</li>
+<li><strong>Analyzing Current Threats:</strong><ul>
+<li><strong>Why:</strong> Staying up-to-date on current threats allows you to hunt for the latest malware, exploits, and attack techniques.</li>
+<li><strong>How:</strong> Monitor threat intelligence feeds, security blogs, and vulnerability databases.</li>
+<li><strong>Example:</strong> If a new zero-day vulnerability is announced, you can immediately hunt for exploitation attempts in your environment.</li>
+</ul>
+</li>
+<li><strong>Predicting Potential Future Threats:</strong><ul>
+<li><strong>Why:</strong>  Anticipating future attacks allows you to prepare your defenses and proactively hunt for vulnerabilities.</li>
+<li><strong>How:</strong>  Analyze trends in the threat landscape, conduct threat modeling, and monitor emerging technologies.</li>
+<li><strong>Example:</strong> If you see a growing trend of attacks targeting cloud infrastructure, you can proactively hunt for misconfigurations and vulnerabilities in your cloud environment.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. The Threat Hunting Loop: Plan, Hunt, Analyze, Report, Improve</strong></p>
+<ul>
+<li><strong>Explanation:</strong> The threat hunting loop is an iterative process that guides the threat hunting activity.</li>
+<li>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Plan:</strong><ul>
+<li><strong>Define the scope:</strong> What are you trying to find?</li>
+<li><strong>Formulate a hypothesis:</strong> What do you suspect is happening?  (e.g., "A user's machine is beaconing to a known command-and-control server.")</li>
+<li><strong>Identify data sources:</strong> Where will you look for evidence? (e.g., firewall logs, endpoint logs, network traffic).</li>
+<li><strong>Select tools:</strong> What tools will you use to analyze the data? (e.g., Wireshark, Splunk, PowerShell).</li>
+</ul>
+</li>
+<li><strong>Hunt:</strong><ul>
+<li><strong>Collect data:</strong> Gather the relevant data from your chosen sources.</li>
+<li><strong>Analyze data:</strong> Use your selected tools to analyze the data for evidence of your hypothesis.</li>
+</ul>
+</li>
+<li><strong>Analyze:</strong><ul>
+<li><strong>Evaluate findings:</strong> Did you find evidence to support your hypothesis?</li>
+<li><strong>Investigate further:</strong> If you found something suspicious, investigate further to determine the impact and scope.</li>
+<li><strong>Refine your hypothesis:</strong> Based on your findings, refine your hypothesis and continue hunting.</li>
+</ul>
+</li>
+<li><strong>Report:</strong><ul>
+<li><strong>Document your findings:</strong> Create a detailed report of your findings, including the evidence you found, the impact of the threat, and any actions taken.</li>
+<li><strong>Share your findings:</strong> Share your findings with other security teams and stakeholders.</li>
+</ul>
+</li>
+<li><strong>Improve:</strong><ul>
+<li><strong>Review your process:</strong> What worked well? What could be improved?</li>
+<li><strong>Update your security controls:</strong> Based on your findings, update your security controls to prevent future attacks.</li>
+<li><strong>Share lessons learned:</strong> Share your lessons learned with other security teams and stakeholders.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+</li>
+<li>
+<p><strong>Plan:</strong> Hypothesis: "A new phishing campaign is targeting our users." Data sources: Email gateway logs, endpoint logs. Tools: Splunk, PowerShell.</p>
+</li>
+<li><strong>Hunt:</strong> Collect email gateway logs and endpoint logs. Analyze the logs for suspicious email attachments or links.</li>
+<li><strong>Analyze:</strong> Found several users who clicked on a malicious link. The link downloaded a malware payload.</li>
+<li><strong>Report:</strong> Documented the phishing campaign, the malware payload, and the affected users. Shared the findings with the incident response team.</li>
+<li><strong>Improve:</strong> Updated email gateway filters to block the malicious links. Trained users on how to identify phishing emails.</li>
+</ol>
+</li>
+</ul>
+<p><strong>4. The Pyramid of Pain: Categorizing Indicators and Observables (IoCs) to Maximize Impact</strong></p>
+<ul>
+<li><strong>Explanation:</strong> The Pyramid of Pain, developed by David Bianco, is a framework for categorizing indicators of compromise (IoCs) based on how much effort it takes for an attacker to change them. The higher up the pyramid you go, the more difficult and costly it is for the attacker to adapt.  The goal is to focus on indicators that cause the most pain for the attacker.</li>
+<li>
+<p><strong>Levels (from bottom to top):</strong></p>
+<ol>
+<li><strong>Hash Values:</strong> (MD5, SHA1, SHA256)  Easiest for attackers to change.</li>
+<li><strong>IP Addresses:</strong> Relatively easy for attackers to change (using new servers, VPNs, etc.).</li>
+<li><strong>Domain Names:</strong>  More difficult than IP addresses, but still relatively easy to change (registering new domains).</li>
+<li><strong>Network/Host Artifacts:</strong>  (e.g., specific registry keys, file paths, user-agent strings)  Requires more effort to change.</li>
+<li><strong>Tools:</strong> (e.g., specific malware families, exploit kits)  Requires significant effort to change (developing new tools).</li>
+<li><strong>TTPs (Tactics, Techniques, and Procedures):</strong>  The hardest for attackers to change. These are the <em>way</em> they operate. Changing TTPs requires a fundamental shift in their approach.</li>
+<li>
+<p><strong>Practical Application:</strong></p>
+</li>
+<li>
+<p>Focus your threat hunting efforts on the higher levels of the pyramid.</p>
+</li>
+<li>If you find a malicious IP address, that's good, but it's relatively easy for the attacker to change.</li>
+<li>If you identify the TTPs used by an attacker, you can proactively hunt for other attacks that use the same TTPs.</li>
+<li>
+<p><strong>Example:</strong></p>
+</li>
+<li>
+<p>You identify a piece of malware using a specific user-agent string in its HTTP requests (Network/Host Artifact).  You can then proactively hunt for other systems in your network using the same user-agent string.</p>
+</li>
+<li>You observe an attacker using PowerShell to download and execute malicious code (TTP). You can then proactively monitor PowerShell activity for similar patterns.</li>
+</ol>
+</li>
+</ul>
+<p><strong>5. Key Enablers for Successful Threat Hunting</strong></p>
+<ul>
+<li><strong>Explanation:</strong>  Effective threat hunting requires the right tools, data, and context.<ul>
+<li><strong>Total Visibility: Access to Relevant Data Sources:</strong><ul>
+<li><strong>Why:</strong> You can't hunt for what you can't see.</li>
+<li><strong>Data Sources:</strong><ul>
+<li><strong>Network Traffic:</strong> (e.g., PCAP files, NetFlow data, Zeek logs)</li>
+<li><strong>Endpoint Logs:</strong> (e.g., Windows Event Logs, Sysmon logs, Linux audit logs)</li>
+<li><strong>Security Logs:</strong> (e.g., firewall logs, IDS/IPS logs, web server logs)</li>
+<li><strong>Cloud Logs:</strong> (e.g., AWS CloudTrail logs, Azure Activity logs)</li>
+<li><strong>Application Logs:</strong> (e.g., database logs, web application logs)</li>
+</ul>
+</li>
+<li><strong>Tools:</strong> SIEMs, EDRs, Network Monitoring Tools, Log Aggregators</li>
+</ul>
+</li>
+<li><strong>Data Quality and Availability: Ensuring Reliable and Accessible Data:</strong><ul>
+<li><strong>Why:</strong> Garbage in, garbage out.  If your data is incomplete, inaccurate, or unavailable, your threat hunting efforts will be hampered.</li>
+<li><strong>Considerations:</strong><ul>
+<li><strong>Data Retention:</strong> How long are you retaining your data?</li>
+<li><strong>Data Integrity:</strong> Is your data accurate and trustworthy?</li>
+<li><strong>Data Accessibility:</strong> Can you easily access and query your data?</li>
+<li><strong>Data Normalization:</strong> Is your data formatted consistently across different sources?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Situational Awareness: Understanding the Environment and Context:</strong><ul>
+<li><strong>Why:</strong>  You need to understand your environment to identify anomalies.</li>
+<li><strong>Considerations:</strong><ul>
+<li><strong>Network Topology:</strong> How is your network structured?</li>
+<li><strong>Asset Inventory:</strong> What assets do you have in your environment?</li>
+<li><strong>User Behavior:</strong> What is normal user behavior?</li>
+<li><strong>Application Behavior:</strong> What is normal application behavior?</li>
+</ul>
+</li>
+<li><strong>Tools:</strong> Configuration Management Databases (CMDBs), Asset Management Systems, User and Entity Behavior Analytics (UEBA)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>6. Threat Intelligence: Leveraging Threat Intelligence Feeds</strong></p>
+<ul>
+<li><strong>Explanation:</strong> Threat intelligence is information about existing or emerging threats.  It can help you proactively hunt for threats in your environment.</li>
+<li>
+<p><strong>Types of Threat Intelligence:</strong></p>
+<ul>
+<li><strong>Open-Source Threat Intelligence (OSINT):</strong> Freely available information from sources like security blogs, vulnerability databases, and threat intelligence feeds.</li>
+<li><strong>Commercial Threat Intelligence:</strong> Paid subscriptions to threat intelligence feeds from security vendors.</li>
+<li><strong>Internal Threat Intelligence:</strong> Information gathered from your own security incidents and threat hunting activities.</li>
+<li>
+<p><strong>Using Threat Intelligence for Threat Hunting:</strong></p>
+</li>
+<li>
+<p><strong>Identify Indicators of Compromise (IoCs):</strong> Use threat intelligence to identify IoCs associated with specific threats.</p>
+</li>
+<li><strong>Develop Threat Hunting Scenarios:</strong> Use threat intelligence to develop threat hunting scenarios based on known attack techniques.</li>
+<li><strong>Prioritize Threat Hunting Efforts:</strong> Use threat intelligence to prioritize your threat hunting efforts based on the severity and likelihood of different threats.</li>
+<li>
+<p><strong>Examples of Threat Intelligence Feeds:</strong></p>
+</li>
+<li>
+<p><strong>VirusTotal:</strong> A free service that analyzes files and URLs for malware.</p>
+</li>
+<li><strong>AlienVault OTX:</strong> A community-driven threat intelligence platform.</li>
+<li><strong>MITRE ATT&amp;CK:</strong> A knowledge base of adversary tactics and techniques. (Technically a framework, but invaluable for understanding TTPs from Threat Intel.)</li>
+<li>Commercial feeds from providers like CrowdStrike, FireEye, Recorded Future, etc.</li>
+</ul>
+</li>
+</ul>
+<p><strong>7. Introduction to Threat Modeling: Understanding Attack Vectors and Potential Targets</strong></p>
+<ul>
+<li><strong>Explanation:</strong> Threat modeling is a process of identifying potential threats and vulnerabilities in your environment. It helps you understand how an attacker might try to compromise your systems and data.</li>
+<li>
+<p><strong>Key Steps in Threat Modeling:</strong></p>
+<ol>
+<li><strong>Identify Assets:</strong> What are the most valuable assets in your environment? (e.g., customer data, financial data, intellectual property).</li>
+<li><strong>Identify Threats:</strong> What are the potential threats to those assets? (e.g., ransomware, data theft, denial of service).</li>
+<li><strong>Identify Vulnerabilities:</strong> What vulnerabilities could be exploited to carry out those threats? (e.g., unpatched software, weak passwords, misconfigurations).</li>
+<li><strong>Analyze Attack Vectors:</strong> How could an attacker exploit those vulnerabilities? (e.g., phishing emails, SQL injection, remote code execution).</li>
+<li><strong>Prioritize Risks:</strong> Which threats and vulnerabilities pose the greatest risk to your organization?</li>
+<li><strong>Develop Mitigation Strategies:</strong> What steps can you take to reduce the risk of those threats and vulnerabilities? (e.g., patching software, implementing strong passwords, hardening systems).</li>
+<li>
+<p><strong>Benefits of Threat Modeling:</strong></p>
+</li>
+<li>
+<p>Helps you understand your attack surface.</p>
+</li>
+<li>Identifies potential vulnerabilities before they can be exploited.</li>
+<li>Prioritizes security efforts based on risk.</li>
+<li>Improves your overall security posture.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<p><strong>Module 2 Project/Exercise:</strong></p>
+<ul>
+<li><strong>Pyramid of Pain Exercise:</strong><ul>
+<li><strong>Instructions:</strong> You are given the following list of Indicators of Compromise (IoCs) related to a hypothetical malware campaign. Categorize each IoC according to the Pyramid of Pain. Explain <em>why</em> you placed it at that level.<ol>
+<li>MD5 hash of the malware executable: <code>a1b2c3d4e5f678901234567890abcdef</code></li>
+<li>IP address of the command-and-control server: <code>192.0.2.10</code></li>
+<li>Domain name used by the malware: <code>malicious-domain.com</code></li>
+<li>The malware creates a registry key: <code>HKCU\Software\Malware</code></li>
+<li>The malware uses PowerShell to download and execute code.</li>
+<li>SHA256 hash of the malware executable: <code>abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890</code></li>
+<li>The malware uses a specific user-agent string: <code>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36</code></li>
+<li>The attacker leverages spear-phishing emails with malicious PDF attachments.</li>
+<li>The malware uses a specific encryption algorithm to encrypt files.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>Capstone Project Contribution:</strong><ul>
+<li>Write a section (approximately 500-750 words) for your final report that explains the core principles of threat hunting and the importance of each element of the Pyramid of Pain.  Discuss how understanding the Pyramid of Pain helps prioritize threat hunting efforts. Provide specific examples of how you would use indicators from different levels of the pyramid to guide your threat hunting activities.</li>
+</ul>
+</li>
+</ul>
+<p>This detailed breakdown of Module 2 provides a solid foundation for understanding the core principles of cyber threat hunting. Remember, the key is to be proactive, hypothesis-driven, and data-driven. Good luck, and have fun hunting! Let me know if you'd like me to elaborate on any of these topics or provide additional examples.</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here's a 10-slide presentation for Module 2, based on the provided content, formatted in Markdown with slide titles, bullet points summarizing key content, and a narration script for each slide.</p>
+<hr />
+<p><strong>Slide 1: Module 2 - Foundations of Cyber Threat Hunting: Introduction</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Module Objective: Grasp core principles, methodologies, and key enablers.</li>
+<li>Transition from reactive to proactive security posture.</li>
+<li>Introduction to key concepts and terminology.</li>
+<li>Laying the groundwork for effective threat hunting.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Welcome to Module 2: Foundations of Cyber Threat Hunting! In this module, we'll move beyond the limitations of reactive security and delve into the proactive world of threat hunting. Our objective is to understand the core principles, methodologies, and key enablers that make threat hunting effective. This module will provide a solid foundation upon which we'll build our threat hunting skills in subsequent modules. Get ready to actively seek out hidden threats in your environment!"</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 2: Defining Cyber Threat Hunting</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Proactive, hypothesis-driven search for hidden threats.</li>
+<li>Iterative process, refining the hunt based on findings.</li>
+<li>Human-led activity, relying on hunter skills and intuition.</li>
+<li>Data-driven, leveraging various data sources for evidence.</li>
+<li>Distinction from Incident Response (reactive vs. proactive).</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "So, what exactly <em>is</em> cyber threat hunting? It's a <em>proactive</em> security activity. Unlike incident response, which reacts to alerts, threat hunting involves actively searching for threats that have evaded existing defenses. It's a hypothesis-driven, iterative, human-led, and data-driven process. We start with a question, use our skills to analyze data, and refine our hunt based on what we find. The key difference from incident response is that threat hunting is proactive – we're looking for trouble before it finds us."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 3: Scope of Cyber Threat Hunting</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Network: Analyzing traffic for anomalies (e.g., unusual connections).</li>
+<li>Endpoints: Examining behavior for suspicious activity (e.g., malware execution).</li>
+<li>Logs: Searching for indicators of compromise (IoCs) across systems.</li>
+<li>Cloud: Investigating cloud infrastructure for security threats (e.g., misconfigurations).</li>
+<li>Requires a broad understanding of the IT environment.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "The scope of threat hunting is quite broad. It encompasses various areas of your IT environment. This includes the network, where we analyze traffic for unusual patterns; endpoints, where we examine user and system behavior for suspicious activity; logs, where we search for telltale signs of compromise; and the cloud, where we investigate cloud infrastructure for security threats. A successful threat hunter needs a broad understanding of the entire IT environment to effectively search for hidden threats."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 4: Core Principles: Understanding Historical Threats</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Knowing past attacks helps anticipate future attacks.</li>
+<li>Review historical security reports and incident reports.</li>
+<li>Analyze past threat intelligence data.</li>
+<li>Example: Hunting for specific ransomware group tactics.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "One of the core principles of threat hunting is understanding historical threats. Knowing what attacks have happened in the past, especially those targeting your industry or organization, allows us to better anticipate future attacks. This involves reviewing historical security reports, incident reports, and threat intelligence. For example, if we know a particular ransomware group targeted our industry last year, we can proactively hunt for their specific tactics and tools in our network."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 5: Core Principles: Analyzing Current Threats</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Staying up-to-date on current threats.</li>
+<li>Monitor threat intelligence feeds, security blogs, and vulnerability databases.</li>
+<li>Hunt for the latest malware, exploits, and attack techniques.</li>
+<li>Example: Hunting for exploitation attempts of a new zero-day vulnerability.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Equally important is analyzing current threats. The threat landscape is constantly evolving, so we need to stay up-to-date on the latest threats. This means monitoring threat intelligence feeds, reading security blogs, and keeping an eye on vulnerability databases. For example, if a new zero-day vulnerability is announced, we can immediately hunt for exploitation attempts in our environment."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 6: Core Principles: Predicting Potential Future Threats</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Anticipating future attacks to prepare defenses.</li>
+<li>Analyze trends in the threat landscape.</li>
+<li>Conduct threat modeling.</li>
+<li>Monitor emerging technologies and their potential vulnerabilities.</li>
+<li>Example: Hunting for misconfigurations in cloud environments based on cloud attack trends.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Beyond the past and present, we also need to try to predict potential future threats. This allows us to prepare our defenses and proactively hunt for vulnerabilities. We can achieve this by analyzing trends in the threat landscape, conducting threat modeling exercises, and monitoring emerging technologies for potential vulnerabilities. For instance, if we see a growing trend of attacks targeting cloud infrastructure, we can proactively hunt for misconfigurations and vulnerabilities in our cloud environment."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 7: The Threat Hunting Loop: Plan &amp; Hunt</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li><strong>Plan:</strong> Define scope, formulate hypothesis, identify data sources, select tools.</li>
+<li><strong>Hunt:</strong> Collect and analyze data based on the plan.</li>
+<li>Example hypothesis: "A user's machine is beaconing to a known C2 server."</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "The Threat Hunting Loop provides a structured approach to threat hunting. It begins with the <em>Plan</em> phase. Here, we define the scope of our hunt, formulate a hypothesis, identify the data sources we'll need to analyze, and select the appropriate tools. This is followed by the <em>Hunt</em> phase, where we collect data from our chosen sources and analyze it, looking for evidence to support or refute our hypothesis. For example, our hypothesis might be that a user's machine is beaconing to a known command-and-control server, and we would then analyze network traffic and endpoint logs to look for evidence of this activity."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 8: The Threat Hunting Loop: Analyze, Report &amp; Improve</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li><strong>Analyze:</strong> Evaluate findings, investigate further, refine hypothesis.</li>
+<li><strong>Report:</strong> Document findings, share with stakeholders.</li>
+<li><strong>Improve:</strong> Review process, update security controls, share lessons learned.</li>
+<li>Iterative process: Continuously refining and improving.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "After the Hunt phase, we move to <em>Analyze</em>. We evaluate our findings, investigate further if we find something suspicious, and refine our hypothesis based on our results. Next is <em>Report</em>, where we document our findings, including the evidence we found, the impact of the threat, and any actions taken. We then share our findings with other security teams and stakeholders. Finally, we <em>Improve</em> our process by reviewing what worked well, what could be improved, updating our security controls, and sharing lessons learned. This is an iterative process, constantly refining our approach and improving our effectiveness."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 9: The Pyramid of Pain</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li>Categorizes IoCs based on attacker effort to change.</li>
+<li>Levels: Hash Values, IP Addresses, Domain Names, Network/Host Artifacts, Tools, TTPs.</li>
+<li>Focus on higher levels (TTPs) for maximum impact.</li>
+<li>Example: Identifying PowerShell usage as a TTP.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "The Pyramid of Pain, developed by David Bianco, is a crucial framework for prioritizing our threat hunting efforts. It categorizes indicators of compromise (IoCs) based on how much effort it takes for an attacker to change them. The higher up the pyramid we go, the more difficult and costly it is for the attacker to adapt. At the bottom are simple indicators like Hash Values, which are easily changed. At the top are TTPs – Tactics, Techniques, and Procedures – which represent the <em>way</em> an attacker operates and are the hardest to change. We should focus our efforts on identifying and hunting for these higher-level indicators, as they provide the most lasting value."</p>
+</li>
+</ul>
+<hr />
+<p><strong>Slide 10: Key Enablers and Threat Intelligence</strong></p>
+<ul>
+<li>
+<p><strong>Key Content:</strong></p>
+<ul>
+<li><strong>Key Enablers:</strong> Total Visibility, Data Quality &amp; Availability, Situational Awareness.</li>
+<li><strong>Threat Intelligence:</strong> Leverage feeds to identify IoCs, develop scenarios, and prioritize hunts.</li>
+<li><strong>Threat Modeling:</strong> Understand attack vectors and potential targets.</li>
+<li>These enablers are <em>essential</em> for successful threat hunting.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Finally, let's discuss the key enablers for successful threat hunting: Total Visibility, meaning access to relevant data sources; Data Quality and Availability, ensuring reliable and accessible data; and Situational Awareness, understanding the environment and context. We also need to leverage Threat Intelligence to identify IoCs, develop threat hunting scenarios, and prioritize our efforts. And Threat Modeling helps us understand potential attack vectors and targets. These enablers, combined with our understanding of the Threat Hunting Loop and the Pyramid of Pain, are essential for effective threat hunting."</p>
+</li>
+</ul>
+<p>This presentation covers all the key aspects of Module 2, providing a solid foundation for understanding the principles of cyber threat hunting. Remember to engage your audience, use real-world examples, and encourage questions! Good luck!</p>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:41.</p>
+    </footer>
+</body>
+</html>

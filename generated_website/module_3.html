@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essential Cyber Security Skills for Threat Hunters | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="active">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Essential Cyber Security Skills for Threat Hunters</h1>
+<p>Okay, let's dive deep into Module 3: Essential Cyber Security Skills for Threat Hunters. This module is crucial because it lays the groundwork for the practical application of threat hunting principles. It's all about equipping you with the core technical skills you'll need to identify, analyze, and understand threats.</p>
+<p><strong>Module 3: Essential Cyber Security Skills for Threat Hunters</strong></p>
+<p><strong>Module Objective:</strong> Identify and develop the crucial technical skills required for effective threat hunting.</p>
+<p><strong>Subtopics:</strong></p>
+<ul>
+<li>Core Security Skill Set:<ul>
+<li>Network Security Fundamentals: Packet analysis, network protocols.</li>
+<li>Endpoint Security: Understanding endpoint behavior, process monitoring.</li>
+<li>Malware Analysis Basics: Identifying malicious code, reverse engineering basics.</li>
+<li>Log Analysis: Interpreting security logs from various sources.</li>
+</ul>
+</li>
+<li>Visualization and Analysis:<ul>
+<li>Data Visualization Techniques: Using graphs and charts to identify anomalies.</li>
+<li>Analytical Thinking: Developing hypotheses and testing them against data.</li>
+</ul>
+</li>
+<li>Scripting and Task Automation:<ul>
+<li>Python for Security: Automating tasks, parsing data, interacting with APIs.</li>
+<li>Shell Scripting: Automating command-line tasks.</li>
+</ul>
+</li>
+<li>Understanding of Operating Systems: Windows and Linux internals.</li>
+</ul>
+<hr />
+<p><strong>3.1 Core Security Skill Set</strong></p>
+<p><strong>3.1.1 Network Security Fundamentals: Packet Analysis, Network Protocols</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Network traffic is a goldmine of information. Understanding network protocols and being able to analyze packets allows you to identify suspicious communication patterns, data exfiltration attempts, and command-and-control (C2) traffic.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Network Protocols:</strong><ul>
+<li><strong>TCP/IP:</strong> The foundation of the internet. Understand the three-way handshake, connection establishment, and data transfer. Know the common TCP flags (SYN, ACK, FIN, RST, PSH, URG).</li>
+<li><strong>HTTP/HTTPS:</strong> The protocol for web browsing. Understand the request-response cycle, HTTP methods (GET, POST, PUT, DELETE), and common HTTP status codes. Learn how to identify suspicious user-agent strings.</li>
+<li><strong>DNS:</strong> The domain name system. Understand how DNS queries work, how to identify DNS tunneling, and how to spot malicious domain names.</li>
+<li><strong>SMTP/IMAP/POP3:</strong> Email protocols. Understand how email is sent and received, and how to identify phishing emails and malware attachments.</li>
+<li><strong>SMB/CIFS:</strong> File sharing protocols. Understand how file shares work, and how to identify lateral movement and data exfiltration.</li>
+</ul>
+</li>
+<li><strong>Packet Analysis with Wireshark:</strong><ul>
+<li><strong>Installation:</strong> Download and install Wireshark from <a href="https://www.wireshark.org/">https://www.wireshark.org/</a>.</li>
+<li><strong>Capturing Traffic:</strong> Learn how to capture traffic on different interfaces.  Use appropriate filters to narrow down your captures.</li>
+<li><strong>Filtering:</strong> Mastering Wireshark filters is KEY.<ul>
+<li><code>ip.addr == 192.168.1.100</code> (Filter by IP address)</li>
+<li><code>tcp.port == 80</code> (Filter by TCP port)</li>
+<li><code>http.request.method == "POST"</code> (Filter by HTTP POST requests)</li>
+<li><code>dns.flags.response == 1</code> (Filter for DNS responses)</li>
+<li><code>http.user_agent contains "malicious"</code> (Filter for malicious User-Agent strings)</li>
+</ul>
+</li>
+<li><strong>Following TCP Streams:</strong>  Reconstruct conversations between two hosts.  Right-click on a packet and select "Follow TCP Stream."</li>
+<li><strong>Analyzing Packets:</strong> Understand the structure of packets and the meaning of different fields.</li>
+</ul>
+</li>
+<li><strong>Practical Exercise:</strong>  Download a PCAP file from a malware traffic analysis website (e.g., <a href="https://www.malware-traffic-analysis.net/">https://www.malware-traffic-analysis.net/</a>). Use Wireshark to analyze the traffic and identify any suspicious activity. Look for unusual protocols, large data transfers, or connections to known malicious IP addresses.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example Wireshark Exercise:</strong></p>
+<ol>
+<li>Download a PCAP file from malware-traffic-analysis.net</li>
+<li>Open it in Wireshark.</li>
+<li>Filter for <code>http.request</code> to see HTTP requests. Look for suspicious URLs or User-Agent strings.</li>
+<li>Filter for <code>dns</code> and look for queries to unusual domain names.</li>
+<li>Filter for <code>tcp.stream eq 0</code> (or another stream number) after identifying a suspicious stream to follow the entire conversation.</li>
+</ol>
+</li>
+</ul>
+<p><strong>3.1.2 Endpoint Security: Understanding Endpoint Behavior, Process Monitoring</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Endpoints (laptops, desktops, servers) are often the target of attacks. Understanding how endpoints behave normally allows you to identify anomalies that could indicate malicious activity.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Process Monitoring:</strong><ul>
+<li><strong>Windows:</strong> Task Manager, Process Explorer (from Sysinternals Suite), PowerShell <code>Get-Process</code> cmdlet.</li>
+<li><strong>Linux:</strong> <code>top</code>, <code>ps</code>, <code>htop</code>.</li>
+<li><strong>Key Metrics:</strong> CPU usage, memory usage, network connections, parent process, command-line arguments.</li>
+<li><strong>Identifying Suspicious Processes:</strong> Look for processes with unusual names, processes running from temporary directories, processes with high CPU or memory usage, and processes making network connections to unknown IP addresses.</li>
+</ul>
+</li>
+<li><strong>File System Monitoring:</strong><ul>
+<li><strong>Windows:</strong>  Process Monitor (from Sysinternals Suite) to track file system changes.</li>
+<li><strong>Linux:</strong> <code>inotifywait</code> command-line tool.</li>
+<li><strong>Identifying Suspicious File Activity:</strong> Look for files being created in unusual locations, files being modified without user interaction, and files being deleted or renamed.</li>
+</ul>
+</li>
+<li><strong>Registry Monitoring (Windows):</strong><ul>
+<li><strong>Regedit:</strong>  The built-in registry editor.</li>
+<li><strong>Process Monitor:</strong> Can also track registry changes.</li>
+<li><strong>Identifying Suspicious Registry Activity:</strong> Look for registry keys being created or modified without user interaction, and registry keys associated with known malware.</li>
+</ul>
+</li>
+<li><strong>Practical Exercise:</strong><ul>
+<li><strong>Windows:</strong> Run Process Explorer and observe the processes running on your system. Identify the parent process of each process and examine the command-line arguments.  Look for anything unusual.</li>
+<li><strong>Linux:</strong> Use the <code>top</code> command to monitor CPU and memory usage. Use the <code>ps</code> command to list all running processes and examine their command-line arguments.  Look for anything unusual.</li>
+<li><strong>Sysmon (Windows):</strong> This tool is <em>essential</em> for detailed endpoint logging.  Configure it to log process creation, network connections, file creation, registry modifications, etc.  (See Module 5 for more on Sysmon).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Example PowerShell Script (Windows) to list processes and their network connections:</strong></p>
+<p>```powershell<br />
+Get-Process | ForEach-Object {<br />
+    $process = $<em><br />
+    $processName = $process.ProcessName<br />
+    $networkConnections = Get-NetTCPConnection | Where-Object {$</em>.OwningProcess -eq $process.Id}</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="ss">(</span>$<span class="nv">networkConnections</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">    </span><span class="nv">Write</span><span class="o">-</span><span class="nv">Host</span><span class="w"> </span><span class="s2">&quot;Process Name: $($processName)&quot;</span>
+<span class="w">    </span><span class="nv">foreach</span><span class="w"> </span><span class="ss">(</span><span class="mh">$c</span><span class="nv">onnection</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span>$<span class="nv">networkConnections</span><span class="ss">)</span><span class="w"> </span>{
+<span class="w">        </span><span class="nv">Write</span><span class="o">-</span><span class="nv">Host</span><span class="w"> </span><span class="s2">&quot;  Local Address: $($connection.LocalAddress):$($connection.LocalPort)&quot;</span>
+<span class="w">        </span><span class="nv">Write</span><span class="o">-</span><span class="nv">Host</span><span class="w"> </span><span class="s2">&quot;  Remote Address: $($connection.RemoteAddress):$($connection.RemotePort)&quot;</span>
+<span class="w">        </span><span class="nv">Write</span><span class="o">-</span><span class="nv">Host</span><span class="w"> </span><span class="s2">&quot;  State: $($connection.State)&quot;</span>
+<span class="w">    </span>}
+}
+</code></pre></div>
+
+<p>}<br />
+```</p>
+</li>
+<li>
+<p><strong>Example Linux Command to list processes and their network connections:</strong></p>
+<p><code>bash
+netstat -anp | grep &lt;process_name&gt;</code></p>
+</li>
+</ul>
+<p><strong>3.1.3 Malware Analysis Basics: Identifying Malicious Code, Reverse Engineering Basics</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Understanding how malware works allows you to develop effective defenses and identify infected systems.  You don't need to become a full-blown reverse engineer, but a basic understanding is vital.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Static Analysis:</strong><ul>
+<li><strong>File Hashing:</strong> Calculate the MD5, SHA1, and SHA256 hashes of a file.  Use VirusTotal or other online services to check if the file is known malware.</li>
+<li><strong>Strings Analysis:</strong> Extract the strings from a file.  Look for URLs, IP addresses, file paths, registry keys, and other indicators of compromise (IoCs).  Use the <code>strings</code> command on Linux or a strings tool on Windows.</li>
+<li><strong>File Type Identification:</strong> Determine the file type using tools like <code>file</code> (Linux) or TrIDNet (Windows).  Check for file extension mismatches (e.g., a file with a .txt extension that is actually an executable).</li>
+<li><strong>PE Header Analysis (Windows Executables):</strong>  Examine the PE header using tools like PEview or CFF Explorer.  Look for suspicious import functions (e.g., <code>CreateProcess</code>, <code>LoadLibrary</code>, <code>VirtualAlloc</code>) and unusual section names.</li>
+</ul>
+</li>
+<li><strong>Dynamic Analysis (Sandboxing):</strong><ul>
+<li><strong>Setting up a Sandboxed Environment:</strong> Use a virtual machine (VM) with a clean operating system. Disconnect the VM from the network to prevent the malware from spreading.</li>
+<li><strong>Running the Malware:</strong> Execute the malware in the sandboxed environment.</li>
+<li><strong>Monitoring System Activity:</strong> Use tools like Process Monitor (Windows) or <code>strace</code> (Linux) to monitor system activity.  Look for file system changes, registry modifications, network connections, and other indicators of compromise.</li>
+</ul>
+</li>
+<li><strong>Basic Reverse Engineering:</strong><ul>
+<li><strong>Disassemblers:</strong> Use a disassembler like IDA Pro or Ghidra to convert the malware's code into assembly language.</li>
+<li><strong>Analyzing Assembly Code:</strong> Identify the main function of the malware and trace its execution flow.  Look for suspicious API calls and other indicators of malicious behavior.</li>
+<li><strong>Decompilers:</strong> Use a decompiler to convert the assembly code back into a higher-level language (e.g., C).  This can make it easier to understand the malware's logic.</li>
+</ul>
+</li>
+<li><strong>Tools:</strong><ul>
+<li><strong>VirusTotal:</strong> Online malware analysis service.</li>
+<li><strong>Hybrid Analysis:</strong> Online malware analysis service.</li>
+<li><strong>Cuckoo Sandbox:</strong> Automated malware analysis system.</li>
+<li><strong>PEview/CFF Explorer:</strong> PE header analysis tools.</li>
+<li><strong>IDA Pro/Ghidra:</strong> Disassemblers.</li>
+<li><strong>x64dbg/OllyDbg:</strong> Debuggers.</li>
+<li><strong>Process Monitor:</strong> System activity monitoring tool.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Strings Analysis on Linux:</strong></p>
+<p><code>bash
+strings malware.exe | grep -E "http|www\.|.com|.exe|.dll|C:\\|HKEY_"</code></p>
+<p>This command extracts all strings from the <code>malware.exe</code> file and filters them for common indicators of compromise, such as URLs, domain names, file extensions, file paths, and registry keys.</p>
+</li>
+<li>
+<p><strong>Important Note:</strong>  Handle malware with extreme caution. Always analyze malware in a sandboxed environment to prevent infection of your own system.</p>
+</li>
+</ul>
+<p><strong>3.1.4 Log Analysis: Interpreting Security Logs from Various Sources</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Logs are a record of system activity. By analyzing logs, you can identify suspicious events, track user activity, and reconstruct attack sequences.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Common Log Sources:</strong><ul>
+<li><strong>Windows Event Logs:</strong> Record system events, security events, and application events.</li>
+<li><strong>Linux Syslog:</strong> A standard logging facility for Linux systems.</li>
+<li><strong>Web Server Logs (e.g., Apache, Nginx):</strong> Record HTTP requests and responses.</li>
+<li><strong>Firewall Logs:</strong> Record network traffic that passes through the firewall.</li>
+<li><strong>Intrusion Detection System (IDS) Logs:</strong> Record suspicious network activity.</li>
+<li><strong>Antivirus Logs:</strong> Record malware detections.</li>
+</ul>
+</li>
+<li><strong>Log Formats:</strong><ul>
+<li><strong>Plain Text:</strong> Simple text-based logs.</li>
+<li><strong>CSV (Comma-Separated Values):</strong> Data is organized into rows and columns.</li>
+<li><strong>JSON (JavaScript Object Notation):</strong> A human-readable data format.</li>
+<li><strong>Syslog:</strong> A standard log format for network devices and systems.</li>
+</ul>
+</li>
+<li><strong>Log Analysis Techniques:</strong><ul>
+<li><strong>Searching:</strong> Use search tools like <code>grep</code> (Linux) or <code>Findstr</code> (Windows) to find specific events in logs.</li>
+<li><strong>Filtering:</strong> Filter logs based on specific criteria, such as event ID, source IP address, or username.</li>
+<li><strong>Aggregation:</strong> Combine logs from multiple sources to gain a holistic view of system activity.</li>
+<li><strong>Correlation:</strong> Identify relationships between events from different log sources.</li>
+<li><strong>Visualization:</strong> Use charts and graphs to visualize log data and identify trends.</li>
+</ul>
+</li>
+<li><strong>Tools:</strong><ul>
+<li><strong>grep (Linux):</strong> A powerful command-line search tool.</li>
+<li><strong>Findstr (Windows):</strong> A command-line search tool.</li>
+<li><strong>PowerShell (Windows):</strong> A scripting language for automating tasks.</li>
+<li><strong>Splunk:</strong> A powerful log management and analysis platform.</li>
+<li><strong>ELK Stack (Elasticsearch, Logstash, Kibana):</strong> A popular open-source log management and analysis platform.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Analyzing Windows Event Logs with PowerShell:</strong></p>
+<p><code>powershell
+Get-WinEvent -LogName Security -MaxEvents 100 | Where-Object {$_.ID -eq 4624} | Format-List</code></p>
+<p>This command retrieves the 100 most recent events from the Security log, filters for events with ID 4624 (successful logon), and displays the results in a list format.</p>
+</li>
+<li>
+<p><strong>Example: Analyzing Apache Web Server Logs with grep (Linux):</strong></p>
+<p><code>bash
+grep "404" /var/log/apache2/access.log</code></p>
+<p>This command searches the Apache access log for lines containing "404" (not found errors), which could indicate web application scanning or directory traversal attempts.</p>
+</li>
+</ul>
+<hr />
+<p><strong>3.2 Visualization and Analysis</strong></p>
+<p><strong>3.2.1 Data Visualization Techniques: Using Graphs and Charts to Identify Anomalies</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Raw data can be overwhelming. Visualization helps you identify patterns, trends, and anomalies that would be difficult to spot in raw logs or tables.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Types of Charts and Graphs:</strong><ul>
+<li><strong>Line Charts:</strong>  Show trends over time.  Useful for visualizing network traffic, CPU usage, or login attempts.</li>
+<li><strong>Bar Charts:</strong> Compare values across different categories.  Useful for visualizing the frequency of different event types or the number of connections from different IP addresses.</li>
+<li><strong>Scatter Plots:</strong> Show the relationship between two variables.  Useful for identifying outliers or clusters of data points.</li>
+<li><strong>Histograms:</strong> Show the distribution of a single variable.  Useful for identifying unusual patterns in log data.</li>
+<li><strong>Pie Charts:</strong> Show the proportion of different categories.  Useful for visualizing the distribution of different types of network traffic or the percentage of users who have been infected with malware.</li>
+<li><strong>Geographic Maps:</strong> Visualize data based on location.  Useful for identifying the geographic origin of attacks.</li>
+</ul>
+</li>
+<li><strong>Tools:</strong><ul>
+<li><strong>Excel:</strong> A common spreadsheet program with basic charting capabilities.</li>
+<li><strong>Google Sheets:</strong> A free online spreadsheet program with charting capabilities.</li>
+<li><strong>Tableau:</strong> A powerful data visualization platform.</li>
+<li><strong>Power BI:</strong> A business intelligence platform from Microsoft.</li>
+<li><strong>Kibana:</strong> A data visualization tool for Elasticsearch.</li>
+<li><strong>Python Libraries (Matplotlib, Seaborn, Plotly):</strong> Powerful and flexible data visualization tools.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Creating a Bar Chart in Python with Matplotlib:</strong></p>
+<p>```python<br />
+import matplotlib.pyplot as plt</p>
+<p>event_types = ['Login Success', 'Login Failure', 'File Access', 'Network Connection']<br />
+event_counts = [1000, 200, 500, 300]</p>
+<p>plt.bar(event_types, event_counts)<br />
+plt.xlabel('Event Type')<br />
+plt.ylabel('Count')<br />
+plt.title('Event Counts')<br />
+plt.show()<br />
+```</p>
+</li>
+<li>
+<p><strong>Key Considerations:</strong></p>
+<ul>
+<li><strong>Choose the right chart type:</strong> The type of chart you use will depend on the type of data you are visualizing and the message you want to convey.</li>
+<li><strong>Keep it simple:</strong> Avoid using too many colors or labels.</li>
+<li><strong>Use clear and concise labels:</strong> Make sure your labels are easy to understand.</li>
+<li><strong>Tell a story:</strong> Use your visualizations to tell a story about the data.</li>
+</ul>
+</li>
+</ul>
+<p><strong>3.2.2 Analytical Thinking: Developing Hypotheses and Testing Them Against Data</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Threat hunting is an iterative process of developing hypotheses and testing them against data.  Analytical thinking is the key to formulating effective hypotheses and interpreting the results.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>The Scientific Method:</strong><ol>
+<li><strong>Observation:</strong> Observe something unusual or suspicious in your data.</li>
+<li><strong>Hypothesis:</strong> Formulate a hypothesis about the cause of the observation.</li>
+<li><strong>Prediction:</strong> Make a prediction based on your hypothesis.</li>
+<li><strong>Experiment:</strong> Design and conduct an experiment to test your prediction.</li>
+<li><strong>Analysis:</strong> Analyze the results of your experiment.</li>
+<li><strong>Conclusion:</strong> Draw a conclusion about whether your hypothesis is supported by the data.</li>
+</ol>
+</li>
+<li><strong>Example:</strong><ol>
+<li><strong>Observation:</strong> You notice a spike in network traffic to a specific IP address.</li>
+<li><strong>Hypothesis:</strong> The spike in network traffic is caused by malware communicating with a command-and-control server.</li>
+<li><strong>Prediction:</strong> If the hypothesis is true, you should be able to find evidence of malware on the system that is communicating with the IP address.</li>
+<li><strong>Experiment:</strong> Analyze the system that is communicating with the IP address. Look for suspicious processes, files, and registry entries.</li>
+<li><strong>Analysis:</strong> You find a suspicious process that is making network connections to the IP address. The process is running from a temporary directory and has a random name.</li>
+<li><strong>Conclusion:</strong> The data supports the hypothesis that the spike in network traffic is caused by malware communicating with a command-and-control server.</li>
+</ol>
+</li>
+<li><strong>Key Skills:</strong><ul>
+<li><strong>Critical Thinking:</strong>  Question assumptions and evaluate evidence.</li>
+<li><strong>Problem Solving:</strong>  Identify and solve problems effectively.</li>
+<li><strong>Attention to Detail:</strong>  Pay close attention to detail when analyzing data.</li>
+<li><strong>Communication:</strong>  Communicate your findings clearly and concisely.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>3.3 Scripting and Task Automation</strong></p>
+<p><strong>3.3.1 Python for Security: Automating Tasks, Parsing Data, Interacting with APIs</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Python is a versatile scripting language that can be used to automate many security tasks, such as log analysis, network scanning, and malware analysis.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Basic Python Syntax:</strong><ul>
+<li><strong>Variables:</strong> Store data in named containers.</li>
+<li><strong>Data Types:</strong> Integers, floats, strings, booleans, lists, dictionaries.</li>
+<li><strong>Operators:</strong> Arithmetic, comparison, logical.</li>
+<li><strong>Control Flow:</strong> <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code>.</li>
+<li><strong>Functions:</strong> Define reusable blocks of code.</li>
+<li><strong>Modules:</strong> Import pre-written code to extend functionality.</li>
+</ul>
+</li>
+<li><strong>Key Python Modules for Security:</strong><ul>
+<li><strong><code>os</code>:</strong> Interact with the operating system.</li>
+<li><strong><code>re</code>:</strong> Regular expressions for pattern matching.</li>
+<li><strong><code>socket</code>:</strong> Network programming.</li>
+<li><strong><code>requests</code>:</strong> Make HTTP requests.</li>
+<li><strong><code>json</code>:</strong> Parse JSON data.</li>
+<li><strong><code>csv</code>:</strong> Read and write CSV files.</li>
+<li><strong><code>datetime</code>:</strong> Work with dates and times.</li>
+<li><strong><code>hashlib</code>:</strong> Calculate file hashes.</li>
+<li><strong><code>scapy</code>:</strong> Packet manipulation and network sniffing.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Python Script to Calculate File Hashes:</strong></p>
+<p>```python<br />
+import hashlib</p>
+<p>def calculate_hash(filename, hash_type):<br />
+    hasher = hashlib.new(hash_type)<br />
+    with open(filename, 'rb') as f:<br />
+        while True:<br />
+            chunk = f.read(4096)<br />
+            if not chunk:<br />
+                break<br />
+            hasher.update(chunk)<br />
+    return hasher.hexdigest()</p>
+<p>filename = 'malware.exe'<br />
+md5_hash = calculate_hash(filename, 'md5')<br />
+sha256_hash = calculate_hash(filename, 'sha256')</p>
+<p>print(f'MD5 Hash: {md5_hash}')<br />
+print(f'SHA256 Hash: {sha256_hash}')<br />
+```<br />
+    *   <strong>Example: Python Script to Make an API Request to VirusTotal:</strong></p>
+<p>```python<br />
+import requests<br />
+import json</p>
+<p>def get_virus_total_report(api_key, file_hash):<br />
+    url = f'https://www.virustotal.com/vtapi/v2/file/report?apikey={api_key}&amp;resource={file_hash}'<br />
+    response = requests.get(url)<br />
+    if response.status_code == 200:<br />
+        return response.json()<br />
+    else:<br />
+        print(f'Error: {response.status_code}')<br />
+        return None</p>
+<p>api_key = 'YOUR_VIRUSTOTAL_API_KEY'  # Replace with your VirusTotal API key<br />
+file_hash = 'e90928894786c98f80e9b4f1716545d2'<br />
+report = get_virus_total_report(api_key, file_hash)</p>
+<p>if report:<br />
+    print(json.dumps(report, indent=4))<br />
+```</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3.3.2 Shell Scripting: Automating Command-Line Tasks</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Shell scripting allows you to automate repetitive command-line tasks, such as log analysis, file manipulation, and system administration.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Basic Shell Scripting Syntax (Bash):</strong><ul>
+<li><strong>Variables:</strong> Store data in named containers.</li>
+<li><strong>Operators:</strong> Arithmetic, comparison, logical.</li>
+<li><strong>Control Flow:</strong> <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code>.</li>
+<li><strong>Functions:</strong> Define reusable blocks of code.</li>
+<li><strong>Command Substitution:</strong> Execute commands and store the output in a variable.</li>
+<li><strong>Piping:</strong> Chain commands together using the <code>|</code> operator.</li>
+<li><strong>Redirection:</strong> Redirect input and output using the <code>&gt;</code>, <code>&lt;</code>, and <code>&gt;&gt;</code> operators.</li>
+</ul>
+</li>
+<li><strong>Common Shell Commands for Security:</strong><ul>
+<li><code>grep</code>: Search for patterns in files.</li>
+<li><code>sed</code>: Edit text files.</li>
+<li><code>awk</code>: Process data in columns.</li>
+<li><code>cut</code>: Extract columns from data.</li>
+<li><code>sort</code>: Sort data.</li>
+<li><code>uniq</code>: Remove duplicate lines.</li>
+<li><code>find</code>: Find files based on various criteria.</li>
+<li><code>xargs</code>: Execute commands with arguments from standard input.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Shell Script to Analyze Apache Web Server Logs for 404 Errors:</strong></p>
+<p>```bash</p>
+<h1 id="binbash">!/bin/bash</h1>
+<p>LOG_FILE="/var/log/apache2/access.log"<br />
+ERROR_COUNT=$(grep "404" "$LOG_FILE" | wc -l)</p>
+<p>echo "Number of 404 errors in $LOG_FILE: $ERROR_COUNT"<br />
+```<br />
+    *   <strong>Example: Shell Script to Find Large Files on a System:</strong></p>
+<p>```bash</p>
+<h1 id="binbash_1">!/bin/bash</h1>
+<p>find / -type f -size +100M -print0 | xargs -0 ls -lh | sort -k5 -n -r | head -n 10<br />
+```</p>
+<p>This script finds all files larger than 100MB, lists them in human-readable format, sorts them by size in descending order, and displays the top 10 largest files.</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>3.4 Understanding of Operating Systems: Windows and Linux Internals</strong></p>
+<ul>
+<li>
+<p><strong>Why it's important:</strong> Understanding how operating systems work allows you to identify vulnerabilities, understand malware behavior, and develop effective defenses.</p>
+</li>
+<li>
+<p><strong>Deep Dive:</strong></p>
+<ul>
+<li><strong>Windows Internals:</strong><ul>
+<li><strong>Architecture:</strong> Kernel mode vs. user mode, processes and threads, memory management, file system, registry.</li>
+<li><strong>Processes and Threads:</strong> Understanding process creation, process memory layout, and thread scheduling.</li>
+<li><strong>Memory Management:</strong> Understanding virtual memory, memory allocation, and memory protection.</li>
+<li><strong>File System:</strong> Understanding the NTFS file system and its structure.</li>
+<li><strong>Registry:</strong> Understanding the registry structure and how it is used to store system configuration information.</li>
+<li><strong>Security Features:</strong> User Account Control (UAC), Windows Defender, Windows Firewall.</li>
+</ul>
+</li>
+<li><strong>Linux Internals:</strong><ul>
+<li><strong>Architecture:</strong> Kernel, shell, file system, processes and threads, memory management.</li>
+<li><strong>Processes and Threads:</strong> Understanding process creation, process memory layout, and thread scheduling.</li>
+<li><strong>Memory Management:</strong> Understanding virtual memory, memory allocation, and memory protection.</li>
+<li><strong>File System:</strong> Understanding the ext4 file system and its structure.</li>
+<li><strong>Security Features:</strong> SELinux, AppArmor, iptables.</li>
+</ul>
+</li>
+<li><strong>Key Concepts:</strong><ul>
+<li><strong>System Calls:</strong> The interface between user-mode applications and the kernel.</li>
+<li><strong>Kernel Modules:</strong> Loadable code that extends the functionality of the kernel.</li>
+<li><strong>Device Drivers:</strong> Software that allows the operating system to communicate with hardware devices.</li>
+<li><strong>Boot Process:</strong> The sequence of events that occurs when the operating system starts up.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Resources:</strong></p>
+<ul>
+<li><strong>"Windows Internals" by Mark Russinovich and David Solomon:</strong> A comprehensive guide to Windows internals.</li>
+<li><strong>"Understanding the Linux Kernel" by Daniel P. Bovet and Marco Cesati:</strong> A comprehensive guide to Linux internals.</li>
+<li><strong>Online documentation for Windows and Linux:</strong> Microsoft Docs and the Linux man pages.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>Module 3 Project/Exercise:</strong></p>
+<ul>
+<li><strong>Log Analysis Challenge:</strong> Students will be given a set of security logs (e.g., web server logs, firewall logs) and asked to identify suspicious activity.</li>
+<li><strong>Scripting Exercise:</strong> Students will write a Python script to automate the analysis of a specific type of security log.</li>
+</ul>
+<p><strong>Capstone Project Contribution:</strong> Students will include a section on the essential skills for threat hunters, explaining why each skill is important.</p>
+<p>This detailed breakdown provides a comprehensive overview of Module 3. It's packed with information, examples, and exercises to help you develop the essential cybersecurity skills you need to become an effective threat hunter. Remember to practice these skills regularly to solidify your understanding. Good luck!</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here's a 10-slide presentation for Module 3, based on the provided content, formatted in Markdown with detailed narration scripts:</p>
+<hr />
+<p><strong>Slide 1</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Module 3: Essential Cyber Security Skills for Threat Hunters</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Module Objective: Identify and develop crucial technical skills.</li>
+<li>Core Security Skill Set: Network, Endpoint, Malware, Log Analysis</li>
+<li>Visualization &amp; Analysis: Spotting Anomalies</li>
+<li>Scripting &amp; Automation: Python &amp; Shell Scripting</li>
+<li>OS Understanding: Windows &amp; Linux Internals</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Welcome to Module 3: Essential Cyber Security Skills for Threat Hunters! This module is the cornerstone of your practical threat hunting journey. We'll focus on building a solid foundation of technical abilities. We'll cover core security skills like network and endpoint security, delve into malware analysis and log interpretation, and then explore visualization techniques for spotting anomalies. Finally, we'll touch on the power of scripting and automation with Python and Shell, and the importance of understanding operating system internals. This module is all about equipping you with the tools you need to succeed."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 2</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Network Security Fundamentals</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Importance: Network traffic provides valuable threat information.</li>
+<li>Key Protocols: TCP/IP, HTTP/HTTPS, DNS, SMTP, SMB</li>
+<li>Packet Analysis: Wireshark for capturing and analyzing traffic.</li>
+<li>Filtering: Master filters like <code>ip.addr</code>, <code>tcp.port</code>, <code>http.request</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "First, let's dive into Network Security Fundamentals. Why is this important? Because network traffic is a rich source of information about what's happening on your network. We'll explore key protocols like TCP/IP, the foundation of the internet; HTTP and HTTPS, used for web browsing; DNS, the domain name system; SMTP for email; and SMB for file sharing. Crucially, you'll learn how to use Wireshark, a powerful tool for capturing and analyzing network packets. Mastering Wireshark filters, such as <code>ip.addr</code> to filter by IP address or <code>http.request</code> to see HTTP requests, is absolutely essential for efficient network analysis."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 3</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Network Security - Wireshark in Action</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Following TCP Streams: Reconstruct conversations.</li>
+<li>Analyzing Packets: Understand packet structure and fields.</li>
+<li>Exercise: Download a PCAP file from malware-traffic-analysis.net</li>
+<li>Identify suspicious URLs, DNS queries, or unusual protocols.</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Continuing with Network Security, let's talk about putting Wireshark to work. A key skill is 'Following TCP Streams' – this allows you to reconstruct the entire conversation between two computers. You'll also learn to analyze individual packets, understanding the meaning of different fields within the packet structure. For hands-on practice, we'll download a PCAP file – a packet capture – from a site like malware-traffic-analysis.net. You'll then use Wireshark to identify suspicious URLs, DNS queries to unusual domain names, or any unusual protocols indicating potential malicious activity."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 4</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Endpoint Security</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Importance: Endpoints are often targeted.</li>
+<li>Process Monitoring: Task Manager (Windows), <code>top</code> (Linux)</li>
+<li>File System Monitoring: Process Monitor (Windows), <code>inotifywait</code> (Linux)</li>
+<li>Registry Monitoring (Windows): Regedit, Process Monitor</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Next up is Endpoint Security. Endpoints, such as laptops and servers, are frequent targets for attackers. To defend them, you need to understand normal endpoint behavior. This involves process monitoring – using tools like Task Manager on Windows or the <code>top</code> command on Linux to observe running processes. You'll also learn file system monitoring to detect unauthorized changes, and registry monitoring on Windows to identify malicious registry modifications. Understanding what's normal allows you to quickly identify what's abnormal and potentially malicious."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 5</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Endpoint Security - Practical Examples</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Identify processes with unusual names or high resource usage.</li>
+<li>Sysmon (Windows): Essential for detailed endpoint logging.</li>
+<li>PowerShell Script (Windows) to list processes and network connections.</li>
+<li>Linux Command: <code>netstat -anp | grep &lt;process_name&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Let's look at some practical examples of Endpoint Security. You'll learn to identify processes with unusual names, those running from temporary directories, or those consuming excessive resources. On Windows, we'll emphasize the importance of Sysmon – a crucial tool for detailed endpoint logging. We'll also use a PowerShell script to list processes and their associated network connections, providing valuable insights into endpoint activity. On Linux, we can use the <code>netstat</code> command to achieve a similar result, helping us identify suspicious network connections originating from specific processes."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 6</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Malware Analysis Basics</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Importance: Understand how malware works.</li>
+<li>Static Analysis: File Hashing, Strings Analysis, File Type Identification</li>
+<li>Dynamic Analysis (Sandboxing): Monitor system activity.</li>
+<li>Reverse Engineering: Disassemblers (IDA Pro, Ghidra)</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Now, let's move on to Malware Analysis Basics. Understanding how malware works is essential for developing effective defenses. We'll cover static analysis techniques, such as calculating file hashes to identify known malware, analyzing strings to find potential indicators of compromise, and identifying file types. We'll also explore dynamic analysis, which involves running malware in a sandboxed environment to observe its behavior. Finally, we'll touch on the basics of reverse engineering, using tools like IDA Pro or Ghidra to analyze the malware's code."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 7</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Malware Analysis - Strings Analysis Example</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Strings Analysis: <code>strings malware.exe | grep -E "http|www\.|.com|.exe|.dll|C:\\|HKEY_"</code></li>
+<li>Caution: Handle malware in a sandboxed environment ONLY.</li>
+<li>Tools: VirusTotal, Hybrid Analysis, Cuckoo Sandbox, PEview, IDA Pro</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Let's look at a specific example of strings analysis. On Linux, you can use the command <code>strings malware.exe | grep -E "http|www\.|.com|.exe|.dll|C:\\|HKEY_"</code> to extract strings from a file and filter for common indicators of compromise. This can quickly reveal suspicious URLs, file paths, or registry keys. However, I must emphasize: <em>always</em> handle malware in a sandboxed environment to prevent infection. We'll also introduce you to a range of tools, including VirusTotal and Hybrid Analysis for online analysis, Cuckoo Sandbox for automated analysis, PEview for examining Windows executables, and IDA Pro for advanced reverse engineering."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 8</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Core Security Skill Set: Log Analysis</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Importance: Logs record system activity.</li>
+<li>Common Log Sources: Windows Event Logs, Linux Syslog, Web Server Logs</li>
+<li>Log Formats: Plain Text, CSV, JSON, Syslog</li>
+<li>Log Analysis Techniques: Searching, Filtering, Aggregation, Correlation</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Our final core skill is Log Analysis. Logs provide a record of system activity, allowing you to identify suspicious events and reconstruct attack sequences. We'll explore common log sources like Windows Event Logs, Linux Syslog, and web server logs. You'll learn about different log formats, such as plain text, CSV, JSON, and Syslog. And you'll master key log analysis techniques, including searching for specific events, filtering logs based on criteria, aggregating logs from multiple sources, and correlating events to identify relationships between them."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 9</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Visualization &amp; Analytical Thinking</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Data Visualization: Charts and graphs to identify anomalies.</li>
+<li>Analytical Thinking: Develop hypotheses and test against data.</li>
+<li>The Scientific Method: Observation, Hypothesis, Prediction, Experiment, Analysis, Conclusion</li>
+<li>Skills: Critical Thinking, Problem Solving, Attention to Detail</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Moving beyond the core skills, we'll now focus on Visualization and Analytical Thinking. Data visualization is crucial for making sense of large datasets and identifying anomalies that might otherwise go unnoticed. We'll explore different types of charts and graphs and the tools used to create them. Equally important is analytical thinking – the ability to develop hypotheses about potential threats and test them against available data. We'll use the scientific method as a framework for this process, emphasizing the importance of critical thinking, problem-solving, and attention to detail."</p>
+</li>
+</ol>
+<hr />
+<p><strong>Slide 10</strong></p>
+<ol>
+<li>
+<p><strong>Slide Title:</strong> Scripting &amp; OS Understanding</p>
+</li>
+<li>
+<p><strong>Bullet Points:</strong></p>
+<ul>
+<li>Scripting: Automate tasks with Python &amp; Shell Scripting</li>
+<li>Python Modules: os, re, socket, requests, json, csv, datetime, hashlib, scapy</li>
+<li>Shell Scripting: Automate command-line tasks</li>
+<li>OS Understanding: Windows &amp; Linux Internals - Architecture, Processes, Memory, File System, Security</li>
+</ul>
+</li>
+<li>
+<p><strong>Narration Script:</strong> "Finally, we'll explore Scripting and Operating System Understanding. Scripting, using languages like Python and Shell, allows you to automate repetitive tasks and significantly increase your efficiency. We'll cover essential Python modules for security tasks, as well as common shell commands for automating command-line operations. Crucially, we'll emphasize the importance of understanding the internals of both Windows and Linux operating systems. This knowledge allows you to identify vulnerabilities, understand malware behavior, and develop more effective defenses. This module is all about building a strong foundation for your threat hunting journey! Good luck and have fun!"</p>
+</li>
+</ol>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:41.</p>
+    </footer>
+</body>
+</html>

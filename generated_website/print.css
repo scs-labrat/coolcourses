@@ -1,0 +1,84 @@
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 10pt !important;
+    max-width: 100% !important;
+    padding: 1in !important;
+    margin: 0 !important;
+  }
+  .navbar, .footer, .toc { display: none !important; } /* Hide elements not for print */
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: black !important;
+    border-bottom-color: #ccc !important;
+    page-break-after: avoid !important;
+    font-family: 'Inter', sans-serif !important; /* Ensure heading font is consistent */
+  }
+  a {
+    color: #0000EE !important; 
+    text-decoration: underline !important;
+    border-bottom: none !important;
+  }
+  a[href^="http"]:after, a[href^="https"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-weight: normal; /* Avoid bolding URLs */
+  }
+  a[href^="#"]:after { content: ""; } /* Don't show URL for fragment links */
+  
+  pre, code {
+    background: #f0f0f0 !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 9pt !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    page-break-inside: avoid !important;
+    box-shadow: none !important;
+  }
+  code { padding: 0.1em 0.2em !important; } /* Slightly smaller padding for inline code */
+
+  .callout, .sidebar, .note {
+    border: 1px solid #ccc !important;
+    background: #f9f9f9 !important;
+    color: black !important;
+    padding: 0.5em !important;
+    margin: 1em 0 !important;
+    page-break-inside: avoid !important;
+    box-shadow: none !important;
+  }
+  .callout.tip { border-left-color: #22c55e !important; }
+  .callout.alert { border-left-color: #ef4444 !important; }
+  .callout.info { border-left-color: #2a9d8f !important; }
+  .callout.warning { border-left-color: #f0b948 !important; }
+  
+  table, th, td {
+    border: 1px solid #ccc !important;
+    color: black !important;
+    page-break-inside: avoid !important;
+    font-size: 9pt !important;
+  }
+  th { background-color: #eee !important; font-weight: bold !important; }
+  tr:nth-child(even) { background-color: #f9f9f9 !important; }
+  
+  blockquote {
+    border-left-color: #ccc !important;
+    background: #f9f9f9 !important;
+    color: #333 !important;
+    font-style: italic !important;
+    padding: 0.5em 1em !important;
+  }
+  .footnote {
+    color: #444 !important;
+    font-size: 0.8em !important;
+    border-top-color: #ccc !important;
+    margin-top: 1.5em !important;
+    padding-top: 0.5em !important;
+  }
+  .footnote hr { display: none !important; }
+  article img { max-width: 100% !important; page-break-inside: avoid !important; }
+}

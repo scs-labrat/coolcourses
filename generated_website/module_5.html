@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs) | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="active">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</h1>
+<p>Okay, let's dive deep into <strong>Module 5: Threat Hunting Tools and Techniques (Part 2: Endpoint &amp; Logs)</strong>. This module is crucial because endpoints are often the first point of entry for attackers, and logs provide a treasure trove of information about their activities. We'll cover how to effectively use tools and techniques to hunt for threats on endpoints and within logs.  I'll try to break it down in a way that's both comprehensive and easy to follow.</p>
+<p><strong>Module 5: Threat Hunting Tools and Techniques (Part 2: Endpoint &amp; Logs)</strong></p>
+<p><strong>Module Objective:</strong> Learn to leverage endpoint-based tools and techniques for detecting malicious activity.</p>
+<p><strong>Subtopics:</strong></p>
+<ol>
+<li><strong>Endpoint Detection and Response (EDR) Solutions:</strong><ul>
+<li>Overview of EDR capabilities.</li>
+<li>Using EDR tools for threat hunting.</li>
+</ul>
+</li>
+<li><strong>Sysmon:</strong><ul>
+<li>Configuring Sysmon for detailed logging.</li>
+<li>Analyzing Sysmon logs for suspicious activity.</li>
+</ul>
+</li>
+<li><strong>Windows Event Logs:</strong><ul>
+<li>Understanding Windows Event Log structure.</li>
+<li>Using PowerShell for Event Log analysis.</li>
+</ul>
+</li>
+<li><strong>Linux Audit Logs:</strong><ul>
+<li>Configuring auditd.</li>
+<li>Analyzing audit logs for suspicious activity.</li>
+</ul>
+</li>
+<li><strong>SIEM (Security Information and Event Management) Systems:</strong><ul>
+<li>Overview of SIEM architecture.</li>
+<li>Using SIEM for threat hunting.</li>
+</ul>
+</li>
+<li><strong>Practical Exercises:</strong><ul>
+<li>Analyzing Sysmon logs to detect malware execution.</li>
+<li>Using PowerShell to query Windows Event Logs.</li>
+</ul>
+</li>
+</ol>
+<p><strong>1. Endpoint Detection and Response (EDR) Solutions</strong></p>
+<ul>
+<li>
+<p><strong>Overview of EDR Capabilities:</strong></p>
+<ul>
+<li><strong>What is EDR?</strong>  EDR solutions are advanced security tools designed to detect and respond to threats on endpoints. They go beyond traditional antivirus by providing real-time monitoring, behavioral analysis, and automated response capabilities.</li>
+<li><strong>Key Features:</strong><ul>
+<li><strong>Real-time Monitoring:</strong> Continuously monitors endpoint activity (processes, network connections, file changes, registry modifications).</li>
+<li><strong>Behavioral Analysis:</strong>  Identifies suspicious behavior based on predefined rules and machine learning algorithms.  This helps detect anomalies that traditional signature-based AV might miss.</li>
+<li><strong>Threat Intelligence Integration:</strong> Correlates endpoint activity with known threat intelligence to identify potential threats.</li>
+<li><strong>Automated Response:</strong>  Automatically isolates infected endpoints, terminates malicious processes, and removes malicious files.</li>
+<li><strong>Forensic Analysis:</strong>  Provides tools for investigating security incidents and understanding the root cause of attacks.</li>
+<li><strong>Endpoint Isolation:</strong> Ability to quickly isolate a compromised endpoint from the network to prevent further spread.</li>
+</ul>
+</li>
+<li><strong>Popular EDR Solutions:</strong> CrowdStrike Falcon, SentinelOne, Carbon Black, Microsoft Defender for Endpoint.  (Note: Access to a full EDR solution requires licensing. We'll focus on techniques applicable even without a full EDR deployment.)</li>
+</ul>
+</li>
+<li>
+<p><strong>Using EDR Tools for Threat Hunting:</strong></p>
+<ul>
+<li><strong>Searching for Indicators of Compromise (IoCs):</strong>  EDR tools allow you to search for specific IoCs (IP addresses, domain names, file hashes, registry keys) across all endpoints.</li>
+<li><strong>Behavioral Hunting:</strong>  Identify suspicious behavior by searching for specific events or sequences of events.  For example, you might look for processes that are creating child processes with suspicious names or network connections.</li>
+<li><strong>Threat Intelligence Integration:</strong>  Leverage the EDR's threat intelligence feeds to identify potential threats that are targeting your organization.</li>
+<li><strong>Example Scenarios:</strong><ul>
+<li><strong>Hunting for Lateral Movement:</strong> Look for processes that are accessing network shares or attempting to authenticate to other systems.</li>
+<li><strong>Hunting for Malware Execution:</strong>  Look for processes that are creating or modifying files in suspicious locations (e.g., the Startup folder) or that are injecting code into other processes.</li>
+<li><strong>Hunting for Command and Control (C2) Activity:</strong>  Look for processes that are communicating with known C2 servers.</li>
+</ul>
+</li>
+<li><strong>Limitations:</strong>  EDR solutions can be expensive and require significant expertise to configure and manage. They also rely on accurate threat intelligence and behavioral analysis rules.</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Sysmon</strong></p>
+<ul>
+<li>
+<p><strong>Configuring Sysmon for Detailed Logging:</strong></p>
+<ul>
+<li><strong>What is Sysmon?</strong> Sysmon (System Monitor) is a free Windows system service that logs detailed information about system activity to the Windows Event Log.  It's a powerful tool for threat hunting and incident response.</li>
+<li><strong>Download and Installation:</strong> Download Sysmon from the Microsoft Sysinternals website (<a href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon">https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon</a>).</li>
+<li><strong>Configuration File:</strong> Sysmon is configured using an XML configuration file.  This file specifies which events to log and how to filter them.</li>
+<li><strong>Sample Configuration File (sysmonconfig.xml):</strong>  This is a basic example.  You'll need to customize it for your specific needs.</li>
+</ul>
+<p><code>xml
+&lt;Sysmon schemaversion="4.82"&gt;
+  &lt;EventFiltering&gt;
+    &lt;RuleGroup name="" groupRelation="or"&gt;
+      &lt;ProcessCreate onmatch="include"&gt;
+        &lt;Image condition="end with"&gt;powershell.exe&lt;/Image&gt;
+      &lt;/ProcessCreate&gt;
+      &lt;FileCreateTime onmatch="include"&gt;
+        &lt;Image condition="end with"&gt;powershell.exe&lt;/Image&gt;
+      &lt;/FileCreateTime&gt;
+      &lt;NetworkConnect onmatch="include"&gt;
+        &lt;Image condition="end with"&gt;powershell.exe&lt;/Image&gt;
+        &lt;SourcePort condition="is"&gt;443&lt;/SourcePort&gt;
+      &lt;/NetworkConnect&gt;
+    &lt;/RuleGroup&gt;
+  &lt;/EventFiltering&gt;
+&lt;/Sysmon&gt;</code></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>schemaversion</code>: Specifies the Sysmon schema version.</li>
+<li><code>EventFiltering</code>:  Defines the rules for filtering events.</li>
+<li><code>RuleGroup</code>:  Groups related rules together.  <code>groupRelation="or"</code> means that any rule in the group can trigger a match.</li>
+<li><code>ProcessCreate</code>:  Logs when a new process is created.</li>
+<li><code>FileCreateTime</code>: Logs when a file create time is changed. This can be useful for detecting malware that's trying to hide its presence.</li>
+<li><code>NetworkConnect</code>:  Logs when a process makes a network connection.</li>
+<li><code>Image</code>:  Specifies the process image name.  <code>condition="end with"</code> means that the rule will match if the image name ends with the specified value.</li>
+<li><code>SourcePort</code>: Specifies the source port of the network connection.</li>
+</ul>
+</li>
+<li>
+<p><strong>Installing Sysmon with the Configuration File:</strong></p>
+</li>
+</ul>
+<p><code>powershell
+Sysmon64.exe -i sysmonconfig.xml -accepteula</code></p>
+<ul>
+<li><strong>Key Event Types to Log:</strong><ul>
+<li><strong>Event ID 1 (Process Create):</strong>  Logs when a new process is created.  This is essential for tracking process execution and identifying suspicious processes.</li>
+<li><strong>Event ID 3 (Network Connection):</strong>  Logs when a process makes a network connection.  This is essential for tracking network communication and identifying C2 activity.</li>
+<li><strong>Event ID 5 (Process Terminate):</strong> Logs when a process terminates.  Useful for correlating process creation and termination events.</li>
+<li><strong>Event ID 7 (Image Load):</strong> Logs when a driver or DLL is loaded. Useful for detecting malware that is injecting code into other processes.</li>
+<li><strong>Event ID 8 (CreateRemoteThread):</strong> Logs when a process creates a thread in another process.  This is often used by malware for code injection.</li>
+<li><strong>Event ID 9 (RawAccessRead):</strong> Logs when a process reads directly from the drive. Useful for detecting data exfiltration.</li>
+<li><strong>Event ID 10 (ProcessAccess):</strong> Logs when a process access another process.</li>
+<li><strong>Event ID 11 (FileCreate):</strong> Logs when a file is created.</li>
+<li><strong>Event ID 12, 13, 14 (Registry Events):</strong> Logs registry modifications.  Useful for detecting malware that is modifying registry keys to achieve persistence.</li>
+<li><strong>Event ID 15 (FileCreateStreamHash):</strong> Logs the hash of files created.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing Sysmon Logs for Suspicious Activity:</strong></p>
+<ul>
+<li><strong>Location of Sysmon Logs:</strong>  Sysmon logs are stored in the Windows Event Log under <code>Applications and Services Logs\Microsoft\Windows\Sysmon\Operational</code>.</li>
+<li><strong>Tools for Analyzing Sysmon Logs:</strong><ul>
+<li><strong>Event Viewer:</strong>  The built-in Windows Event Viewer can be used to view and filter Sysmon logs.</li>
+<li><strong>PowerShell:</strong>  PowerShell can be used to query and analyze Sysmon logs.</li>
+<li><strong>SIEM Systems:</strong>  Sysmon logs can be forwarded to a SIEM system for centralized analysis.</li>
+<li><strong>Elasticsearch/Kibana:</strong>  Sysmon logs can be ingested into Elasticsearch and visualized using Kibana.</li>
+</ul>
+</li>
+<li><strong>Example Threat Hunting Scenarios:</strong><ul>
+<li><strong>Detecting PowerShell Obfuscation:</strong>  Look for PowerShell processes that are executing commands with unusual characters or that are using the <code>-EncodedCommand</code> parameter.</li>
+<li><strong>Detecting Process Injection:</strong>  Look for processes that are creating remote threads in other processes.</li>
+<li><strong>Detecting Lateral Movement:</strong>  Look for processes that are accessing network shares or attempting to authenticate to other systems.</li>
+<li><strong>Detecting Malware Persistence:</strong>  Look for processes that are creating or modifying registry keys in the <code>Run</code> or <code>RunOnce</code> keys.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. Windows Event Logs</strong></p>
+<ul>
+<li>
+<p><strong>Understanding Windows Event Log Structure:</strong></p>
+<ul>
+<li><strong>What are Windows Event Logs?</strong> Windows Event Logs are a record of system events, including application errors, security events, and system events. They are a valuable source of information for troubleshooting, auditing, and security monitoring.</li>
+<li><strong>Key Event Logs:</strong><ul>
+<li><strong>Application:</strong>  Logs events related to applications.</li>
+<li><strong>Security:</strong>  Logs security-related events, such as logon attempts, account management events, and object access events.  This is the <em>most</em> relevant log for threat hunting.</li>
+<li><strong>System:</strong>  Logs events related to the operating system.</li>
+</ul>
+</li>
+<li><strong>Event Log Structure:</strong> Each event log entry contains the following information:<ul>
+<li><strong>Event ID:</strong>  A unique identifier for the event.</li>
+<li><strong>Source:</strong>  The component that generated the event.</li>
+<li><strong>Time Generated:</strong>  The date and time when the event occurred.</li>
+<li><strong>User:</strong>  The user account that was associated with the event.</li>
+<li><strong>Computer:</strong>  The computer on which the event occurred.</li>
+<li><strong>Description:</strong>  A detailed description of the event.</li>
+<li><strong>EventData:</strong>  Structured data associated with the event (e.g., user account names, file paths, IP addresses).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Using PowerShell for Event Log Analysis:</strong></p>
+<ul>
+<li>
+<p><strong><code>Get-WinEvent</code> Cmdlet:</strong>  The <code>Get-WinEvent</code> cmdlet is used to query Windows Event Logs.</p>
+</li>
+<li>
+<p><strong>Example: Get Security Events:</strong></p>
+</li>
+</ul>
+<p><code>powershell
+Get-WinEvent -LogName Security -MaxEvents 10</code></p>
+<ul>
+<li><strong>Example: Filter by Event ID:</strong></li>
+</ul>
+<p><code>powershell
+Get-WinEvent -LogName Security -FilterXPath "//Event[System[EventID=4624]]" -MaxEvents 10</code></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>-LogName</code>: Specifies the name of the event log to query.</li>
+<li><code>-FilterXPath</code>: Specifies an XPath query to filter the events.</li>
+<li><code>//Event[System[EventID=4624]]</code>:  An XPath query that selects all events with Event ID 4624 (an account successfully logged on).</li>
+<li><code>-MaxEvents</code>: Specifies the maximum number of events to retrieve.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example: Extract Specific Data:</strong></p>
+</li>
+</ul>
+<p><code>powershell
+Get-WinEvent -LogName Security -FilterXPath "//Event[System[EventID=4624]]" -MaxEvents 10 | ForEach-Object {
+    [PSCustomObject]@{
+        TimeCreated = $_.TimeCreated
+        AccountName = $_.Properties[5].Value
+        SourceNetworkAddress = $_.Properties[8].Value
+    }
+}</code></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>ForEach-Object</code>: Iterates over each event.</li>
+<li><code>[PSCustomObject]</code>:  Creates a custom object with the specified properties.</li>
+<li><code>$_.TimeCreated</code>:  Gets the time the event was created.</li>
+<li><code>$_.Properties[5].Value</code>:  Gets the value of the 6th property (Account Name).  <strong>Important:</strong> The property index may vary depending on the Event ID.  Inspect the raw event data to determine the correct index.</li>
+<li><code>$_.Properties[8].Value</code>: Gets the value of the 9th property (Source Network Address).</li>
+</ul>
+</li>
+<li>
+<p><strong>Common Event IDs for Threat Hunting:</strong></p>
+<ul>
+<li><strong>4624:</strong>  An account was successfully logged on. (Success Audit)</li>
+<li><strong>4625:</strong>  An account failed to log on. (Failure Audit)  Monitor for repeated failed logon attempts, which could indicate a brute-force attack.</li>
+<li><strong>4672:</strong>  Special privileges assigned to new logon. (Success Audit)</li>
+<li><strong>4688:</strong>  A new process has been created. (Success Audit)  (Similar to Sysmon's Event ID 1, but less detailed).</li>
+<li><strong>4776:</strong>  The domain controller attempted to validate the credentials for an account. (Success Audit) (Kerberos authentication).</li>
+<li><strong>4769:</strong>  A Kerberos service ticket was requested. (Success Audit)</li>
+</ul>
+</li>
+<li>
+<p><strong>Example Threat Hunting Scenarios:</strong></p>
+<ul>
+<li><strong>Detecting Brute-Force Attacks:</strong>  Look for a large number of failed logon attempts (Event ID 4625) from the same source IP address.</li>
+<li><strong>Detecting Lateral Movement:</strong>  Look for successful logon events (Event ID 4624) where the logon type is "Network" (LogonType = 3) and the source IP address is different from the user's usual IP address.</li>
+<li><strong>Detecting Account Impersonation:</strong>  Look for successful logon events (Event ID 4624) where the "Logon ID" is the same as a previous failed logon event (Event ID 4625).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. Linux Audit Logs</strong></p>
+<ul>
+<li>
+<p><strong>Configuring <code>auditd</code>:</strong></p>
+<ul>
+<li><strong>What is <code>auditd</code>?</strong>  <code>auditd</code> (Audit Daemon) is a Linux subsystem that logs system calls and other security-related events.  It's the primary source of audit information on Linux systems.</li>
+<li><strong>Installation:</strong>  <code>auditd</code> is usually installed by default on most Linux distributions. If not, install it using your distribution's package manager (e.g., <code>apt-get install auditd</code> on Debian/Ubuntu, <code>yum install auditd</code> on CentOS/RHEL).</li>
+<li><strong>Configuration File:</strong> The main configuration file for <code>auditd</code> is <code>/etc/audit/auditd.conf</code>.</li>
+<li><strong>Audit Rules:</strong>  Audit rules are defined in <code>/etc/audit/rules.d/audit.rules</code> (or similar location, depending on the distribution).  These rules specify which events to log and how to filter them.</li>
+<li><strong>Basic Audit Rule Syntax:</strong></li>
+</ul>
+<p><code>-w &lt;path&gt; -p &lt;permissions&gt; -k &lt;key&gt;</code></p>
+<ul>
+<li><code>-w &lt;path&gt;</code>:  Specifies the path to the file or directory to monitor.</li>
+<li><code>-p &lt;permissions&gt;</code>:  Specifies the permissions to monitor (e.g., <code>r</code> for read, <code>w</code> for write, <code>x</code> for execute, <code>a</code> for attribute changes).</li>
+<li>
+<p><code>-k &lt;key&gt;</code>:  Specifies a keyword to associate with the rule.  This makes it easier to filter audit logs.</p>
+</li>
+<li>
+<p><strong>Example: Monitor <code>/etc/passwd</code> for Write Access:</strong></p>
+</li>
+</ul>
+<p><code>-w /etc/passwd -p wa -k passwd_changes</code></p>
+<ul>
+<li><strong>Example: Monitor Executions of <code>ssh</code>:</strong></li>
+</ul>
+<p><code>-a always,exit -F arch=b64 -S execve -F path=/usr/bin/ssh -k ssh_exec</code></p>
+<ul>
+<li>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>-a always,exit</code>:  Log the event on every execution and on exit.</li>
+<li><code>-F arch=b64</code>:  Specifies the architecture (64-bit).</li>
+<li><code>-S execve</code>:  Specifies the system call (execve is used to execute programs).</li>
+<li><code>-F path=/usr/bin/ssh</code>:  Specifies the path to the executable.</li>
+<li><code>-k ssh_exec</code>:  Specifies the keyword.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reloading Audit Rules:</strong> After modifying the audit rules, reload them using the following command:</p>
+</li>
+</ul>
+<p><code>auditctl -R /etc/audit/rules.d/audit.rules</code></p>
+</li>
+<li>
+<p><strong>Analyzing Audit Logs for Suspicious Activity:</strong></p>
+<ul>
+<li><strong>Location of Audit Logs:</strong>  Audit logs are typically stored in <code>/var/log/audit/audit.log</code>.</li>
+<li><strong><code>ausearch</code> Utility:</strong> The <code>ausearch</code> utility is used to query and analyze audit logs.</li>
+<li><strong>Example: Search for Events with a Specific Keyword:</strong></li>
+</ul>
+<p><code>ausearch -k passwd_changes</code></p>
+<ul>
+<li><strong>Example: Search for Failed Login Attempts:</strong></li>
+</ul>
+<p><code>ausearch -m auid!=4294967295 -m user_login,user_auth,user_acct -sc auth</code></p>
+<ul>
+<li><strong>Example: Search for Executions of <code>ssh</code>:</strong></li>
+</ul>
+<p><code>ausearch -k ssh_exec</code></p>
+<ul>
+<li>
+<p><strong>Example Threat Hunting Scenarios:</strong></p>
+<ul>
+<li><strong>Detecting Unauthorized File Modifications:</strong>  Look for events that indicate that a critical system file (e.g., <code>/etc/passwd</code>, <code>/etc/shadow</code>) has been modified.</li>
+<li><strong>Detecting Suspicious Process Executions:</strong>  Look for events that indicate that a suspicious process has been executed (e.g., a process that is not normally run by a particular user).</li>
+<li><strong>Detecting Privilege Escalation Attempts:</strong>  Look for events that indicate that a user has attempted to use the <code>sudo</code> command or has changed their user ID.</li>
+<li><strong>Detecting SSH Brute-Force Attacks:</strong>  Analyze the logs for failed SSH login attempts.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>5. SIEM (Security Information and Event Management) Systems</strong></p>
+<ul>
+<li>
+<p><strong>Overview of SIEM Architecture:</strong></p>
+<ul>
+<li><strong>What is a SIEM?</strong>  A SIEM system is a centralized platform for collecting, analyzing, and managing security logs and events from various sources across an organization.  It provides real-time threat detection, incident response, and compliance reporting.</li>
+<li><strong>Key Components:</strong><ul>
+<li><strong>Log Collection:</strong>  Collects logs from various sources (e.g., firewalls, intrusion detection systems, servers, endpoints).</li>
+<li><strong>Log Parsing and Normalization:</strong>  Parses logs and normalizes the data into a consistent format.</li>
+<li><strong>Correlation Engine:</strong>  Analyzes logs and events to identify potential threats.</li>
+<li><strong>Alerting:</strong>  Generates alerts when suspicious activity is detected.</li>
+<li><strong>Incident Management:</strong>  Provides tools for managing security incidents.</li>
+<li><strong>Reporting:</strong>  Generates reports for compliance and security monitoring.</li>
+</ul>
+</li>
+<li><strong>Popular SIEM Solutions:</strong> Splunk, QRadar, ArcSight, Microsoft Sentinel, Sumo Logic.</li>
+</ul>
+</li>
+<li>
+<p><strong>Using SIEM for Threat Hunting:</strong></p>
+<ul>
+<li><strong>Centralized Log Management:</strong>  SIEM systems provide a centralized repository for all security logs, making it easier to search for and analyze data.</li>
+<li><strong>Correlation Rules:</strong>  SIEM systems allow you to create correlation rules that identify suspicious activity based on patterns of events.</li>
+<li><strong>Threat Intelligence Integration:</strong>  SIEM systems integrate with threat intelligence feeds to identify potential threats that are targeting your organization.</li>
+<li><strong>Behavioral Analysis:</strong>  Some SIEM systems provide behavioral analysis capabilities that can identify anomalies in user and system behavior.</li>
+<li><strong>Example Threat Hunting Scenarios:</strong><ul>
+<li><strong>Detecting Lateral Movement:</strong>  Look for users who are logging in to multiple systems in a short period of time.</li>
+<li><strong>Detecting Data Exfiltration:</strong>  Look for large amounts of data being transferred to external IP addresses.</li>
+<li><strong>Detecting Malware Infections:</strong>  Look for processes that are communicating with known C2 servers.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>6. Practical Exercises</strong></p>
+<ul>
+<li>
+<p><strong>Analyzing Sysmon Logs to Detect Malware Execution:</strong></p>
+<ul>
+<li><strong>Scenario:</strong> A user has reported that their computer is behaving strangely. You suspect that it may be infected with malware.</li>
+<li><strong>Steps:</strong><ol>
+<li><strong>Examine Sysmon Event ID 1 (Process Create):</strong>  Look for processes that are being created from unusual locations (e.g., the Temp folder) or that have suspicious names.</li>
+<li><strong>Examine Sysmon Event ID 7 (Image Load):</strong> Look for processes loading DLLs from unusual locations.</li>
+<li><strong>Examine Sysmon Event ID 3 (Network Connection):</strong>  Look for processes that are making network connections to suspicious IP addresses or domain names.</li>
+<li><strong>Correlate Events:</strong>  Correlate events to identify patterns of activity that may indicate malware execution. For example, look for a process that is created from the Temp folder, loads a DLL from a suspicious location, and then makes a network connection to a known C2 server.</li>
+<li><strong>Investigate:</strong> If you find suspicious activity, investigate the process further to determine if it is malicious. You can use tools like VirusTotal to check the file hash of the process.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Using PowerShell to Query Windows Event Logs:</strong></p>
+<ul>
+<li><strong>Scenario:</strong> You want to identify all users who have logged in to a specific computer in the last 24 hours.</li>
+<li>
+<p><strong>Steps:</strong></p>
+<p><code>powershell
+$StartTime = (Get-Date).AddDays(-1)
+Get-WinEvent -LogName Security -FilterXPath "//Event[System[EventID=4624 and TimeCreated &gt;= '$($StartTime.ToString('yyyy-MM-ddTHH:mm:ss'))']]" | ForEach-Object {
+    [PSCustomObject]@{
+        TimeCreated = $_.TimeCreated
+        AccountName = $_.Properties[5].Value
+    }
+}</code></p>
+</li>
+<li>
+<p><strong>Explanation:</strong></p>
+<ol>
+<li><code>$StartTime = (Get-Date).AddDays(-1)</code>:  Calculates the start time (24 hours ago).</li>
+<li><code>Get-WinEvent -LogName Security -FilterXPath "//Event[System[EventID=4624 and TimeCreated &gt;= '$($StartTime.ToString('yyyy-MM-ddTHH:mm:ss'))']]"</code>:  Queries the Security event log for successful logon events (Event ID 4624) that occurred within the last 24 hours.  The <code>TimeCreated</code> comparison in the XPath query is crucial for filtering by time.</li>
+<li><code>ForEach-Object { ... }</code>: Iterates through the results and creates a custom object for each event, displaying the TimeCreated and AccountName.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Key Takeaways for Module 5:</strong></p>
+<ul>
+<li>Endpoints and logs are crucial sources of information for threat hunting.</li>
+<li>EDR solutions provide advanced capabilities for detecting and responding to threats on endpoints.</li>
+<li>Sysmon is a powerful tool for logging detailed system activity on Windows systems.</li>
+<li>Windows Event Logs and Linux Audit Logs provide a wealth of information about system events.</li>
+<li>SIEM systems provide a centralized platform for collecting, analyzing, and managing security logs and events.</li>
+<li>PowerShell and <code>ausearch</code> are valuable tools for querying and analyzing event logs.</li>
+<li>Understanding common threat hunting scenarios and techniques is essential for effective threat hunting.</li>
+</ul>
+<p>This detailed breakdown should give you a solid understanding of Module 5. Remember to practice these techniques in a lab environment to gain hands-on experience. Good luck, and happy hunting! Let me know if you want more details on any of these topics.</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here's a 10-slide presentation for Module 5, covering the content you provided. Each slide includes a title, bullet points summarizing the key content, and a detailed narration script.</p>
+<hr />
+<p><strong>Slide 1: Module 5: Endpoint &amp; Log Threat Hunting - Introduction</strong></p>
+<ul>
+<li>Endpoints (desktops, servers) are prime targets for attackers.</li>
+<li>Logs contain valuable evidence of malicious activity.</li>
+<li>This module covers tools and techniques for proactive threat hunting on endpoints and within logs.</li>
+<li>We will explore EDR, Sysmon, Windows Event Logs, Linux Audit Logs, and SIEMs.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"Welcome to Module 5: Endpoint and Log Threat Hunting! In this module, we'll be focusing on two critical areas for identifying malicious activity: endpoints and logs. Endpoints, like desktops and servers, are often the first point of entry for attackers, making them a prime target. Logs, on the other hand, provide a treasure trove of information about what's happening on our systems. We'll cover a range of tools and techniques to proactively hunt for threats in these environments, including Endpoint Detection and Response solutions, Sysmon, Windows Event Logs, Linux Audit Logs, and Security Information and Event Management systems."</p>
+<hr />
+<p><strong>Slide 2: EDR Solutions: Advanced Endpoint Visibility</strong></p>
+<ul>
+<li><strong>EDR (Endpoint Detection and Response):</strong> Real-time monitoring, behavioral analysis, and automated response on endpoints.</li>
+<li>Key features: Real-time monitoring, Behavioral analysis, Threat intelligence integration, Automated response, Forensic analysis, Endpoint isolation.</li>
+<li>Examples: CrowdStrike Falcon, SentinelOne, Carbon Black, Microsoft Defender for Endpoint.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"Let's start with Endpoint Detection and Response, or EDR, solutions. These are advanced security tools that go beyond traditional antivirus by providing real-time monitoring, behavioral analysis, and automated response capabilities on endpoints. Key features include continuous monitoring of endpoint activity, behavioral analysis to identify suspicious patterns, threat intelligence integration to correlate activity with known threats, automated response to contain and remediate incidents, forensic analysis for investigation, and endpoint isolation to prevent further spread. Some popular EDR solutions include CrowdStrike Falcon, SentinelOne, Carbon Black, and Microsoft Defender for Endpoint. Remember though, that we'll focus on techniques that can be applied even without a full EDR deployment."</p>
+<hr />
+<p><strong>Slide 3: EDR for Threat Hunting: Proactive Investigation</strong></p>
+<ul>
+<li>Search for Indicators of Compromise (IoCs) across endpoints.</li>
+<li>Identify suspicious behavior patterns (behavioral hunting).</li>
+<li>Leverage threat intelligence feeds within the EDR.</li>
+<li>Example scenarios: Lateral movement, malware execution, command and control (C2) activity.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"EDR tools are invaluable for proactive threat hunting. You can use them to search for specific Indicators of Compromise, or IoCs, like IP addresses, domain names, and file hashes across all your endpoints. They also allow you to identify suspicious behavior patterns, a process called behavioral hunting. By leveraging the EDR's integrated threat intelligence feeds, you can identify potential threats targeting your organization.  Common threat hunting scenarios include looking for lateral movement, malware execution, and command and control activity."</p>
+<hr />
+<p><strong>Slide 4: Sysmon: Detailed Windows System Monitoring</strong></p>
+<ul>
+<li><strong>Sysmon (System Monitor):</strong> Free Windows system service logging detailed activity to the Event Log.</li>
+<li>Configured with an XML configuration file (sysmonconfig.xml).</li>
+<li>Key Event Types: Process Create, Network Connection, Image Load, File Create, Registry Events.</li>
+<li>Download: <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon">https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon</a></li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"Next, let's discuss Sysmon, a free and powerful Windows system service that logs detailed information about system activity to the Windows Event Log. Sysmon is configured using an XML configuration file, which allows you to specify which events to log and how to filter them. Key event types to monitor include Process Create, Network Connection, Image Load, File Create, and Registry Events. You can download Sysmon from the Microsoft Sysinternals website at the link shown on the slide."</p>
+<hr />
+<p><strong>Slide 5: Sysmon Analysis: Detecting Suspicious Activity</strong></p>
+<ul>
+<li>Sysmon logs are stored in the Windows Event Log (Applications and Services Logs\Microsoft\Windows\Sysmon\Operational).</li>
+<li>Tools for analysis: Event Viewer, PowerShell, SIEM systems, Elasticsearch/Kibana.</li>
+<li>Example scenarios: PowerShell obfuscation, process injection, lateral movement, malware persistence.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"Sysmon logs are stored in the Windows Event Log under the path shown on the slide.  You can analyze these logs using a variety of tools, including the built-in Event Viewer, PowerShell, SIEM systems, and Elasticsearch/Kibana for visualization. Common threat hunting scenarios using Sysmon include detecting PowerShell obfuscation, process injection, lateral movement, and malware persistence. By analyzing Sysmon logs, you can gain valuable insights into system activity and identify potential threats."</p>
+<hr />
+<p><strong>Slide 6: Windows Event Logs: A Record of System Events</strong></p>
+<ul>
+<li>Windows Event Logs record application, security, and system events.</li>
+<li>Key Event Logs: Application, Security (most relevant), System.</li>
+<li>Each entry contains: Event ID, Source, Time Generated, User, Computer, Description, EventData.</li>
+<li>PowerShell's <code>Get-WinEvent</code> cmdlet is used for querying.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"Now let's move on to Windows Event Logs. These logs record a wide range of system events, including application errors, security events, and system events. The key event logs for threat hunting are the Application, Security, and System logs, with the Security log being the most relevant. Each event log entry contains valuable information, such as the Event ID, Source, Time Generated, User, Computer, Description, and EventData. PowerShell's <code>Get-WinEvent</code> cmdlet provides a powerful way to query and analyze these logs."</p>
+<hr />
+<p><strong>Slide 7: PowerShell for Event Log Analysis: Filtering and Extraction</strong></p>
+<ul>
+<li><code>Get-WinEvent -LogName Security -MaxEvents 10</code>: Retrieves the 10 most recent security events.</li>
+<li><code>-FilterXPath</code>:  Allows filtering by Event ID and other criteria.</li>
+<li><code>ForEach-Object</code>: Extracts specific data from each event.</li>
+<li>Example: Extracting TimeCreated, AccountName, and SourceNetworkAddress from logon events.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"PowerShell is an invaluable tool for analyzing Windows Event Logs. The <code>Get-WinEvent</code> cmdlet allows you to retrieve events from specific logs. The <code>-FilterXPath</code> parameter lets you filter events based on Event ID and other criteria. The <code>ForEach-Object</code> cmdlet allows you to iterate through the results and extract specific data from each event. As shown in the example, you can extract information such as the TimeCreated, AccountName, and SourceNetworkAddress from logon events."</p>
+<hr />
+<p><strong>Slide 8: Linux Audit Logs: System Call Monitoring with <code>auditd</code></strong></p>
+<ul>
+<li><code>auditd</code> (Audit Daemon): Linux subsystem logging system calls and security-related events.</li>
+<li>Configuration file: <code>/etc/audit/auditd.conf</code>.</li>
+<li>Audit rules defined in <code>/etc/audit/rules.d/audit.rules</code>.</li>
+<li>Key command: <code>ausearch</code> for querying the logs.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"On Linux systems, the <code>auditd</code> subsystem is responsible for logging system calls and other security-related events. The configuration file for <code>auditd</code> is located at <code>/etc/audit/auditd.conf</code>, and audit rules are defined in <code>/etc/audit/rules.d/audit.rules</code>. The <code>ausearch</code> command is the primary tool for querying and analyzing the audit logs. By configuring appropriate audit rules, you can monitor a wide range of system activity and detect suspicious behavior."</p>
+<hr />
+<p><strong>Slide 9: SIEM Systems: Centralized Security Management</strong></p>
+<ul>
+<li><strong>SIEM (Security Information and Event Management):</strong> Centralized platform for log collection, analysis, and threat detection.</li>
+<li>Key Components: Log Collection, Parsing/Normalization, Correlation Engine, Alerting, Incident Management, Reporting.</li>
+<li>Examples: Splunk, QRadar, ArcSight, Microsoft Sentinel, Sumo Logic.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"SIEM, or Security Information and Event Management, systems provide a centralized platform for collecting, analyzing, and managing security logs and events from various sources across an organization. Key components of a SIEM include Log Collection, Parsing and Normalization, a Correlation Engine, Alerting capabilities, Incident Management tools, and Reporting features. Popular SIEM solutions include Splunk, QRadar, ArcSight, Microsoft Sentinel, and Sumo Logic. SIEMs are critical for large organizations to effectively manage their security posture."</p>
+<hr />
+<p><strong>Slide 10: SIEM for Threat Hunting: Correlation and Analysis</strong></p>
+<ul>
+<li>Centralized log management simplifies searching and analysis.</li>
+<li>Correlation rules identify suspicious activity based on patterns.</li>
+<li>Threat intelligence integration identifies potential threats.</li>
+<li>Behavioral analysis detects anomalies in user and system behavior.</li>
+</ul>
+<p><strong>Narration Script:</strong><br />
+"SIEM systems greatly enhance threat hunting capabilities. Centralized log management simplifies searching and analysis across a vast amount of data. Correlation rules allow you to identify suspicious activity based on patterns of events. Threat intelligence integration helps identify potential threats targeting your organization. And behavioral analysis can detect anomalies in user and system behavior. By leveraging these features, SIEMs empower security teams to proactively hunt for and respond to threats."</p>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:42.</p>
+    </footer>
+</body>
+</html>

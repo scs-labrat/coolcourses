@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Project: Building Your Own Cyber Threat Hunting 101 | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="active">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Capstone Project: Building Your Own Cyber Threat Hunting 101</h1>
+<p>Okay, here's a hyper-detailed, step-by-step deep dive into Module 8, "Capstone Project: Building Your Own Cyber Threat Hunting 101," based on the course outline. I'll aim to make this practical, engaging, and reflective of my teaching style, emphasizing open sharing and understanding.</p>
+<p><strong>Module 8: Capstone Project: Building Your Own Cyber Threat Hunting 101</strong></p>
+<p><strong>Module Objective:</strong> Integrate all learned knowledge and skills to create a functional clone of the course topic.</p>
+<p><strong>Introduction:</strong></p>
+<p>Congratulations! You've reached the final module. This is where you put everything you've learned into practice. The goal here isn't just to <em>understand</em> threat hunting, but to <em>demonstrate</em> that understanding by building something tangible.  Think of this as not just a project, but a portfolio piece – something you can show off to potential employers or use to further your career. This module also will focus on the best parts of teaching, so that you too will have the skills to teach others about the topic.</p>
+<p><strong>Project Options:</strong></p>
+<p>Before we dive into the steps, let's clarify the project options. You can choose <em>one</em> of the following:</p>
+<ol>
+<li><strong>Threat Hunting Dashboard:</strong>  A web-based dashboard visualizing key security metrics and potential threats, pulling data from various sources (logs, threat intelligence feeds, etc.).</li>
+<li><strong>Threat Hunting Playbook Automation:</strong> A script (e.g., Python) that automates steps in a specific threat hunting playbook (e.g., detecting lateral movement).</li>
+<li><strong>Threat Hunting Tool:</strong>  A command-line or GUI tool that performs a specific threat hunting task (e.g., a tool to identify DNS tunneling).</li>
+<li><strong>Threat Hunting Report &amp; Presentation:</strong> A detailed report analyzing a specific real-world threat (e.g., a recent ransomware campaign) and presenting your findings, including indicators of compromise (IoCs) and mitigation strategies. This can be a great option if coding isn't your strongest suit, but you excel at analysis and communication.</li>
+<li><strong>Cyber Threat Hunting 101 Teaching Assistant:</strong> A teaching assistant module that would include creating quizzes, grading them, creating new content for the course, or answering student questions.</li>
+</ol>
+<p><strong>Step-by-Step Guide:</strong></p>
+<p><strong>Phase 1: Planning (Weeks 1-2)</strong></p>
+<ol>
+<li>
+<p><strong>Project Selection (Day 1):</strong></p>
+<ul>
+<li><strong>Action:</strong> Carefully review the project options above.</li>
+<li><strong>Considerations:</strong><ul>
+<li>Your existing skillset: What are you already good at?</li>
+<li>Your interests: What are you most excited to learn?</li>
+<li>Time commitment: Which project can you realistically complete in the allotted time?</li>
+</ul>
+</li>
+<li><strong>Deliverable:</strong> A one-paragraph description of your chosen project and why you chose it.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scope Definition (Day 2-3):</strong></p>
+<ul>
+<li><strong>Action:</strong> Define the <em>specific</em> scope of your project.  Be realistic. It's better to do a small thing well than a big thing poorly.</li>
+<li><strong>Example (Threat Hunting Dashboard):</strong> "My dashboard will visualize failed login attempts, suspicious process executions (based on Sysmon logs), and connections to known malicious IP addresses (using a VirusTotal API integration). It will pull data from Windows Event Logs and Sysmon logs, stored in an Elasticsearch instance."</li>
+<li><strong>Example (Threat Hunting Playbook Automation):</strong> "I will automate the playbook for detecting PowerShell-based attacks, specifically those using obfuscation techniques. The script will parse Sysmon logs, identify PowerShell processes with suspicious command-line arguments (e.g., encoded commands), and generate alerts."</li>
+<li><strong>Example (Threat Hunting Tool):</strong> "My tool will analyze DNS traffic (from a PCAP file) and identify potential DNS tunneling attempts by looking for unusually long domain names and high query frequencies to specific domains."</li>
+<li><strong>Example (Threat Hunting Report &amp; Presentation):</strong> "I will analyze the recent 'LockBit 3.0' ransomware campaign, focusing on their initial access vectors, encryption methods, and extortion tactics. My report will include IoCs and recommendations for preventing LockBit infections."</li>
+<li><strong>Example (Cyber Threat Hunting 101 Teaching Assistant):</strong> "I will create a new quiz for module 1, grade the quiz, and answer the top 5 most asked questions from the students."</li>
+<li><strong>Deliverable:</strong> A detailed project scope document (1-2 pages) outlining the specific features, data sources, and functionality of your project.</li>
+</ul>
+</li>
+<li>
+<p><strong>Technology Stack Selection (Day 4-5):</strong></p>
+<ul>
+<li><strong>Action:</strong> Choose the specific tools, libraries, and technologies you'll use.</li>
+<li><strong>Rationale:</strong> Explain <em>why</em> you're choosing these technologies.</li>
+<li><strong>Example (Threat Hunting Dashboard):</strong><ul>
+<li><strong>Data Source:</strong> Elasticsearch (for storing logs)</li>
+<li><strong>Log Shipper:</strong> Filebeat (to send logs to Elasticsearch)</li>
+<li><strong>Backend:</strong> Python (Flask or Django) for the API</li>
+<li><strong>Frontend:</strong> HTML, CSS, JavaScript (with a framework like React or Vue.js) for the dashboard UI</li>
+<li><strong>Threat Intelligence:</strong> VirusTotal API</li>
+</ul>
+</li>
+<li><strong>Example (Threat Hunting Playbook Automation):</strong><ul>
+<li><strong>Language:</strong> Python</li>
+<li><strong>Log Parsing:</strong> <code>python-evtx</code> (for parsing Windows Event Logs) or <code>lxml</code> (for XML parsing)</li>
+<li><strong>Regular Expressions:</strong> <code>re</code> module (for pattern matching)</li>
+<li><strong>Alerting:</strong> Email (using <code>smtplib</code>) or a SIEM API (if available)</li>
+</ul>
+</li>
+<li><strong>Example (Threat Hunting Tool):</strong><ul>
+<li><strong>Language:</strong> Python</li>
+<li><strong>PCAP Parsing:</strong> <code>scapy</code></li>
+<li><strong>Data Analysis:</strong> <code>pandas</code> or <code>numpy</code></li>
+</ul>
+</li>
+<li><strong>Example (Threat Hunting Report &amp; Presentation):</strong><ul>
+<li><strong>Report:</strong> Markdown, LaTeX, or Microsoft Word</li>
+<li><strong>Presentation:</strong> PowerPoint, Google Slides, or a similar tool</li>
+<li><strong>Data Analysis:</strong>  Any relevant security blogs, reports, and tools (VirusTotal, etc.)</li>
+</ul>
+</li>
+<li><strong>Example (Cyber Threat Hunting 101 Teaching Assistant):</strong><ul>
+<li><strong>New quiz:</strong> Markdown, LaTeX, or Microsoft Word</li>
+<li><strong>Quiz Grading:</strong> Python, Pandas, or Excel</li>
+<li><strong>Answering Questions:</strong> Markdown, LaTeX, or Microsoft Word</li>
+</ul>
+</li>
+<li><strong>Deliverable:</strong> A list of technologies, libraries, and tools, with a brief explanation of why you chose each one.</li>
+</ul>
+</li>
+<li>
+<p><strong>Design (Day 6-7):</strong></p>
+<ul>
+<li><strong>Action:</strong> Create a high-level design for your project.</li>
+<li><strong>Threat Hunting Dashboard:</strong> Sketch out the dashboard layout. What information will be displayed? How will users interact with it?</li>
+<li><strong>Threat Hunting Playbook Automation:</strong> Create a flowchart outlining the script's logic. What steps will it take? What data will it analyze?</li>
+<li><strong>Threat Hunting Tool:</strong> Design the user interface (if any) and the overall workflow of the tool.</li>
+<li><strong>Threat Hunting Report &amp; Presentation:</strong> Outline the structure of your report and presentation. What topics will you cover? What evidence will you present?</li>
+<li><strong>Cyber Threat Hunting 101 Teaching Assistant:</strong> Create a high level design of the quiz questions, grading, and answering questions.</li>
+<li><strong>Deliverable:</strong>  A visual representation of your project's design (e.g., a dashboard mockup, a flowchart, a report outline).</li>
+</ul>
+</li>
+<li>
+<p><strong>Task Breakdown and Timeline (Week 2):</strong></p>
+<ul>
+<li><strong>Action:</strong> Break down your project into smaller, manageable tasks. Estimate the time required for each task. Create a timeline with specific deadlines.  Be realistic!</li>
+<li><strong>Example:</strong><ul>
+<li>Task: Set up Elasticsearch and Filebeat (Estimated time: 4 hours)</li>
+<li>Task: Write Python script to query Elasticsearch (Estimated time: 8 hours)</li>
+<li>Task: Design dashboard UI (Estimated time: 6 hours)</li>
+<li>Task: Integrate VirusTotal API (Estimated time: 4 hours)</li>
+</ul>
+</li>
+<li><strong>Deliverable:</strong> A detailed task list and timeline (e.g., a Gantt chart or a simple table).</li>
+</ul>
+</li>
+</ol>
+<p><strong>Phase 2: Implementation (Weeks 3-6)</strong></p>
+<p>This is where the real work begins! Focus on incremental progress. Don't try to build everything at once.  Test frequently.  Ask for help when you need it.</p>
+<ol>
+<li>
+<p><strong>Setting up the Environment (Week 3):</strong></p>
+<ul>
+<li><strong>Action:</strong> Install and configure your chosen technologies.</li>
+<li><strong>Example:</strong> Install Elasticsearch, Filebeat, Python, Flask, etc.</li>
+<li><strong>Tip:</strong> Use virtual environments (e.g., <code>venv</code> in Python) to isolate your project's dependencies.</li>
+<li><strong>Deliverable:</strong> A working development environment.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Ingestion (Week 3-4):</strong></p>
+<ul>
+<li><strong>Action:</strong>  Get data flowing into your project.</li>
+<li><strong>Threat Hunting Dashboard:</strong> Configure Filebeat to send Windows Event Logs and Sysmon logs to Elasticsearch.</li>
+<li><strong>Threat Hunting Playbook Automation:</strong>  Write a script to read Windows Event Logs (e.g., using <code>python-evtx</code>).</li>
+<li><strong>Threat Hunting Tool:</strong>  Write a script to parse a PCAP file (e.g., using <code>scapy</code>).</li>
+<li><strong>Threat Hunting Report &amp; Presentation:</strong> Start gathering data from security blogs, reports, and tools.</li>
+<li><strong>Cyber Threat Hunting 101 Teaching Assistant:</strong> Gather the data from previous quizzes and student questions.</li>
+<li><strong>Deliverable:</strong> Data successfully ingested into your project.</li>
+</ul>
+</li>
+<li>
+<p><strong>Core Functionality (Week 4-5):</strong></p>
+<ul>
+<li><strong>Action:</strong> Implement the core functionality of your project.</li>
+<li><strong>Threat Hunting Dashboard:</strong> Write the Python API to query Elasticsearch and format the data for the dashboard.  Build the basic dashboard UI.</li>
+<li><strong>Threat Hunting Playbook Automation:</strong> Write the script to parse logs, identify suspicious activity, and generate alerts.</li>
+<li><strong>Threat Hunting Tool:</strong> Implement the core logic of the tool (e.g., DNS tunneling detection).</li>
+<li><strong>Threat Hunting Report &amp; Presentation:</strong> Start writing the body of your report and creating your presentation slides.</li>
+<li><strong>Cyber Threat Hunting 101 Teaching Assistant:</strong> Create the quiz questions, a grading system, and an answer system.</li>
+<li><strong>Deliverable:</strong>  A functional (but potentially incomplete) version of your project.</li>
+</ul>
+</li>
+<li>
+<p><strong>Enhancements and Refinements (Week 5-6):</strong></p>
+<ul>
+<li><strong>Action:</strong> Add enhancements, refine the UI, fix bugs, and improve performance.</li>
+<li><strong>Threat Hunting Dashboard:</strong> Add more visualizations, improve the UI, integrate the VirusTotal API.</li>
+<li><strong>Threat Hunting Playbook Automation:</strong> Add more sophisticated detection logic, improve the alerting mechanism.</li>
+<li><strong>Threat Hunting Tool:</strong> Add more features, improve the user interface, optimize performance.</li>
+<li><strong>Threat Hunting Report &amp; Presentation:</strong> Add more details to your report and presentation, refine your arguments, and improve the visual appeal.</li>
+<li><strong>Cyber Threat Hunting 101 Teaching Assistant:</strong> Refine the quiz questions, improve the grading system, and add additional answers.</li>
+<li><strong>Deliverable:</strong>  A polished and functional version of your project.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Code Examples (Illustrative):</strong></p>
+<ul>
+<li><strong>Python (Querying Elasticsearch):</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">elasticsearch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Elasticsearch</span>
+
+<span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">([{</span><span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">9200</span><span class="p">}])</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;bool&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;must&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;match&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;event_id&quot;</span><span class="p">:</span> <span class="s2">&quot;4625&quot;</span><span class="p">}}</span> <span class="c1"># Example: Failed login attempts</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;windows-eventlog-*&quot;</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">][</span><span class="s1">&#39;hits&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s1">&#39;_source&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Python (Parsing Windows Event Logs with <code>python-evtx</code>):</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">Evtx.Evtx</span><span class="w"> </span><span class="kn">import</span> <span class="n">Evtx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Evtx.Views</span><span class="w"> </span><span class="kn">import</span> <span class="n">evtx_file_xml_view</span>
+
+<span class="k">with</span> <span class="n">Evtx</span><span class="p">(</span><span class="s2">&quot;security.evtx&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">evtx</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">evtx_file_xml_view</span><span class="p">(</span><span class="n">evtx</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">xml</span><span class="p">())</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Python (Scapy - DNS Analysis):</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">scapy.all</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_dns</span><span class="p">(</span><span class="n">pcap_file</span><span class="p">):</span>
+    <span class="n">packets</span> <span class="o">=</span> <span class="n">rdpcap</span><span class="p">(</span><span class="n">pcap_file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">packet</span> <span class="ow">in</span> <span class="n">packets</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">packet</span><span class="o">.</span><span class="n">haslayer</span><span class="p">(</span><span class="n">DNS</span><span class="p">):</span>
+            <span class="n">dns</span> <span class="o">=</span> <span class="n">packet</span><span class="p">[</span><span class="n">DNS</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">dns</span><span class="o">.</span><span class="n">qr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># DNS Query</span>
+                <span class="n">domain_name</span> <span class="o">=</span> <span class="n">dns</span><span class="o">.</span><span class="n">qd</span><span class="o">.</span><span class="n">qname</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DNS Query: </span><span class="si">{</span><span class="n">domain_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">analyze_dns</span><span class="p">(</span><span class="s2">&quot;dns_traffic.pcap&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Phase 3: Testing and Documentation (Week 7)</strong></p>
+<ol>
+<li>
+<p><strong>Testing:</strong></p>
+<ul>
+<li><strong>Action:</strong> Thoroughly test your project.  Create test cases to cover different scenarios.</li>
+<li><strong>Example:</strong>  For the dashboard, test with different data volumes, different browsers, etc.  For the playbook automation, test with different types of malicious activity.  For the tool, test with different PCAP files.</li>
+<li><strong>Deliverable:</strong> A list of test cases and their results.</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentation:</strong></p>
+<ul>
+<li><strong>Action:</strong> Write comprehensive documentation for your project.  This is <em>crucial</em>.  Imagine someone else trying to use your project – what would they need to know?</li>
+<li><strong>Include:</strong><ul>
+<li>A description of the project and its purpose.</li>
+<li>Instructions for installation and configuration.</li>
+<li>Instructions for use.</li>
+<li>A description of the architecture and design.</li>
+<li>A list of dependencies.</li>
+<li>Any known limitations or bugs.</li>
+<li>Code comments (where applicable).</li>
+</ul>
+</li>
+<li><strong>Deliverable:</strong> A well-written documentation document (e.g., a README file in Markdown).</li>
+</ul>
+</li>
+</ol>
+<p><strong>Phase 4: Peer Review and Presentation (Week 8)</strong></p>
+<ol>
+<li>
+<p><strong>Peer Review (Days 1-3):</strong></p>
+<ul>
+<li><strong>Action:</strong> Exchange your project with a classmate for review.  Provide constructive feedback.  Be specific.  What did they do well?  What could they improve?</li>
+<li><strong>Deliverable:</strong>  A peer review report (1-2 pages) outlining your feedback.</li>
+</ul>
+</li>
+<li>
+<p><strong>Final Revisions (Days 4-5):</strong></p>
+<ul>
+<li><strong>Action:</strong> Incorporate feedback from the peer review into your project.  Fix any remaining bugs.  Improve the documentation.</li>
+<li><strong>Deliverable:</strong> A final, polished version of your project.</li>
+</ul>
+</li>
+<li>
+<p><strong>Presentation (Days 6-7):</strong></p>
+<ul>
+<li><strong>Action:</strong> Prepare a presentation to showcase your project.</li>
+<li><strong>Include:</strong><ul>
+<li>A brief overview of the problem you're solving.</li>
+<li>A demonstration of your project.</li>
+<li>A discussion of the technologies you used.</li>
+<li>A discussion of the challenges you faced and how you overcame them.</li>
+<li>A discussion of future improvements.</li>
+</ul>
+</li>
+<li><strong>Deliverable:</strong> A presentation (PowerPoint, Google Slides, etc.).</li>
+</ul>
+</li>
+</ol>
+<p><strong>Grading Rubric:</strong></p>
+<ul>
+<li><strong>Planning (20%):</strong>  Scope definition, technology selection, design, task breakdown, timeline.</li>
+<li><strong>Implementation (40%):</strong>  Functionality, code quality, data integration.</li>
+<li><strong>Testing and Documentation (20%):</strong>  Thoroughness of testing, clarity of documentation.</li>
+<li><strong>Presentation and Peer Review (20%):</strong>  Clarity of presentation, quality of peer review feedback.</li>
+</ul>
+<p><strong>Key Considerations:</strong></p>
+<ul>
+<li><strong>Time Management:</strong> Start early and work consistently. Don't procrastinate!</li>
+<li><strong>Scope Creep:</strong> Avoid adding features that are outside the original scope of your project.</li>
+<li><strong>Version Control:</strong> Use Git (or a similar version control system) to track your changes.</li>
+<li><strong>Collaboration:</strong> If you're working in a team, communicate effectively and divide tasks fairly.</li>
+<li><strong>Ask for Help:</strong> Don't be afraid to ask for help when you're stuck.</li>
+</ul>
+<p>This module is designed to be challenging, but also rewarding. By the end of this course, you'll have a tangible project that demonstrates your skills and knowledge in cyber threat hunting. Good luck! Let me know if you have any questions. This is an iterative process, so don't be afraid to experiment, learn, and adapt as you go along. Remember, the journey is just as important as the destination.</p>
+<p>This detailed breakdown provides a solid foundation for Module 8. I've tried to incorporate my teaching style by providing clear instructions, practical examples, and encouragement.  Remember, the goal is not just to complete the project, but to <em>learn</em> and <em>grow</em> as a threat hunter.</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here are the 10 slides for Module 8, "Capstone Project: Building Your Own Cyber Threat Hunting 101," based on the detailed module content provided.</p>
+<hr />
+<p><strong>Slide 1: Module 8: Capstone Project - Introduction</strong></p>
+<ul>
+<li><strong>Objective:</strong> Integrate all learned knowledge and skills to create a functional clone of the course topic.</li>
+<li><strong>Focus:</strong> Transition from understanding to demonstrating your knowledge.</li>
+<li><strong>Outcome:</strong> A tangible project to showcase your abilities and enhance your portfolio.</li>
+<li><strong>Teaching Focus:</strong> Developing your teaching skills and ability to share knowledge with others.</li>
+</ul>
+<p><strong>Narration:</strong> "Welcome to the final module! This is where you'll combine all the knowledge and skills you've acquired throughout the course. Our goal is to move beyond theoretical understanding and create a tangible project that demonstrates your expertise in cyber threat hunting. This project isn't just a grade; it's a portfolio piece that you can use to showcase your skills to potential employers or further your career. A key part of this module is about you developing your ability to teach the topic, which will be invaluable in your future career."</p>
+<hr />
+<p><strong>Slide 2: Capstone Project Options</strong></p>
+<ul>
+<li><strong>Option 1: Threat Hunting Dashboard:</strong> Visualize security metrics from various sources.</li>
+<li><strong>Option 2: Playbook Automation:</strong> Automate steps in a threat hunting playbook (e.g., lateral movement).</li>
+<li><strong>Option 3: Threat Hunting Tool:</strong> Develop a tool for a specific hunting task (e.g., DNS tunneling detection).</li>
+<li><strong>Option 4: Threat Hunting Report &amp; Presentation:</strong> Analyze a real-world threat, including IoCs and mitigation.</li>
+<li><strong>Option 5: Cyber Threat Hunting 101 Teaching Assistant:</strong> Create course content (quizzes, questions, etc.).</li>
+</ul>
+<p><strong>Narration:</strong> "For your capstone project, you have several options to choose from, each allowing you to apply your skills in different ways. You can build a Threat Hunting Dashboard to visualize key security data, automate a Threat Hunting Playbook to streamline specific tasks, create a standalone Threat Hunting Tool for specialized analysis, develop a comprehensive Threat Hunting Report on a real-world threat, or you can work to develop the Cyber Threat Hunting 101 course by developing teaching materials. Choose the option that best aligns with your interests, skills, and available time."</p>
+<hr />
+<p><strong>Slide 3: Phase 1: Planning (Weeks 1-2) - Project Selection &amp; Scope</strong></p>
+<ul>
+<li><strong>Project Selection (Day 1):</strong> Choose a project based on skillset, interest, and time. <em>Deliverable:</em> Project description.</li>
+<li><strong>Scope Definition (Day 2-3):</strong> Define specific features and functionality. <em>Deliverable:</em> Project Scope Document.</li>
+<li><strong>Importance:</strong> This is the foundation of your success.</li>
+</ul>
+<p><strong>Narration:</strong> "The first phase of the project is all about planning. Start by carefully selecting your project, considering your existing skills, interests, and the time you have available. Next, define the scope of your project. Be realistic and specific about what you can achieve within the given timeframe. A well-defined scope is crucial for staying on track and delivering a successful project. A clear scope will help you to avoid scope creep."</p>
+<hr />
+<p><strong>Slide 4: Phase 1: Planning (Weeks 1-2) - Technology &amp; Design</strong></p>
+<ul>
+<li><strong>Technology Stack Selection (Day 4-5):</strong> Choose tools, libraries, and technologies. <em>Deliverable:</em> Technology list with rationale.</li>
+<li><strong>Design (Day 6-7):</strong> Create a high-level design (mockups, flowcharts). <em>Deliverable:</em> Visual project design.</li>
+<li><strong>Importance:</strong> Plan for the tools and the user experience.</li>
+</ul>
+<p><strong>Narration:</strong> "Once you've defined the scope, select the specific technologies you'll use. Explain why you're choosing these technologies; for example, their advantages for the task at hand. Then, create a high-level design of your project. This could be a mockup of your dashboard, a flowchart of your script's logic, or an outline of your report. Visualizing your project will help you understand the workflow and ensure that your project is well-structured."</p>
+<hr />
+<p><strong>Slide 5: Phase 1: Planning (Weeks 1-2) - Task Breakdown &amp; Timeline</strong></p>
+<ul>
+<li><strong>Task Breakdown (Week 2):</strong> Break project into smaller, manageable tasks.</li>
+<li><strong>Timeline (Week 2):</strong> Estimate time for each task and create a timeline with deadlines.</li>
+<li><strong>Deliverable:</strong> Detailed task list and timeline.</li>
+<li><strong>Importance:</strong> Stay organized and on schedule.</li>
+</ul>
+<p><strong>Narration:</strong> "The final step in the planning phase is to break down your project into smaller, manageable tasks. Estimate the time required for each task and create a timeline with specific deadlines. This will help you stay organized, track your progress, and ensure that you complete the project on time. Remember to be realistic about your time estimates."</p>
+<hr />
+<p><strong>Slide 6: Phase 2: Implementation (Weeks 3-6) - Core Development</strong></p>
+<ul>
+<li><strong>Setting up the Environment (Week 3):</strong> Install and configure chosen technologies. <em>Deliverable:</em> Working development environment.</li>
+<li><strong>Data Ingestion (Week 3-4):</strong> Get data flowing into your project. <em>Deliverable:</em> Data successfully ingested.</li>
+<li><strong>Core Functionality (Week 4-5):</strong> Implement the core functionality. <em>Deliverable:</em> Functional (but incomplete) version.</li>
+</ul>
+<p><strong>Narration:</strong> "Phase 2 is where you'll bring your project to life. Start by setting up your development environment and installing the necessary technologies. Next, focus on getting data flowing into your project. This might involve configuring log shippers, writing scripts to parse data, or gathering information from various sources. Finally, implement the core functionality of your project. Don't try to build everything at once; focus on getting the basic functionality working first."</p>
+<hr />
+<p><strong>Slide 7: Phase 2: Implementation (Weeks 3-6) - Enhancements &amp; Code Examples</strong></p>
+<ul>
+<li><strong>Enhancements and Refinements (Week 5-6):</strong> Add features, refine UI, fix bugs, improve performance. <em>Deliverable:</em> Polished, functional project.</li>
+<li><strong>Example Code:</strong> Python code for Elasticsearch queries, EVTX parsing, and Scapy DNS analysis.</li>
+</ul>
+<p><strong>Narration:</strong> "Once you have the core functionality working, focus on adding enhancements, refining the user interface, fixing bugs, and improving performance. This is where you can really make your project shine. The slide also shows some example code in Python for common threat hunting tasks like querying Elasticsearch, parsing Windows Event Logs, and analyzing DNS traffic using Scapy."</p>
+<hr />
+<p><strong>Slide 8: Phase 3: Testing &amp; Documentation (Week 7)</strong></p>
+<ul>
+<li><strong>Testing:</strong> Thoroughly test your project with test cases. <em>Deliverable:</em> Test case list and results.</li>
+<li><strong>Documentation:</strong> Write comprehensive documentation (description, installation, usage, architecture). <em>Deliverable:</em> Well-written documentation (e.g., README).</li>
+<li><strong>Importance:</strong> Ensure quality and usability.</li>
+</ul>
+<p><strong>Narration:</strong> "Testing and documentation are critical for a successful project. Thoroughly test your project with a variety of test cases to ensure that it works correctly and handles different scenarios. Then, write comprehensive documentation that explains how to install, configure, and use your project. Good documentation is essential for making your project usable by others."</p>
+<hr />
+<p><strong>Slide 9: Phase 4: Peer Review &amp; Presentation (Week 8)</strong></p>
+<ul>
+<li><strong>Peer Review (Days 1-3):</strong> Exchange projects with classmates for feedback. <em>Deliverable:</em> Peer review report.</li>
+<li><strong>Final Revisions (Days 4-5):</strong> Incorporate feedback and fix bugs. <em>Deliverable:</em> Final, polished project.</li>
+<li><strong>Presentation (Days 6-7):</strong> Prepare a presentation to showcase your project. <em>Deliverable:</em> Presentation slides.</li>
+</ul>
+<p><strong>Narration:</strong> "The final phase involves peer review and presentation. Exchange your project with a classmate for review and provide constructive feedback. Incorporate that feedback into your project, fix any remaining bugs, and improve the documentation. Finally, prepare a presentation to showcase your project. Be sure to highlight the problem you're solving, demonstrate your project's functionality, and discuss the technologies you used and the challenges you faced."</p>
+<hr />
+<p><strong>Slide 10: Grading Rubric &amp; Key Considerations</strong></p>
+<ul>
+<li><strong>Grading Rubric:</strong> Planning (20%), Implementation (40%), Testing &amp; Documentation (20%), Presentation &amp; Peer Review (20%).</li>
+<li><strong>Key Considerations:</strong> Time management, scope creep, version control (Git), collaboration, ask for help!</li>
+<li><strong>Final Thought:</strong> Experiment, learn, and adapt!</li>
+</ul>
+<p><strong>Narration:</strong> "Your project will be graded based on the planning, implementation, testing and documentation, and presentation and peer review. Keep in mind some key considerations: manage your time effectively, avoid scope creep, use version control to track your changes, collaborate effectively if you're working in a team, and don't be afraid to ask for help when you're stuck. Remember, this is an iterative process, so don't be afraid to experiment, learn, and adapt as you go along. Good luck, and I look forward to seeing your amazing projects!"</p>
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:43.</p>
+    </footer>
+</body>
+</html>

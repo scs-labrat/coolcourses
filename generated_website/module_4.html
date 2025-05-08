@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Hunting Tools and Techniques (Part 1: Network) | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="active">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Threat Hunting Tools and Techniques (Part 1: Network)</h1>
+<p>Okay, let's dive deep into Module 4: Threat Hunting Tools and Techniques (Part 1: Network). This module will be heavily hands-on, focusing on practical skills using industry-standard tools.</p>
+<p><strong>Module 4: Threat Hunting Tools and Techniques (Part 1: Network)</strong></p>
+<p><strong>Module Objective:</strong> Learn to leverage network-based tools and techniques for detecting malicious activity.</p>
+<p><strong>Module Duration:</strong> Approximately 8 hours (including lecture, hands-on labs, and exercises).</p>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Basic understanding of TCP/IP networking.</li>
+<li>Familiarity with the Linux command line.</li>
+<li>A virtual machine with Kali Linux installed (or another security-focused distribution).</li>
+<li>Basic understanding of packet capture and analysis principles.</li>
+</ul>
+<p><strong>Module Structure:</strong></p>
+<ol>
+<li><strong>Introduction to Network Threat Hunting (30 minutes)</strong></li>
+<li><strong>Network Intrusion Detection Systems (NIDS) with Snort/Suricata (2 hours)</strong></li>
+<li><strong>Network Traffic Analysis (NTA) with Wireshark (2 hours)</strong></li>
+<li><strong>Network Traffic Analysis (NTA) with Zeek (Bro) (2 hours)</strong></li>
+<li><strong>NetFlow Analysis (1 hour)</strong></li>
+<li><strong>DNS Analysis (1 hour)</strong></li>
+<li><strong>Module Project/Exercise: Network Forensics Challenge (30 minutes)</strong></li>
+</ol>
+<hr />
+<p><strong>1. Introduction to Network Threat Hunting (30 minutes)</strong></p>
+<ul>
+<li>
+<p><strong>What is Network Threat Hunting?</strong></p>
+<ul>
+<li>Proactive searching for malicious activity on a network that has evaded existing security controls.</li>
+<li>Focus on anomalies, unusual patterns, and indicators of compromise (IoCs) in network traffic.</li>
+<li>Driven by hypotheses, threat intelligence, and a deep understanding of network protocols and behavior.</li>
+</ul>
+</li>
+<li>
+<p><strong>Why Network Threat Hunting?</strong></p>
+<ul>
+<li>Traditional security tools are reactive (signature-based).</li>
+<li>Advanced attackers use stealthy techniques to bypass defenses.</li>
+<li>Network traffic provides a rich source of data for detecting malicious activity.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Data Sources for Network Threat Hunting:</strong></p>
+<ul>
+<li>Packet captures (PCAP files)</li>
+<li>Network flow data (NetFlow, sFlow, IPFIX)</li>
+<li>Network intrusion detection system (NIDS) alerts</li>
+<li>DNS logs</li>
+<li>Proxy logs</li>
+</ul>
+</li>
+<li>
+<p><strong>Common Network Threat Hunting Scenarios:</strong></p>
+<ul>
+<li>Detecting command-and-control (C&amp;C) traffic.</li>
+<li>Identifying data exfiltration.</li>
+<li>Finding lateral movement within the network.</li>
+<li>Detecting malware infections.</li>
+<li>Identifying rogue devices.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>2. Network Intrusion Detection Systems (NIDS) with Snort/Suricata (2 hours)</strong></p>
+<ul>
+<li>
+<p><strong>Introduction to NIDS:</strong></p>
+<ul>
+<li>Monitors network traffic for malicious activity based on predefined rules.</li>
+<li>Generates alerts when suspicious traffic is detected.</li>
+<li>Can be signature-based or anomaly-based.</li>
+<li>Examples: Snort, Suricata.</li>
+</ul>
+</li>
+<li>
+<p><strong>Snort vs. Suricata:</strong></p>
+<ul>
+<li>Similar functionality, but Suricata offers better performance and multi-threading support.</li>
+<li>Both use similar rule syntax.</li>
+</ul>
+</li>
+<li>
+<p><strong>Installing Snort/Suricata (Kali Linux):</strong></p>
+<ul>
+<li><strong>Snort:</strong> <code>sudo apt update &amp;&amp; sudo apt install snort</code></li>
+<li><strong>Suricata:</strong> <code>sudo apt update &amp;&amp; sudo apt install suricata</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Configuring Snort/Suricata:</strong></p>
+<ul>
+<li>Configuration files are located in <code>/etc/snort</code> or <code>/etc/suricata</code>.</li>
+<li>Key configuration options:<ul>
+<li><code>HOME_NET</code>: Defines the network(s) to be monitored.</li>
+<li><code>EXTERNAL_NET</code>: Defines the external network (usually the internet).</li>
+<li><code>RULE_PATH</code>: Specifies the directory containing the Snort/Suricata rules.</li>
+<li><code>INTERFACE</code>: Specifies the network interface to monitor.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Snort/Suricata Rule Syntax:</strong></p>
+<ul>
+<li>A Snort/Suricata rule consists of a header and options.</li>
+<li><strong>Header:</strong> <code>action protocol src_ip src_port -&gt; dest_ip dest_port (options)</code><ul>
+<li><code>action</code>: What to do when the rule matches (e.g., <code>alert</code>, <code>log</code>, <code>pass</code>, <code>drop</code>, <code>reject</code>).</li>
+<li><code>protocol</code>: Network protocol (e.g., <code>tcp</code>, <code>udp</code>, <code>icmp</code>, <code>ip</code>).</li>
+<li><code>src_ip</code>: Source IP address.</li>
+<li><code>src_port</code>: Source port.</li>
+<li><code>-&gt;</code>: Direction of traffic.</li>
+<li><code>dest_ip</code>: Destination IP address.</li>
+<li><code>dest_port</code>: Destination port.</li>
+</ul>
+</li>
+<li><strong>Options:</strong> Keywords that specify additional criteria for matching traffic.<ul>
+<li><code>msg</code>: Alert message.</li>
+<li><code>content</code>: Matches specific content within the packet.</li>
+<li><code>sid</code>: Snort ID (unique identifier for the rule).</li>
+<li><code>rev</code>: Revision number.</li>
+<li><code>classtype</code>: Classifies the type of attack.</li>
+<li><code>flags</code>: TCP flags.</li>
+<li><code>dsize</code>: Packet data size.</li>
+<li><code>ttl</code>: Time to live</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Writing Snort/Suricata Rules (Examples):</strong></p>
+<ul>
+<li>
+<p><strong>Detecting ICMP traffic:</strong></p>
+<p><code>alert icmp any any -&gt; any any (msg:"ICMP Traffic Detected"; sid:1000001; rev:1;)</code></p>
+</li>
+<li>
+<p><strong>Detecting HTTP traffic containing the string "malware.exe":</strong></p>
+<p><code>alert tcp any any -&gt; any 80 (msg:"HTTP Traffic with malware.exe"; content:"malware.exe"; http_uri; sid:1000002; rev:1;)</code></p>
+</li>
+<li>
+<p><strong>Detecting a specific User-Agent:</strong></p>
+<p><code>alert tcp any any -&gt; any 80 (msg:"Suspicious User-Agent"; content:"BadBot/1.0"; http_header; sid:1000003; rev:1;)</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Testing Snort/Suricata Rules:</strong></p>
+<ol>
+<li>Create a rule file (e.g., <code>local.rules</code>) in the rules directory (<code>/etc/snort/rules</code> or <code>/etc/suricata/rules</code>).</li>
+<li>Add your rules to the file.</li>
+<li>
+<p>Run Snort/Suricata in test mode:</p>
+<ul>
+<li><strong>Snort:</strong> <code>sudo snort -c /etc/snort/snort.conf -T -i eth0</code> (replace <code>eth0</code> with your network interface)</li>
+<li><strong>Suricata:</strong> <code>sudo suricata -c /etc/suricata/suricata.yaml -T -i eth0</code></li>
+</ul>
+</li>
+<li>
+<p>Generate traffic that matches your rule (e.g., using <code>curl</code> or <code>ping</code>).</p>
+</li>
+<li>Verify that Snort/Suricata generates an alert.</li>
+</ol>
+</li>
+<li>
+<p><strong>Running Snort/Suricata in Production Mode:</strong></p>
+<ul>
+<li><strong>Snort:</strong> <code>sudo snort -c /etc/snort/snort.conf -i eth0 -A console</code> (outputs alerts to the console)</li>
+<li><strong>Suricata:</strong> <code>sudo suricata -c /etc/suricata/suricata.yaml -i eth0</code> (logs alerts to a file)</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing Snort/Suricata Alerts:</strong></p>
+<ul>
+<li>Alerts are typically logged to a file (e.g., <code>/var/log/snort/alert</code> or <code>/var/log/suricata/fast.log</code>).</li>
+<li>Alerts contain information about the event, including:<ul>
+<li>Timestamp</li>
+<li>Source and destination IP addresses and ports</li>
+<li>Rule ID</li>
+<li>Alert message</li>
+<li>Packet data (optional)</li>
+</ul>
+</li>
+<li>Use tools like <code>grep</code>, <code>awk</code>, or specialized SIEM solutions to analyze alerts.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hands-on Exercise:</strong></p>
+<ol>
+<li>Install Snort/Suricata on your Kali Linux VM.</li>
+<li>Create a custom rule to detect a specific type of traffic (e.g., traffic to a known malicious IP address).</li>
+<li>Test the rule by generating the traffic and verifying that Snort/Suricata generates an alert.</li>
+<li>Analyze the alert and extract relevant information.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<p><strong>3. Network Traffic Analysis (NTA) with Wireshark (2 hours)</strong></p>
+<ul>
+<li>
+<p><strong>Introduction to Wireshark:</strong></p>
+<ul>
+<li>A powerful network packet analyzer.</li>
+<li>Captures and analyzes network traffic in real-time.</li>
+<li>Provides detailed information about each packet, including protocol headers, data, and timestamps.</li>
+<li>Essential tool for network troubleshooting, security analysis, and threat hunting.</li>
+</ul>
+</li>
+<li>
+<p><strong>Installing Wireshark (Kali Linux):</strong></p>
+<ul>
+<li><code>sudo apt update &amp;&amp; sudo apt install wireshark</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Capturing Network Traffic:</strong></p>
+<ul>
+<li>Run Wireshark as root: <code>sudo wireshark</code></li>
+<li>Select the network interface to capture traffic on.</li>
+<li>Start the capture.</li>
+<li>Stop the capture when you have collected enough data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Wireshark Interface:</strong></p>
+<ul>
+<li><strong>Packet List Pane:</strong> Displays a summary of each captured packet.</li>
+<li><strong>Packet Details Pane:</strong> Displays detailed information about the selected packet.</li>
+<li><strong>Packet Bytes Pane:</strong> Displays the raw bytes of the selected packet.</li>
+<li><strong>Filter Bar:</strong> Allows you to filter the captured traffic based on various criteria.</li>
+</ul>
+</li>
+<li>
+<p><strong>Wireshark Filters:</strong></p>
+<ul>
+<li><strong>Capture Filters:</strong> Filter traffic <em>before</em> it is captured. Useful for reducing the amount of data captured.<ul>
+<li>Example: <code>tcp port 80</code> (captures only HTTP traffic).</li>
+<li>Example: <code>host 192.168.1.100</code> (captures traffic to/from the IP address 192.168.1.100).</li>
+</ul>
+</li>
+<li><strong>Display Filters:</strong> Filter traffic <em>after</em> it has been captured. More flexible than capture filters.<ul>
+<li>Example: <code>http.request.method == "GET"</code> (displays only HTTP GET requests).</li>
+<li>Example: <code>ip.src == 10.0.0.1 &amp;&amp; tcp.port == 443</code> (displays TCP traffic from 10.0.0.1 to port 443).</li>
+<li>Example: <code>http contains "password"</code> (displays HTTP traffic containing the string "password").</li>
+<li>Example: <code>tcp.flags.syn == 1 &amp;&amp; tcp.flags.ack == 0</code> (displays TCP SYN packets).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing Network Traffic with Wireshark:</strong></p>
+<ul>
+<li><strong>Following TCP Streams:</strong> Allows you to view the entire conversation between two hosts.<ul>
+<li>Right-click on a packet and select "Follow" -&gt; "TCP Stream".</li>
+</ul>
+</li>
+<li><strong>Examining Protocol Headers:</strong> Provides information about the protocol being used, source and destination addresses, and other relevant details.</li>
+<li><strong>Extracting Files:</strong> Allows you to extract files that have been transmitted over the network (e.g., images, documents, executables).<ul>
+<li>"File" -&gt; "Export Objects" -&gt; "HTTP".</li>
+</ul>
+</li>
+<li><strong>Statistical Analysis:</strong> Wireshark provides various statistical tools for analyzing network traffic.<ul>
+<li>"Statistics" -&gt; "Summary"</li>
+<li>"Statistics" -&gt; "Conversations"</li>
+<li>"Statistics" -&gt; "Endpoints"</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Wireshark for Threat Hunting (Examples):</strong></p>
+<ul>
+<li><strong>Detecting C&amp;C Traffic:</strong> Look for unusual connection patterns, long-lived connections, or traffic to known malicious IP addresses or domains.</li>
+<li><strong>Identifying Data Exfiltration:</strong> Look for large amounts of data being transferred to external hosts, or traffic to unusual ports or protocols.</li>
+<li><strong>Detecting Malware Infections:</strong> Look for suspicious DNS queries, HTTP requests to malicious websites, or traffic containing malware signatures.</li>
+<li><strong>Analyzing Encrypted Traffic (HTTPS):</strong> While you can't see the content, you can still analyze the TLS/SSL handshake to identify potential issues.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hands-on Exercise:</strong></p>
+<ol>
+<li>Capture network traffic while browsing a website or using a specific application.</li>
+<li>Use Wireshark filters to isolate specific types of traffic.</li>
+<li>Follow a TCP stream to view the entire conversation between two hosts.</li>
+<li>Examine the protocol headers of different packets.</li>
+<li>Extract files that have been transmitted over the network.</li>
+<li>Analyze the captured traffic for suspicious activity.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<p><strong>4. Network Traffic Analysis (NTA) with Zeek (Bro) (2 hours)</strong></p>
+<ul>
+<li>
+<p><strong>Introduction to Zeek (Bro):</strong></p>
+<ul>
+<li>A powerful network security monitoring framework.</li>
+<li>Analyzes network traffic and generates detailed logs of events.</li>
+<li>Provides a high-level view of network activity, making it easier to identify anomalies and suspicious behavior.</li>
+<li>Scriptable and extensible, allowing you to customize its behavior.</li>
+<li>Focuses on creating context-rich logs, not just alerting.</li>
+</ul>
+</li>
+<li>
+<p><strong>Installing Zeek (Bro) (Kali Linux):</strong></p>
+<p><code>bash
+sudo apt update
+sudo apt install zeek</code></p>
+</li>
+<li>
+<p><strong>Configuring Zeek (Bro):</strong></p>
+<ul>
+<li>Configuration files are located in <code>/opt/zeek/etc</code>.</li>
+<li>Key configuration options:<ul>
+<li><code>node.cfg</code>: Defines the Zeek nodes in your deployment.</li>
+<li><code>networks.cfg</code>: Defines the networks that Zeek should monitor.</li>
+<li><code>zeekctl.cfg</code>: Zeek Control Framework configuration.</li>
+</ul>
+</li>
+<li>
+<p>To configure Zeek for a single-machine setup, edit <code>node.cfg</code> and ensure the interface is correctly set.  For example:</p>
+<p><code>[zeek]
+type=standalone
+host=localhost
+interface=eth0  # Change this to your actual interface
+lb_method=pf_ring</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Starting and Stopping Zeek (Bro):</strong></p>
+<ul>
+<li>Use the <code>zeekctl</code> command-line tool to manage Zeek.</li>
+<li><code>sudo zeekctl deploy</code> (starts Zeek and deploys the configuration).</li>
+<li><code>sudo zeekctl status</code> (checks the status of Zeek).</li>
+<li><code>sudo zeekctl stop</code> (stops Zeek).</li>
+<li><code>sudo zeekctl cron</code> (processes logs).</li>
+</ul>
+</li>
+<li>
+<p><strong>Zeek (Bro) Log Files:</strong></p>
+<ul>
+<li>Zeek generates a variety of log files, located in <code>/opt/zeek/spool/zeek/</code>.</li>
+<li>Key log files:<ul>
+<li><code>conn.log</code>: Contains information about network connections.</li>
+<li><code>dns.log</code>: Contains information about DNS queries.</li>
+<li><code>http.log</code>: Contains information about HTTP requests.</li>
+<li><code>ssl.log</code>: Contains information about SSL/TLS connections.</li>
+<li><code>files.log</code>: Contains information about extracted files.</li>
+<li><code>notice.log</code>: Contains notices generated by Zeek scripts.</li>
+<li><code>software.log</code>: Contains information about detected software versions.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing Zeek (Bro) Logs:</strong></p>
+<ul>
+<li>Zeek logs are typically stored in tab-separated value (TSV) format.</li>
+<li>Use command-line tools like <code>grep</code>, <code>awk</code>, <code>cut</code>, and <code>sort</code> to analyze the logs.</li>
+<li>Consider using specialized log analysis tools or SIEM solutions to process and visualize Zeek logs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Zeek (Bro) Scripting:</strong></p>
+<ul>
+<li>Zeek uses its own scripting language for customizing its behavior.</li>
+<li>Scripts can be used to:<ul>
+<li>Detect specific types of traffic.</li>
+<li>Generate alerts.</li>
+<li>Modify the behavior of Zeek.</li>
+<li>Integrate with other security tools.</li>
+</ul>
+</li>
+<li>Zeek scripts are located in <code>/opt/zeek/share/zeek/site</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Zeek (Bro) for Threat Hunting (Examples):</strong></p>
+<ul>
+<li><strong>Detecting C&amp;C Traffic:</strong> Use Zeek scripts to identify unusual connection patterns or traffic to known malicious IP addresses or domains.</li>
+<li><strong>Identifying Data Exfiltration:</strong> Use Zeek scripts to detect large amounts of data being transferred to external hosts.</li>
+<li><strong>Detecting Malware Infections:</strong> Use Zeek scripts to identify suspicious DNS queries, HTTP requests to malicious websites, or traffic containing malware signatures.</li>
+<li><strong>Analyzing Software Versions:</strong> Use the <code>software.log</code> file to identify outdated or vulnerable software on the network.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hands-on Exercise:</strong></p>
+<ol>
+<li>Install Zeek on your Kali Linux VM.</li>
+<li>Start Zeek and generate some network traffic.</li>
+<li>Examine the Zeek log files and identify relevant information.</li>
+<li>Write a simple Zeek script to detect a specific type of traffic or generate an alert.</li>
+<li>Test the script and verify that it works as expected.</li>
+</ol>
+<p><strong>Example Zeek script (detecting connections to a specific IP):</strong></p>
+<p>```zeek<br />
+@load base/frameworks/notice</p>
+<p>event connection_established(c: connection)<br />
+  {<br />
+  if (c?$id &amp;&amp; c$id$resp_h == 1.2.3.4)  # Replace with a suspicious IP<br />
+    {<br />
+    Notice::create([<br />
+        $note = Notice::NOTE_SUSPICIOUS,<br />
+        $ts = Time::now(),<br />
+        $conn = c,<br />
+        $msg = fmt("Connection established to suspicious IP: %s", c$id$resp_h),<br />
+        $sub = "Suspicious Connection"<br />
+    ]);<br />
+    }<br />
+  }<br />
+```</p>
+<p>Save this script as <code>suspicious_ip.zeek</code> in <code>/opt/zeek/share/zeek/site/</code>, then run <code>sudo zeekctl deploy</code></p>
+</li>
+</ul>
+<hr />
+<p><strong>5. NetFlow Analysis (1 hour)</strong></p>
+<ul>
+<li>
+<p><strong>Introduction to NetFlow:</strong></p>
+<ul>
+<li>A network protocol developed by Cisco for collecting network flow data.</li>
+<li>Provides information about network traffic flows, including:<ul>
+<li>Source and destination IP addresses and ports.</li>
+<li>Protocol.</li>
+<li>Number of packets and bytes transferred.</li>
+<li>Start and end times.</li>
+</ul>
+</li>
+<li>Less detailed than packet captures, but more scalable and efficient for large networks.</li>
+</ul>
+</li>
+<li>
+<p><strong>NetFlow vs. Packet Capture:</strong></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>NetFlow</th>
+<th>Packet Capture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data Captured</td>
+<td>Flow information</td>
+<td>Full packet content</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>High</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Storage Required</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Processing Power</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Detail</td>
+<td>Less detailed</td>
+<td>Very detailed</td>
+</tr>
+</tbody>
+</table></div>
+</li>
+<li>
+<p><strong>NetFlow Architecture:</strong></p>
+<ul>
+<li><strong>NetFlow Exporter:</strong> A device (e.g., router, switch, firewall) that generates NetFlow data.</li>
+<li><strong>NetFlow Collector:</strong> A server that receives and stores NetFlow data.</li>
+<li><strong>NetFlow Analyzer:</strong> A tool that analyzes NetFlow data to identify trends, anomalies, and security threats.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tools for NetFlow Collection and Analysis:</strong></p>
+<ul>
+<li><strong>ntopng:</strong> A network traffic monitoring tool that supports NetFlow.</li>
+<li><strong>SolarWinds NetFlow Traffic Analyzer:</strong> A commercial NetFlow analyzer.</li>
+<li><strong>Wireshark:</strong> Can be used to capture and analyze NetFlow data (but not a collector).</li>
+<li><strong>Softflowd:</strong> A software-based NetFlow exporter.</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing NetFlow Data for Threat Hunting (Examples):</strong></p>
+<ul>
+<li><strong>Detecting C&amp;C Traffic:</strong> Look for unusual connection patterns, long-lived connections, or traffic to known malicious IP addresses or domains.</li>
+<li><strong>Identifying Data Exfiltration:</strong> Look for large amounts of data being transferred to external hosts, or traffic to unusual ports or protocols.</li>
+<li><strong>Detecting DDoS Attacks:</strong> Look for a sudden increase in traffic to a specific host or network.</li>
+<li><strong>Identifying Rogue Devices:</strong> Look for devices that are not authorized to be on the network.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hands-on Exercise:</strong></p>
+<ol>
+<li>Install a NetFlow collector and analyzer (e.g., ntopng) on your Kali Linux VM.</li>
+<li>Configure a device (e.g., a router or switch) to export NetFlow data to the collector.  If you don't have a physical device, use <code>softflowd</code> on a virtual machine to generate NetFlow from captured traffic.</li>
+<li>Analyze the NetFlow data and identify relevant information.</li>
+<li>Use the NetFlow analyzer to identify suspicious activity.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<p><strong>6. DNS Analysis (1 hour)</strong></p>
+<ul>
+<li>
+<p><strong>Introduction to DNS Analysis:</strong></p>
+<ul>
+<li>The Domain Name System (DNS) is used to translate domain names into IP addresses.</li>
+<li>DNS traffic can be a valuable source of information for threat hunting.</li>
+<li>Malicious actors often use DNS for command-and-control, data exfiltration, and other malicious activities.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key DNS Records:</strong></p>
+<ul>
+<li><strong>A Record:</strong> Maps a domain name to an IPv4 address.</li>
+<li><strong>AAAA Record:</strong> Maps a domain name to an IPv6 address.</li>
+<li><strong>CNAME Record:</strong> Creates an alias for a domain name.</li>
+<li><strong>MX Record:</strong> Specifies the mail server for a domain.</li>
+<li><strong>TXT Record:</strong> Contains arbitrary text data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tools for DNS Analysis:</strong></p>
+<ul>
+<li><strong>nslookup:</strong> A command-line tool for querying DNS servers.</li>
+<li><strong>dig:</strong> A more advanced command-line tool for querying DNS servers.</li>
+<li><strong>Wireshark:</strong> Can be used to capture and analyze DNS traffic.</li>
+<li><strong>Zeek (Bro):</strong> Generates detailed logs of DNS queries.</li>
+<li><strong>Passive DNS:</strong> A database of historical DNS records.</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyzing DNS Traffic for Threat Hunting (Examples):</strong></p>
+<ul>
+<li><strong>Detecting Domain Generation Algorithms (DGAs):</strong> DGAs are used by malware to generate a large number of random domain names, making it difficult to block them. Look for DNS queries to domains with unusual character patterns or high entropy.</li>
+<li><strong>Identifying Fast Flux DNS:</strong> Fast flux DNS is a technique used by malware to rapidly change the IP addresses associated with a domain name, making it difficult to track down the malware. Look for domains with a very short TTL (Time To Live) and a large number of associated IP addresses.</li>
+<li><strong>Detecting DNS Tunneling:</strong> DNS tunneling is a technique used to exfiltrate data over the DNS protocol. Look for DNS queries with unusually large payloads or traffic to unusual domains.</li>
+<li><strong>Identifying DNS Hijacking:</strong> DNS hijacking is a technique used to redirect DNS queries to malicious servers. Look for DNS queries that return unexpected results.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hands-on Exercise:</strong></p>
+<ol>
+<li>Use <code>nslookup</code> or <code>dig</code> to query DNS servers for various domain names.</li>
+<li>Capture DNS traffic using Wireshark and analyze the packets.</li>
+<li>Examine the Zeek (Bro) <code>dns.log</code> file and identify relevant information.</li>
+<li>Use passive DNS to research the history of a domain name.</li>
+<li>Analyze DNS traffic for suspicious activity.</li>
+</ol>
+</li>
+</ul>
+<hr />
+<p><strong>7. Module Project/Exercise: Network Forensics Challenge (30 minutes)</strong></p>
+<ul>
+<li>
+<p><strong>Objective:</strong> Apply the knowledge and skills learned in this module to analyze a PCAP file and identify malicious activity.</p>
+</li>
+<li>
+<p><strong>Scenario:</strong> You are a threat hunter investigating a potential security incident. You have been provided with a PCAP file containing network traffic from the affected system. Your task is to analyze the PCAP file and identify any malicious activity.</p>
+</li>
+<li>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Download the PCAP file from a provided source (e.g., a link to a capture on Malware-Traffic-Analysis.net).</li>
+<li>Use Wireshark, Zeek, Snort/Suricata (if applicable), and any other relevant tools to analyze the PCAP file.</li>
+<li>Look for suspicious traffic patterns, malicious domains, malware signatures, and other indicators of compromise.</li>
+<li>Document your findings in a report, including:<ul>
+<li>A summary of the incident.</li>
+<li>A list of the tools and techniques you used.</li>
+<li>A description of the malicious activity you identified.</li>
+<li>Recommendations for remediation.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Example PCAP Resources:</strong></p>
+<ul>
+<li>Malware-Traffic-Analysis.net: A great resource for PCAP files and malware analysis exercises.</li>
+<li>The Zoo: A collection of malware samples and PCAP files.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>This detailed outline and content should provide a solid foundation for understanding and applying network-based threat hunting techniques. Remember to emphasize the hands-on exercises, as practical experience is crucial for developing these skills. Good luck!</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here are 10 slides for Module 4, "Threat Hunting Tools and Techniques (Part 1: Network)," based on the provided content, formatted in Markdown with detailed narrations.</p>
+<hr />
+<p><strong>Slide 1: Module 4: Network Threat Hunting - Introduction</strong></p>
+<ul>
+<li><strong>Title:</strong> Module 4: Network Threat Hunting - Introduction</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Proactive hunting for malicious activity that bypasses existing defenses.</li>
+<li>Focus on network anomalies, patterns, and indicators of compromise (IoCs).</li>
+<li>Driven by hypotheses, threat intelligence, and understanding of network behavior.</li>
+<li>Key data sources: PCAP files, NetFlow, NIDS alerts, DNS logs, Proxy logs.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Welcome to Module 4, where we'll be diving into the exciting world of Network Threat Hunting! Unlike traditional security approaches, which react to known threats, network threat hunting is all about proactively searching for malicious activity that might have slipped past your existing defenses. We'll learn how to identify anomalies, spot suspicious patterns, and uncover indicators of compromise in network traffic. This process is driven by informed hypotheses, leveraging threat intelligence, and a deep understanding of how networks typically behave. The key to effective network threat hunting lies in the data; we'll be using PCAP files containing packet captures, NetFlow data that summarizes network traffic, alerts from Network Intrusion Detection Systems, DNS logs, and Proxy logs."</li>
+</ul>
+<hr />
+<p><strong>Slide 2: Why Network Threat Hunting?</strong></p>
+<ul>
+<li><strong>Title:</strong> Why Network Threat Hunting?</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Traditional security tools are often reactive and signature-based.</li>
+<li>Advanced attackers bypass defenses using stealthy techniques.</li>
+<li>Network traffic provides a rich and often overlooked source of data.</li>
+<li>Uncover: Command &amp; Control, Data Exfiltration, Lateral Movement, Malware Infections.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "So, why should we bother with network threat hunting? The simple answer is that traditional security tools, relying on signatures and known patterns, are often reactive and struggle against advanced attackers. These attackers employ stealthy techniques designed to bypass conventional defenses. The network, however, provides a rich and often underutilized source of data. By analyzing network traffic, we can uncover malicious activities such as Command and Control communications where attackers control compromised systems, Data Exfiltration where sensitive data is being stolen, Lateral Movement as attackers move through a network, and of course, Malware Infections."</li>
+</ul>
+<hr />
+<p><strong>Slide 3: NIDS with Snort/Suricata - Introduction</strong></p>
+<ul>
+<li><strong>Title:</strong> NIDS with Snort/Suricata - Introduction</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Network Intrusion Detection Systems (NIDS) monitor traffic based on rules.</li>
+<li>Generate alerts for suspicious activity.</li>
+<li>Can be signature-based or anomaly-based.</li>
+<li>Snort and Suricata are popular open-source options.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Let's move on to Network Intrusion Detection Systems, or NIDS, and specifically focus on two popular open-source options: Snort and Suricata. NIDS act as sentinels, monitoring network traffic based on a predefined set of rules. When they detect activity that matches these rules, they generate alerts. These rules can be signature-based, looking for specific patterns, or anomaly-based, identifying deviations from normal network behavior. Snort and Suricata are powerful tools for identifying known threats and suspicious activities on your network."</li>
+</ul>
+<hr />
+<p><strong>Slide 4: Snort/Suricata - Configuration &amp; Rule Syntax</strong></p>
+<ul>
+<li><strong>Title:</strong> Snort/Suricata - Configuration &amp; Rule Syntax</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Configuration files in <code>/etc/snort</code> or <code>/etc/suricata</code>.</li>
+<li>Key options: <code>HOME_NET</code>, <code>EXTERNAL_NET</code>, <code>RULE_PATH</code>, <code>INTERFACE</code>.</li>
+<li>Rule Structure: <code>action protocol src_ip src_port -&gt; dest_ip dest_port (options)</code>.</li>
+<li>Common Options: <code>msg</code>, <code>content</code>, <code>sid</code>, <code>rev</code>, <code>classtype</code>, <code>flags</code>, <code>dsize</code>, <code>ttl</code>.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "To effectively use Snort or Suricata, we need to understand how to configure them and write rules. The main configuration files are located in <code>/etc/snort</code> or <code>/etc/suricata</code>, depending on which one you're using. Key configuration options include <code>HOME_NET</code>, which defines your internal network, <code>EXTERNAL_NET</code>, usually the internet, <code>RULE_PATH</code>, specifying where your rules are stored, and <code>INTERFACE</code>, the network interface to monitor. The rules themselves follow a specific syntax: <code>action protocol src_ip src_port -&gt; dest_ip dest_port (options)</code>. The <em>action</em> determines what happens when a rule is matched. Common options allow you to specify details like the alert message (<code>msg</code>), specific content to look for (<code>content</code>), a unique rule ID (<code>sid</code>), and other criteria like TCP flags, packet size, and Time-To-Live."</li>
+</ul>
+<hr />
+<p><strong>Slide 5: Snort/Suricata - Rule Examples</strong></p>
+<ul>
+<li><strong>Title:</strong> Snort/Suricata - Rule Examples</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Detecting ICMP Traffic: <code>alert icmp any any -&gt; any any (msg:"ICMP Traffic Detected"; sid:1000001; rev:1;)</code>.</li>
+<li>HTTP with "malware.exe": <code>alert tcp any any -&gt; any 80 (msg:"HTTP Traffic with malware.exe"; content:"malware.exe"; http_uri; sid:1000002; rev:1;)</code>.</li>
+<li>Suspicious User-Agent: <code>alert tcp any any -&gt; any 80 (msg:"Suspicious User-Agent"; content:"BadBot/1.0"; http_header; sid:1000003; rev:1;)</code>.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Let's look at some examples of Snort/Suricata rules. This first rule alerts on all ICMP traffic, a simple but useful starting point. The second rule looks for HTTP traffic going to port 80 that contains the string "malware.exe" in the URI, which could indicate a malware download. The third rule flags any HTTP request with the User-Agent string "BadBot/1.0" in the header, potentially indicating a malicious bot. By crafting rules like these, you can tailor your NIDS to detect specific threats relevant to your environment."</li>
+</ul>
+<hr />
+<p><strong>Slide 6: NTA with Wireshark - Introduction</strong></p>
+<ul>
+<li><strong>Title:</strong> NTA with Wireshark - Introduction</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Wireshark: A powerful network packet analyzer.</li>
+<li>Captures and analyzes network traffic in real-time.</li>
+<li>Provides detailed packet information (protocol headers, data, timestamps).</li>
+<li>Essential for troubleshooting, security analysis, and threat hunting.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Now we'll introduce Wireshark, a powerful and versatile network packet analyzer. Wireshark allows you to capture and analyze network traffic in real-time, providing incredibly detailed information about each packet. This includes protocol headers, the actual data being transmitted, and precise timestamps. Wireshark is an essential tool not only for network troubleshooting but also for security analysis and, of course, threat hunting."</li>
+</ul>
+<hr />
+<p><strong>Slide 7: Wireshark - Filters: Capture and Display</strong></p>
+<ul>
+<li><strong>Title:</strong> Wireshark - Filters: Capture and Display</li>
+<li><strong>Bullet Points:</strong><ul>
+<li><strong>Capture Filters:</strong> Filter traffic <em>before</em> capture (e.g., <code>tcp port 80</code>, <code>host 192.168.1.100</code>).  Reduces data volume.</li>
+<li><strong>Display Filters:</strong> Filter traffic <em>after</em> capture (e.g., <code>http.request.method == "GET"</code>, <code>ip.src == 10.0.0.1 &amp;&amp; tcp.port == 443</code>, <code>http contains "password"</code>).  More flexible.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Wireshark offers two types of filters: capture filters and display filters. Capture filters are applied <em>before</em> the traffic is captured, allowing you to reduce the amount of data collected. For example, you can capture only HTTP traffic or traffic to/from a specific host. Display filters, on the other hand, are applied <em>after</em> the capture, giving you more flexibility to analyze the data you've already collected. You can filter based on HTTP request methods, IP addresses and ports, or even search for specific strings within the traffic. Understanding and using these filters effectively is crucial for efficient network traffic analysis."</li>
+</ul>
+<hr />
+<p><strong>Slide 8: NTA with Zeek (Bro) - Introduction</strong></p>
+<ul>
+<li><strong>Title:</strong> NTA with Zeek (Bro) - Introduction</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Zeek (Bro): Network security monitoring framework.</li>
+<li>Analyzes network traffic and generates detailed logs.</li>
+<li>Provides a high-level view of network activity.</li>
+<li>Scriptable and extensible for custom analysis.</li>
+<li>Focuses on context-rich logs, not just alerting.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Next, we'll explore Zeek, formerly known as Bro, a powerful network security monitoring framework. Unlike Snort/Suricata, which primarily focus on alerting, Zeek analyzes network traffic and generates detailed logs of events, providing a high-level view of network activity. Zeek is highly scriptable and extensible, allowing you to customize its behavior to fit your specific needs. It's designed to create context-rich logs, providing a wealth of information for threat hunting and incident response."</li>
+</ul>
+<hr />
+<p><strong>Slide 9: Zeek (Bro) - Key Log Files</strong></p>
+<ul>
+<li><strong>Title:</strong> Zeek (Bro) - Key Log Files</li>
+<li><strong>Bullet Points:</strong><ul>
+<li><code>conn.log</code>: Network connections.</li>
+<li><code>dns.log</code>: DNS queries.</li>
+<li><code>http.log</code>: HTTP requests.</li>
+<li><code>ssl.log</code>: SSL/TLS connections.</li>
+<li><code>files.log</code>: Extracted files.</li>
+<li><code>notice.log</code>: Notices generated by Zeek scripts.</li>
+<li><code>software.log</code>: Detected software versions.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "Zeek generates a variety of log files, each providing different insights into network activity. The <code>conn.log</code> contains information about network connections, while <code>dns.log</code> tracks DNS queries. The <code>http.log</code> records HTTP requests, and <code>ssl.log</code> details SSL/TLS connections. The <code>files.log</code> keeps track of any files that were extracted from the network traffic. The <code>notice.log</code> contains notices generated by Zeek scripts, and finally, <code>software.log</code> detects software versions running on the network. By analyzing these log files, you can gain a comprehensive understanding of network behavior and identify potential threats."</li>
+</ul>
+<hr />
+<p><strong>Slide 10: Module 4 - Network Forensics Challenge</strong></p>
+<ul>
+<li><strong>Title:</strong> Module 4 - Network Forensics Challenge</li>
+<li><strong>Bullet Points:</strong><ul>
+<li>Analyze a PCAP file to identify malicious activity.</li>
+<li>Use Wireshark, Zeek, Snort/Suricata to analyze PCAP file.</li>
+<li>Look for suspicious traffic patterns, malicious domains, malware signatures.</li>
+<li>Document your findings in a report and provide recommendations.</li>
+</ul>
+</li>
+<li><strong>Narration Script:</strong><br />
+    "To put everything we've learned into practice, we'll conclude Module 4 with a Network Forensics Challenge. You'll be provided with a PCAP file and tasked with analyzing it to identify any malicious activity. You'll use the tools and techniques we've covered, including Wireshark, Zeek, and potentially Snort/Suricata, to look for suspicious traffic patterns, malicious domains, and malware signatures. The goal is to document your findings in a comprehensive report, outlining the incident, the tools you used, the malicious activity you identified, and your recommendations for remediation. This challenge will solidify your understanding of network threat hunting and prepare you for more advanced topics in the course."</li>
+</ul>
+<hr />
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:42.</p>
+    </footer>
+</body>
+</html>

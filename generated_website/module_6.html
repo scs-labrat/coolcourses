@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis Techniques for Threat Hunting | Nothing Cyber - Threat Hunting 101</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">Threat Hunting 101</a>
+        <ul class="navbar-links">
+            <li><a href="index.html" class="">Home</a></li>
+            <li><a href="course_outline.html" class="">Course Outline</a></li>
+            
+            <li class="nav-dropdown active">
+                <span class="nav-dropdown-toggle">Modules</span>
+                <ul class="dropdown-menu">
+                <li><a href="module_1.html" class="">The Need for Proactive Security</a></li>
+                <li><a href="module_2.html" class="">Foundations of Cyber Threat Hunting</a></li>
+                <li><a href="module_3.html" class="">Essential Cyber Security Skills for Threat Hunters</a></li>
+                <li><a href="module_4.html" class="">Threat Hunting Tools and Techniques (Part 1: Network)</a></li>
+                <li><a href="module_5.html" class="">Threat Hunting Tools and Techniques (Part 2: Endpoint & Logs)</a></li>
+                <li><a href="module_6.html" class="active">Data Analysis Techniques for Threat Hunting</a></li>
+                <li><a href="module_7.html" class="">Building Threat Hunting Scenarios and Hypotheses</a></li>
+                <li><a href="module_8.html" class="">Capstone Project: Building Your Own Cyber Threat Hunting 101</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <main class="content-wrapper">
+        <article>
+<h1>Data Analysis Techniques for Threat Hunting</h1>
+<p>Okay, let's dive deep into Module 6: Data Analysis Techniques for Threat Hunting. We'll cover each subtopic with detailed explanations, practical examples, and code snippets.</p>
+<p><strong>Module 6: Data Analysis Techniques for Threat Hunting</strong></p>
+<p><strong>Module Objective:</strong> Master essential data analysis techniques for identifying and understanding threats.</p>
+<p><strong>Introduction:</strong></p>
+<p>Data analysis is the backbone of effective threat hunting. It's about sifting through massive amounts of data to find subtle anomalies that indicate malicious activity. This module will provide you with the tools and techniques to do just that. We'll focus on practical application using common tools and methodologies.  Think of it as learning to "speak data" so you can understand what your logs and network traffic are <em>really</em> telling you.</p>
+<p><strong>Subtopic 1: Basic Search and Filtering</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> The foundation of any analysis is the ability to quickly find relevant data.  Knowing how to efficiently search and filter allows you to narrow down your focus and avoid being overwhelmed by noise.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> This involves using search operators (AND, OR, NOT), wildcards, and filters to isolate specific events or patterns within your data.  The specific syntax will vary depending on the tool you're using.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Linux (Command Line - <code>grep</code>):</strong></p>
+<p>```bash</p>
+<h1 id="find-all-lines-in-authlog-containing-failed-password">Find all lines in auth.log containing "failed password"</h1>
+<p>grep "failed password" /var/log/auth.log</p>
+<h1 id="find-all-lines-containing-failed-password-from-a-specific-ip-address-eg-1921681100">Find all lines containing "failed password" from a specific IP address (e.g., 192.168.1.100)</h1>
+<p>grep "failed password" /var/log/auth.log | grep "192.168.1.100"</p>
+<h1 id="find-all-lines-containing-failed-password-but-not-containing-invalid-user">Find all lines containing "failed password" but NOT containing "invalid user"</h1>
+<p>grep "failed password" /var/log/auth.log | grep -v "invalid user" # -v inverts the match<br />
+```</p>
+</li>
+<li>
+<p><strong>Windows (PowerShell - <code>Select-String</code>):</strong></p>
+<p>```powershell</p>
+<h1 id="find-all-lines-in-the-system-event-log-containing-error">Find all lines in the System event log containing "error"</h1>
+<p>Get-WinEvent -LogName System | Where-Object {$_.Message -like "<em>error</em>"}</p>
+<h1 id="find-all-lines-in-the-system-event-log-containing-error-from-a-specific-source-eg-application-error">Find all lines in the System event log containing "error" from a specific source (e.g., "Application Error")</h1>
+<p>Get-WinEvent -LogName System | Where-Object {$<em>.Message -like "<em>error</em>" -and $</em>.ProviderName -like "<em>Application Error</em>"}<br />
+```</p>
+</li>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="find-all-events-in-the-indexmain-containing-failed-password">Find all events in the "index=main" containing "failed password"</h1>
+<p>index=main "failed password"</p>
+<h1 id="find-all-events-in-the-indexmain-containing-failed-password-from-a-specific-ip-address-eg-1921681100">Find all events in the "index=main" containing "failed password" from a specific IP address (e.g., 192.168.1.100)</h1>
+<p>index=main "failed password" 192.168.1.100</p>
+<h1 id="find-all-events-in-the-indexmain-containing-failed-password-but-not-invalid-user">Find all events in the "index=main" containing "failed password" but not "invalid user"</h1>
+<p>index=main "failed password" NOT "invalid user"<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p>```kql<br />
+// Find all events in the SecurityEvent table containing EventID 4625 (failed login)<br />
+SecurityEvent<br />
+| where EventID == 4625</p>
+<p>// Find all events in the SecurityEvent table containing EventID 4625 from a specific source IP (e.g., 192.168.1.100)<br />
+SecurityEvent<br />
+| where EventID == 4625 and IpAddress == "192.168.1.100"</p>
+<p>// Find all events in the SecurityEvent table containing EventID 4625 but not involving a specific user (e.g., "Administrator")<br />
+SecurityEvent<br />
+| where EventID == 4625 and AccountName != "Administrator"<br />
+```</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Master your tool's specific syntax for search operators and filters.</li>
+<li>Use specific keywords and field names to narrow your search.</li>
+<li>Don't be afraid to chain multiple filters together to refine your results.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 2: Grouping and Counting</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong>  Grouping and counting allows you to identify patterns and trends by summarizing data.  Instead of looking at individual events, you look at aggregate data to find anomalies.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> This involves grouping data based on a specific field (e.g., IP address, user account, event type) and then counting the occurrences within each group.  This can reveal unusual activity that might be missed when looking at individual events.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Linux (Command Line - <code>awk</code> and <code>sort</code>):</strong></p>
+<p>```bash</p>
+<h1 id="count-the-number-of-failed-login-attempts-per-ip-address-in-authlog">Count the number of failed login attempts per IP address in auth.log</h1>
+<p>awk '/Failed password/ {print $11}' /var/log/auth.log | sort | uniq -c | sort -nr</p>
+<h1 id="explanation">Explanation:</h1>
+<h1 id="awk-failed-password-print-11-varlogauthlog-finds-lines-containing-failed-password-and-prints-the-11th-field-typically-the-ip-address">awk '/Failed password/ {print $11}' /var/log/auth.log:  Finds lines containing "Failed password" and prints the 11th field (typically the IP address).</h1>
+<h1 id="sort-sorts-the-ip-addresses">sort: Sorts the IP addresses.</h1>
+<h1 id="uniq-c-counts-the-number-of-unique-occurrences-of-each-ip-address">uniq -c: Counts the number of unique occurrences of each IP address.</h1>
+<h1 id="sort-nr-sorts-the-results-numerically-in-reverse-order-highest-count-first">sort -nr: Sorts the results numerically in reverse order (highest count first).</h1>
+<p>```</p>
+</li>
+<li>
+<p><strong>Windows (PowerShell - <code>Group-Object</code>):</strong></p>
+<p>```powershell</p>
+<h1 id="count-the-number-of-events-per-eventid-in-the-system-event-log">Count the number of events per EventID in the System event log</h1>
+<p>Get-WinEvent -LogName System | Group-Object -Property ID | Sort-Object -Property Count -Descending<br />
+```</p>
+</li>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="count-the-number-of-events-per-source-ip-address">Count the number of events per source IP address</h1>
+<p>index=main | stats count by src_ip</p>
+<h1 id="count-the-number-of-failed-login-attempts-per-user">Count the number of failed login attempts per user</h1>
+<p>index=main "failed password" | stats count by user<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p>```kql<br />
+// Count the number of events per EventID in the SecurityEvent table<br />
+SecurityEvent<br />
+| summarize count() by EventID<br />
+| order by count_ desc</p>
+<p>// Count the number of failed login attempts per account<br />
+SigninLogs<br />
+| where ResultType == "50057" // Failure code for invalid username<br />
+| summarize count() by UserPrincipalName<br />
+| order by count_ desc<br />
+```</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Identify fields that are relevant for grouping (e.g., IP address, username, event ID).</li>
+<li>Use grouping and counting to find outliers and unusual patterns.</li>
+<li>Sort the results to easily identify the most frequent or least frequent occurrences.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 3: Link Analysis</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong>  Link analysis helps visualize relationships between different entities in your data.  This can reveal hidden connections and dependencies that are not immediately obvious.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> This involves creating a graph or network diagram where nodes represent entities (e.g., IP addresses, users, files) and edges represent relationships between them (e.g., connection, file access, process execution).</p>
+</li>
+<li>
+<p><strong>Tools:</strong></p>
+<ul>
+<li><strong>Maltego:</strong> A powerful commercial tool for link analysis.  It allows you to gather information from various sources and visualize relationships in a graph. (Requires a paid license for full functionality, but a community edition exists with limitations.)</li>
+<li><strong>Neo4j:</strong> A graph database that can be used for storing and analyzing relationships between entities. (Requires some setup and knowledge of the Cypher query language.)</li>
+<li><strong>Open Source Alternatives:</strong>  There are Python libraries like <code>NetworkX</code> that can be used for building and visualizing graphs, but they require more coding.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example (Conceptual - Maltego):</strong></p>
+<ol>
+<li><strong>Start with a known IP address (e.g., a suspicious C&amp;C server).</strong></li>
+<li><strong>Use Maltego transforms to:</strong><ul>
+<li>Find other IP addresses that have communicated with the initial IP.</li>
+<li>Identify domain names associated with the IP.</li>
+<li>Find email addresses or user accounts that have interacted with those domains.</li>
+</ul>
+</li>
+<li><strong>Visualize the relationships:</strong> Maltego will create a graph showing the connections between these entities.  You might discover a cluster of infected hosts communicating with the same C&amp;C server.</li>
+</ol>
+</li>
+<li>
+<p><strong>Example (Conceptual - Neo4j):</strong></p>
+<ol>
+<li>
+<p><strong>Import your data into Neo4j:</strong> This might involve parsing logs and creating nodes and relationships in the database.  For example:</p>
+<p>```cypher<br />
+// Create a node for an IP address<br />
+CREATE (ip:IP {address: "192.168.1.100"})</p>
+<p>// Create a node for a user account<br />
+CREATE (user:User {username: "john.doe"})</p>
+<p>// Create a relationship between the IP address and the user (e.g., the user logged in from that IP)<br />
+CREATE (user)-[:LOGGED_IN_FROM]-&gt;(ip)<br />
+```</p>
+</li>
+<li>
+<p><strong>Query the graph to find relationships:</strong></p>
+<p><code>cypher
+// Find all IP addresses that a specific user has logged in from
+MATCH (user:User {username: "john.doe"})-[:LOGGED_IN_FROM]-&gt;(ip:IP)
+RETURN ip.address</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Link analysis is powerful for uncovering hidden relationships.</li>
+<li>Consider using tools like Maltego or Neo4j for more complex analysis.</li>
+<li>Start with a known entity (e.g., a suspicious IP) and explore its connections.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 4: Hunting and Query Languages (e.g., KQL in Azure Sentinel, SPL in Splunk)</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Learn to write efficient queries to search for specific patterns and anomalies within your data.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> Each SIEM or log management platform has its own query language.  Mastering these languages is crucial for effective threat hunting.  We'll focus on KQL (Azure Sentinel) and SPL (Splunk) as examples.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="find-all-events-where-a-user-logged-in-from-a-different-country-than-usual">Find all events where a user logged in from a different country than usual</h1>
+<p>index=main eventtype=authentication<br />
+| geoip src_ip field=src_ip<br />
+| stats mode(country) as usual_country by user<br />
+| where country != usual_country<br />
+```</p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>index=main eventtype=authentication</code>:  Searches for authentication events in the main index.</li>
+<li><code>geoip src_ip field=src_ip</code>:  Adds geographic information based on the source IP address.</li>
+<li><code>stats mode(country) as usual_country by user</code>:  Calculates the most frequent country for each user.</li>
+<li><code>where country != usual_country</code>:  Filters for events where the current country is different from the user's usual country.</li>
+</ul>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p><code>kql
+// Find all events where a user logged in from a different country than usual
+SigninLogs
+| evaluate bag_unpack(LocationDetails) // Unpack the LocationDetails column
+| summarize arg_max(TimeGenerated, *) by UserPrincipalName
+| extend Country = tostring(parse_json(tostring(LocationDetails)).countryOrRegion)
+| summarize make_set(Country) by UserPrincipalName
+| where arraylength(set_Country) &gt; 1</code></p>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>SigninLogs</code>:  Specifies the SigninLogs table.</li>
+<li><code>evaluate bag_unpack(LocationDetails)</code>:  Unpacks the JSON in the <code>LocationDetails</code> column into individual columns.</li>
+<li><code>summarize arg_max(TimeGenerated, *) by UserPrincipalName</code>:  Gets the most recent sign-in event for each user.</li>
+<li><code>extend Country = tostring(parse_json(tostring(LocationDetails)).countryOrRegion)</code>: Extracts the country from the LocationDetails JSON.</li>
+<li><code>summarize make_set(Country) by UserPrincipalName</code>:  Creates a set of countries for each user.</li>
+<li><code>where arraylength(set_Country) &gt; 1</code>:  Filters for users who have logged in from more than one country.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Learn the specific syntax and functions of your chosen query language.</li>
+<li>Break down complex queries into smaller, more manageable steps.</li>
+<li>Use functions like <code>geoip</code>, <code>stats</code>, <code>summarize</code>, and <code>where</code> to filter and aggregate data.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 5: Pattern Matching</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Using regular expressions (regex) to identify malicious patterns in your data.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> Regular expressions are a powerful way to search for complex patterns in text. They are essential for identifying things like malicious URLs, file paths, or command-line arguments.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Linux (Command Line - <code>grep -E</code>):</strong></p>
+<p>```bash</p>
+<h1 id="find-all-urls-in-a-log-file">Find all URLs in a log file</h1>
+<p>grep -E "https?://[a-zA-Z0-9.-]+.[a-zA-Z]{2,}/?" /var/log/apache2/access.log</p>
+<h1 id="explanation_1">Explanation:</h1>
+<h1 id="-e-enables-extended-regular-expressions">-E: Enables extended regular expressions</h1>
+<h1 id="https-matches-http-or-https">https?://: Matches "http://" or "https://"</h1>
+<h1 id="a-za-z0-9-matches-one-or-more-alphanumeric-characters-dots-or-hyphens-the-domain-name">[a-zA-Z0-9.-]+: Matches one or more alphanumeric characters, dots, or hyphens (the domain name)</h1>
+<h1 id="a-za-z2-matches-a-dot-followed-by-a-top-level-domain-eg-com-org">.[a-zA-Z]{2,}: Matches a dot followed by a top-level domain (e.g., .com, .org)</h1>
+<h1 id="optionally-matches-a-trailing-slash">/? :  Optionally matches a trailing slash.</h1>
+<p>```</p>
+</li>
+<li>
+<p><strong>Windows (PowerShell - <code>Select-String -Pattern</code>):</strong></p>
+<p>```powershell</p>
+<h1 id="find-all-email-addresses-in-a-text-file">Find all email addresses in a text file</h1>
+<p>Get-Content C:\data\emails.txt | Select-String -Pattern "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b"<br />
+```</p>
+</li>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="find-all-events-containing-a-suspicious-file-path-eg-in-the-temp-directory">Find all events containing a suspicious file path (e.g., in the Temp directory)</h1>
+<p>index=main | regex _raw="C:\\Users\\.<em>\\AppData\\Local\\Temp\\.</em>.exe"<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p><code>kql
+// Find all events containing a suspicious file path (e.g., in the Temp directory)
+SecurityEvent
+| where CommandLine has regex "C:\\\\Users\\\\.*\\\\AppData\\\\Local\\\\Temp\\\\.*\\.exe"</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Learn the basics of regular expression syntax (characters, quantifiers, character classes).</li>
+<li>Use online regex testers to experiment and refine your patterns.</li>
+<li>Start with simple patterns and gradually increase complexity.</li>
+<li>Escape special characters properly in your regex.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 6: Timelines</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Creating a chronological sequence of events to understand the progression of an attack.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong>  Timelines help you visualize the order in which events occurred, making it easier to identify the root cause of an incident and understand the attacker's actions.</p>
+</li>
+<li>
+<p><strong>Tools:</strong></p>
+<ul>
+<li><strong>Timeline Explorer (Windows):</strong> A free tool from Microsoft for visualizing event logs as timelines.</li>
+<li><strong>Plaso (log2timeline):</strong> A powerful open-source tool for creating timelines from various data sources.</li>
+<li><strong>SIEM Dashboards:</strong> Many SIEMs have built-in timeline visualization capabilities.</li>
+</ul>
+</li>
+<li>
+<p><strong>Example (Conceptual - Using Timeline Explorer):</strong></p>
+<ol>
+<li><strong>Load a Windows Event Log (.evtx file) into Timeline Explorer.</strong></li>
+<li><strong>Filter the events to focus on specific Event IDs or keywords (e.g., Event ID 4624 - Successful Logon).</strong></li>
+<li><strong>Sort the events by time.</strong></li>
+<li><strong>Analyze the sequence of events:</strong> Look for patterns or anomalies, such as:<ul>
+<li>A series of failed login attempts followed by a successful login.</li>
+<li>A user account logging in from multiple locations in a short period of time.</li>
+<li>The execution of a suspicious process shortly after a successful login.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Example (Conceptual - Using Plaso):</strong></p>
+<ol>
+<li>
+<p><strong>Run Plaso to create a timeline from multiple data sources (e.g., Windows Event Logs, web server logs, file system metadata):</strong></p>
+<p><code>bash
+log2timeline.py --storage-file timeline.plaso /path/to/data</code></p>
+</li>
+<li>
+<p><strong>Analyze the timeline using psort.py:</strong></p>
+<p><code>bash
+psort.py -o l2tcsv -w output.csv timeline.plaso</code></p>
+</li>
+<li>
+<p><strong>Open the output.csv file in a spreadsheet program and analyze the events by time.</strong></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Timelines are crucial for understanding the sequence of events in an attack.</li>
+<li>Use tools like Timeline Explorer or Plaso to create timelines from various data sources.</li>
+<li>Look for patterns and anomalies in the timeline to identify suspicious activity.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 7: Statistical Metrics</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Applying statistical analysis to identify anomalies and outliers in your data.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong>  This involves calculating metrics like averages, standard deviations, and percentiles to identify data points that deviate significantly from the norm.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="calculate-the-average-number-of-bytes-sent-per-host">Calculate the average number of bytes sent per host</h1>
+<p>index=main | stats avg(bytes_sent) as avg_bytes by host</p>
+<h1 id="identify-hosts-that-sent-significantly-more-bytes-than-average-eg-more-than-2-standard-deviations-above-the-mean">Identify hosts that sent significantly more bytes than average (e.g., more than 2 standard deviations above the mean)</h1>
+<p>index=main | stats avg(bytes_sent) as avg_bytes, stdev(bytes_sent) as stdev_bytes by host<br />
+| where bytes_sent &gt; (avg_bytes + 2*stdev_bytes)<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p>```kql<br />
+// Calculate the average number of bytes sent per host<br />
+NetworkTraffic<br />
+| summarize avg(Bytes) by SrcIP</p>
+<p>// Identify hosts that sent significantly more bytes than average (e.g., more than 2 standard deviations above the mean)<br />
+let avgBytes = NetworkTraffic | summarize avg(Bytes);<br />
+let stdevBytes = NetworkTraffic | summarize stdev(Bytes);<br />
+NetworkTraffic<br />
+| where Bytes &gt; (tolong(avgBytes) + 2*tolong(stdevBytes))<br />
+```</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Identify metrics that are relevant to your analysis (e.g., bytes sent, login attempts, CPU usage).</li>
+<li>Calculate averages, standard deviations, and other statistical measures.</li>
+<li>Use these metrics to identify outliers and anomalies.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 8: Data Aggregation</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Combining data from multiple sources to gain a more complete and contextual understanding of an event.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong>  Threat hunting often requires correlating information from different logs, network traffic, and endpoint data. Data aggregation allows you to bring these disparate sources together to create a more holistic view.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Scenario:</strong> Investigating a suspicious login event.</p>
+</li>
+<li>
+<p><strong>Data Sources:</strong></p>
+<ul>
+<li>Authentication logs (e.g., Windows Event Logs, Linux auth.log)</li>
+<li>Network traffic logs (e.g., NetFlow, Zeek logs)</li>
+<li>Endpoint logs (e.g., Sysmon logs)</li>
+</ul>
+</li>
+<li>
+<p><strong>Aggregation Steps:</strong></p>
+<ol>
+<li><strong>Identify the user account and timestamp of the suspicious login event from the authentication logs.</strong></li>
+<li><strong>Search the network traffic logs for connections originating from the IP address associated with the login event around the same time.</strong></li>
+<li><strong>Search the endpoint logs on the host associated with the login event for any process executions or file modifications that occurred shortly after the login.</strong></li>
+</ol>
+</li>
+<li>
+<p><strong>Tools:</strong> SIEMs are specifically designed for data aggregation and correlation.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Identify the different data sources that are relevant to your investigation.</li>
+<li>Correlate events based on common fields (e.g., IP address, username, timestamp).</li>
+<li>Use a SIEM or other data aggregation tool to automate the process.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 9: Frequency Analysis</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Determining the number of times a specific event occurs within a certain timeframe.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> It helps in identifying unusual spikes or dips in event occurrences that may indicate malicious activity. For example, a sudden increase in failed login attempts or a surge in network traffic to a specific IP address.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Linux (Command Line):</strong></p>
+<p>```bash</p>
+<h1 id="count-the-number-of-ssh-login-attempts-per-minute">Count the number of SSH login attempts per minute</h1>
+<p>cat /var/log/auth.log | grep "Accepted publickey" | awk '{print substr($1,1,16)}' | sort | uniq -c | sort -nr<br />
+```</p>
+</li>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="count-the-number-of-events-by-type-in-the-last-24-hours">Count the number of events by type in the last 24 hours</h1>
+<p>index=main | timechart count by eventtype<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p><code>kql
+// Count the number of events by type over time
+SecurityEvent
+| summarize count() by EventID, bin(TimeGenerated, 1h)
+| render timechart</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Useful for identifying sudden spikes or dips in event occurrences.</li>
+<li>Can be combined with other analysis techniques for more accurate threat detection.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Subtopic 10: Distribution Analysis</strong></p>
+<ul>
+<li>
+<p><strong>Concept:</strong> Analyzing how data is distributed to identify outliers or anomalies.</p>
+</li>
+<li>
+<p><strong>Explanation:</strong> It is based on the principle that normal data follows a predictable distribution. By analyzing the distribution, you can identify data points that deviate significantly from the norm, which may indicate malicious activity.</p>
+</li>
+<li>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>
+<p><strong>Splunk (SPL):</strong></p>
+<p>```splunk</p>
+<h1 id="analyze-the-distribution-of-request-sizes-in-web-server-logs">Analyze the distribution of request sizes in web server logs</h1>
+<p>index=web sourcetype=access_combined | stats count, min(bytes), max(bytes), avg(bytes), stdev(bytes) by clientip<br />
+```</p>
+</li>
+<li>
+<p><strong>Azure Sentinel (KQL):</strong></p>
+<p><code>kql
+// Analyze the distribution of bytes transferred
+NetworkTraffic
+| summarize count(), min(Bytes), max(Bytes), avg(Bytes), stdev(Bytes)</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Helps in identifying data points that deviate significantly from the norm.</li>
+<li>Useful for detecting anomalies in network traffic, user behavior, and system activity.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Module Project/Exercise:</strong></p>
+<p><strong>Data Analysis Challenge:</strong></p>
+<p>You are given a sample dataset of web server logs. Your task is to use the data analysis techniques you've learned in this module to identify any suspicious activity.</p>
+<p><strong>Dataset:</strong> (Example - Replace with a larger, more realistic dataset)</p>
+<div class="highlight"><pre><span></span><code><span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">01</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">index</span><span class="mf">.</span><span class="n">html</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">1024</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">02</span><span class="w"> </span><span class="mf">192.168.1.101</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">style</span><span class="mf">.</span><span class="n">css</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">512</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">03</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">image</span><span class="mf">.</span><span class="n">jpg</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">2048</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">04</span><span class="w"> </span><span class="mf">192.168.1.102</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">script</span><span class="mf">.</span><span class="n">js</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">1536</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">05</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="nb">POS</span><span class="n">T</span><span class="w"> </span><span class="o">/</span><span class="nb">log</span><span class="n">in</span><span class="mf">.</span><span class="n">php</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">256</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">06</span><span class="w"> </span><span class="mf">192.168.1.103</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">index</span><span class="mf">.</span><span class="n">html</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">1024</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">07</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">admin</span><span class="mf">.</span><span class="n">php</span><span class="w"> </span><span class="mf">403</span><span class="w"> </span><span class="mf">128</span><span class="w">  </span><span class="o">&lt;--</span><span class="w"> </span><span class="n">Potential</span><span class="w"> </span><span class="n">Suspicious</span><span class="w"> </span><span class="n">activity</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">08</span><span class="w"> </span><span class="mf">192.168.1.101</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">style</span><span class="mf">.</span><span class="n">css</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">512</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">09</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">image</span><span class="mf">.</span><span class="n">jpg</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">2048</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">10</span><span class="w"> </span><span class="mf">192.168.1.104</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">script</span><span class="mf">.</span><span class="n">js</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">1536</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">11</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="nb">POS</span><span class="n">T</span><span class="w"> </span><span class="o">/</span><span class="nb">log</span><span class="n">in</span><span class="mf">.</span><span class="n">php</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">256</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">12</span><span class="w"> </span><span class="mf">192.168.1.105</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">index</span><span class="mf">.</span><span class="n">html</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="mf">1024</span>
+<span class="mf">2023</span><span class="o">-</span><span class="mf">10</span><span class="o">-</span><span class="mf">27</span><span class="w"> </span><span class="mf">00</span><span class="p">:</span><span class="mf">00</span><span class="p">:</span><span class="mf">13</span><span class="w"> </span><span class="mf">192.168.1.100</span><span class="w"> </span><span class="kr">GET</span><span class="w"> </span><span class="o">/</span><span class="n">config</span><span class="mf">.</span><span class="n">php</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="mf">128</span><span class="w">  </span><span class="o">&lt;--</span><span class="w"> </span><span class="n">Potential</span><span class="w"> </span><span class="n">Suspicious</span><span class="w"> </span><span class="n">activity</span>
+</code></pre></div>
+
+<p><strong>Tasks:</strong></p>
+<ol>
+<li><strong>Basic Search and Filtering:</strong>  Find all requests for <code>/admin.php</code> and <code>/config.php</code>.</li>
+<li><strong>Grouping and Counting:</strong> Count the number of requests per IP address. Which IP address made the most requests?</li>
+<li><strong>Pattern Matching:</strong> Use regular expressions to identify any requests with suspicious file extensions (e.g., <code>.exe</code>, <code>.bat</code>, <code>.sh</code>).</li>
+<li><strong>Timelines:</strong> (If you have a larger dataset with more events over time) Create a timeline of events for a specific IP address.</li>
+<li><strong>Statistical Metrics:</strong> (If you have a dataset with request sizes) Calculate the average request size and identify any requests that are significantly larger than average.</li>
+</ol>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>A report summarizing your findings, including the specific commands or queries you used.</li>
+<li>A description of any suspicious activity you identified and why you consider it suspicious.</li>
+</ul>
+<p><strong>Capstone Project Contribution:</strong></p>
+<p>Write a section for your capstone project documenting how you can use data analysis techniques for threat hunting.  Include examples of how you would apply these techniques to detect specific types of threats.</p>
+<p><strong>Conclusion:</strong></p>
+<p>This module has provided you with a foundation in data analysis techniques for threat hunting.  By mastering these techniques, you can become a more effective threat hunter and protect your organization from cyberattacks. Remember that the key is to practice and experiment with different tools and techniques to find what works best for you. Keep learning, keep hunting, and keep sharing your knowledge!</p>
+<hr>
+<h2>Presentation Content</h2>
+<p>Okay, here are the 10 slides for Module 6, covering the provided content comprehensively, formatted in Markdown:</p>
+<hr />
+<p><strong>Slide 1</strong></p>
+<ol>
+<li>Slide Title: <strong>Module 6: Data Analysis Techniques for Threat Hunting - Introduction</strong></li>
+<li>Bullet Points:<ul>
+<li>Data analysis is the backbone of effective threat hunting.</li>
+<li>It involves sifting through massive data to find subtle anomalies.</li>
+<li>Focus on practical application using common tools and methodologies.</li>
+<li>Learn to "speak data" to understand what logs and network traffic are telling you.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Welcome to Module 6: Data Analysis Techniques for Threat Hunting. In this module, we'll explore how to effectively analyze data to identify and understand potential threats. Data analysis is crucial for sifting through the vast amounts of information generated by your systems and networks. Our focus will be on practical application, using common tools and methodologies to help you quickly identify anomalies and patterns that indicate malicious activity. By the end of this module, you'll be able to 'speak data,' understanding what your logs and network traffic are really telling you."</li>
+</ol>
+<hr />
+<p><strong>Slide 2</strong></p>
+<ol>
+<li>Slide Title: <strong>Basic Search and Filtering</strong></li>
+<li>Bullet Points:<ul>
+<li>Foundation of any analysis: Quickly find relevant data.</li>
+<li>Efficiently narrow down your focus and avoid being overwhelmed by noise.</li>
+<li>Use search operators (AND, OR, NOT), wildcards, and filters.</li>
+<li>Syntax varies depending on the tool you're using.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Our first subtopic is Basic Search and Filtering. This is the foundation upon which all other data analysis techniques are built. The ability to quickly find relevant data is essential. By mastering efficient search and filtering, you can narrow your focus and avoid being overwhelmed by the sheer volume of data. This involves using search operators like AND, OR, and NOT, as well as wildcards and filters. Remember that the specific syntax will vary depending on the tool you're using, so it's important to understand the capabilities of your chosen platform."</li>
+</ol>
+<hr />
+<p><strong>Slide 3</strong></p>
+<ol>
+<li>Slide Title: <strong>Basic Search and Filtering - Examples</strong></li>
+<li>Bullet Points:<ul>
+<li>Linux (<code>grep</code>): <code>grep "failed password" /var/log/auth.log</code></li>
+<li>Windows (PowerShell): <code>Get-WinEvent -LogName System | Where-Object {$_.Message -like "*error*"}</code></li>
+<li>Splunk (SPL): <code>index=main "failed password"</code></li>
+<li>Azure Sentinel (KQL): <code>SecurityEvent | where EventID == 4625</code></li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Let's look at some practical examples of basic search and filtering. On Linux, using the <code>grep</code> command, you can search for specific strings within log files. In Windows PowerShell, the <code>Get-WinEvent</code> cmdlet allows you to query event logs and filter based on properties like message content. Splunk's SPL language provides a straightforward way to search indexed data using keywords. Azure Sentinel's KQL language allows you to query log data and filter results based on specific criteria. These are just a few examples, and the specific syntax will depend on the tool you're using."</li>
+</ol>
+<hr />
+<p><strong>Slide 4</strong></p>
+<ol>
+<li>Slide Title: <strong>Grouping and Counting</strong></li>
+<li>Bullet Points:<ul>
+<li>Identify patterns and trends by summarizing data.</li>
+<li>Look at aggregate data to find anomalies.</li>
+<li>Group data based on a specific field (e.g., IP address, user account, event type).</li>
+<li>Count the occurrences within each group.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Moving on to Grouping and Counting. This technique allows you to identify patterns and trends by summarizing data. Instead of looking at individual events, you're analyzing aggregate data to find anomalies. This involves grouping data based on a specific field, such as IP address, user account, or event type, and then counting the occurrences within each group. This can reveal unusual activity that might be missed when looking at individual events individually."</li>
+</ol>
+<hr />
+<p><strong>Slide 5</strong></p>
+<ol>
+<li>Slide Title: <strong>Grouping and Counting - Examples</strong></li>
+<li>Bullet Points:<ul>
+<li>Linux (<code>awk</code>, <code>sort</code>, <code>uniq</code>): <code>awk '/Failed password/ {print $11}' /var/log/auth.log | sort | uniq -c | sort -nr</code></li>
+<li>Windows (PowerShell): <code>Get-WinEvent -LogName System | Group-Object -Property ID | Sort-Object -Property Count -Descending</code></li>
+<li>Splunk (SPL): <code>index=main | stats count by src_ip</code></li>
+<li>Azure Sentinel (KQL): <code>SecurityEvent | summarize count() by EventID | order by count_ desc</code></li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Here are some examples of grouping and counting in action. On Linux, you can use a combination of <code>awk</code>, <code>sort</code>, and <code>uniq</code> to count the number of occurrences of specific events. In Windows PowerShell, the <code>Group-Object</code> cmdlet allows you to group events based on a property and then sort the results by count. Splunk's <code>stats</code> command provides a powerful way to count events by a specific field. Similarly, Azure Sentinel's KQL language allows you to summarize data and count events by a specific field. These examples demonstrate how to use grouping and counting to identify patterns and trends in your data."</li>
+</ol>
+<hr />
+<p><strong>Slide 6</strong></p>
+<ol>
+<li>Slide Title: <strong>Link Analysis</strong></li>
+<li>Bullet Points:<ul>
+<li>Visualize relationships between different entities in your data.</li>
+<li>Reveal hidden connections and dependencies.</li>
+<li>Create a graph or network diagram.</li>
+<li>Nodes represent entities, edges represent relationships.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Next up is Link Analysis. This technique helps visualize relationships between different entities in your data, revealing hidden connections and dependencies that are not immediately obvious. Link analysis involves creating a graph or network diagram where nodes represent entities, such as IP addresses, users, or files, and edges represent relationships between them, such as connections, file access, or process execution. This visualization can help you quickly identify patterns and connections that would be difficult to spot otherwise."</li>
+</ol>
+<hr />
+<p><strong>Slide 7</strong></p>
+<ol>
+<li>Slide Title: <strong>Hunting and Query Languages (KQL &amp; SPL)</strong></li>
+<li>Bullet Points:<ul>
+<li>Write efficient queries to search for specific patterns and anomalies.</li>
+<li>Master query languages like KQL (Azure Sentinel) and SPL (Splunk).</li>
+<li>Use functions like <code>geoip</code>, <code>stats</code>, <code>summarize</code>, and <code>where</code>.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Now, let's discuss Hunting and Query Languages. This is where you learn to write efficient queries to search for specific patterns and anomalies within your data. Each SIEM or log management platform has its own query language, and mastering these languages is crucial for effective threat hunting. We'll focus on KQL, used in Azure Sentinel, and SPL, used in Splunk, as examples. These languages provide powerful functions like <code>geoip</code>, <code>stats</code>, <code>summarize</code>, and <code>where</code> to filter and aggregate data."</li>
+</ol>
+<hr />
+<p><strong>Slide 8</strong></p>
+<ol>
+<li>Slide Title: <strong>Pattern Matching (Regular Expressions)</strong></li>
+<li>Bullet Points:<ul>
+<li>Use regular expressions (regex) to identify malicious patterns in your data.</li>
+<li>Essential for identifying malicious URLs, file paths, or command-line arguments.</li>
+<li>Learn regex syntax (characters, quantifiers, character classes).</li>
+<li>Use online regex testers to experiment.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Pattern Matching is a powerful technique that involves using regular expressions, or regex, to identify malicious patterns in your data. Regular expressions are essential for identifying things like malicious URLs, file paths, or command-line arguments. To master this technique, you'll need to learn the basics of regular expression syntax, including characters, quantifiers, and character classes. I highly recommend using online regex testers to experiment and refine your patterns, and remember to start with simple patterns and gradually increase complexity."</li>
+</ol>
+<hr />
+<p><strong>Slide 9</strong></p>
+<ol>
+<li>Slide Title: <strong>Timelines &amp; Statistical Metrics</strong></li>
+<li>Bullet Points:<ul>
+<li>Timelines: chronological sequence of events to understand the progression of an attack.</li>
+<li>Statistical Metrics: Applying statistical analysis to identify anomalies and outliers.</li>
+<li>Calculate metrics like averages, standard deviations, and percentiles.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Let's cover Timelines and Statistical Metrics. Timelines are crucial for understanding the sequence of events in an attack. By creating a chronological sequence of events, you can visualize the order in which they occurred, making it easier to identify the root cause of an incident and understand the attacker's actions. Statistical Metrics involves applying statistical analysis to identify anomalies and outliers in your data. This includes calculating metrics like averages, standard deviations, and percentiles to identify data points that deviate significantly from the norm."</li>
+</ol>
+<hr />
+<p><strong>Slide 10</strong></p>
+<ol>
+<li>Slide Title: <strong>Data Aggregation, Frequency Analysis &amp; Distribution Analysis</strong></li>
+<li>Bullet Points:<ul>
+<li>Data Aggregation: Combining data from multiple sources for a complete understanding.</li>
+<li>Frequency Analysis: Identifying unusual spikes or dips in event occurrences.</li>
+<li>Distribution Analysis: Analyzing how data is distributed to identify outliers or anomalies.</li>
+</ul>
+</li>
+<li>Narration Script:<br />
+    "Finally, we'll discuss Data Aggregation, Frequency Analysis, and Distribution Analysis. Data Aggregation involves combining data from multiple sources to gain a more complete and contextual understanding of an event. Frequency Analysis helps in identifying unusual spikes or dips in event occurrences that may indicate malicious activity. Distribution Analysis is about analyzing how data is distributed to identify outliers or anomalies. By mastering these techniques, you'll be able to uncover hidden patterns and relationships in your data, making you a more effective threat hunter."</li>
+</ol>
+<hr />
+        </article>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Nothing Cyber - Threat Hunting 101. Generated on 2025-05-09 01:49:42.</p>
+    </footer>
+</body>
+</html>
